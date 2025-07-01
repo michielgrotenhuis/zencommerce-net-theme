@@ -1248,7 +1248,11 @@ function yoursite_cleanup_unused_currencies() {
     
     $deleted_count = 0;
     foreach ($unused as $currency) {
-        $result = $wpdb->delete($currencies_table, array('id' => $currency->id), array('%d'));
+        $result = $wpdb->delete(
+            $currencies_table, 
+            array('id' => $currency->id), 
+            array('%d')  // FIXED: Proper format array
+        );
         if ($result) {
             $deleted_count++;
         }
@@ -1256,6 +1260,7 @@ function yoursite_cleanup_unused_currencies() {
     
     return $deleted_count;
 }
+
 
 /**
  * Export currencies to CSV

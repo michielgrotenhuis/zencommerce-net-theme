@@ -1,15 +1,16 @@
 <?php
 /**
- * Currency AJAX Handlers - IMPROVED VERSION
+ * Currency AJAX Handlers - COMPLETE REWRITE
  * File: inc/currency/currency-ajax.php
  * 
- * Key Improvements:
- * - Fixed wpdb::prepare usage issues
- * - Better error handling and validation
- * - Improved security with proper nonce verification
- * - Cleaner code structure and documentation
- * - Better performance with reduced database queries
- * - Proper output buffering management
+ * FIXED VERSION: No header issues, reliable currency switching
+ * 
+ * Key Changes:
+ * - No server-side cookie setting (prevents header issues)
+ * - JavaScript handles all cookie operations
+ * - Session and user meta for server-side persistence
+ * - Proper output buffering for all handlers
+ * - Enhanced error handling and debugging
  */
 
 if (!defined('ABSPATH')) {
@@ -22,54 +23,41 @@ if (!defined('ABSPATH')) {
 
 /**
  * MAIN: Switch user currency - NO COOKIES VERSION
+ * This is the primary handler that avoids all header issues
  */
 function yoursite_ajax_switch_user_currency() {
-    // Verify nonce for security
-    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'currency_switch')) {
-        wp_send_json_error([
-            'message' => __('Security check failed', 'yoursite'),
-            'code' => 'invalid_nonce'
-        ]);
-    }
-    
-    // Clean any existing output
-    if (ob_get_level()) {
-        ob_clean();
+    // Start output buffering to prevent any unwanted output
+    if (!ob_get_level()) {
+        ob_start();
     }
     
     $currency_code = sanitize_text_field($_POST['currency'] ?? '');
     
-    // Validate input
     if (empty($currency_code)) {
-        wp_send_json_error([
-            'message' => __('Invalid currency code', 'yoursite'),
-            'code' => 'empty_currency'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('Invalid currency code', 'yoursite'));
     }
     
     // Validate currency code format (3 letter code)
-    if (!yoursite_validate_currency_code($currency_code)) {
-        wp_send_json_error([
-            'message' => __('Invalid currency format', 'yoursite'),
-            'code' => 'invalid_format'
-        ]);
+    if (!preg_match('/^[A-Z]{3}$/', $currency_code)) {
+        ob_end_clean();
+        wp_send_json_error(__('Invalid currency format', 'yoursite'));
     }
     
     // Check if currency exists and is active
     $currency = yoursite_get_currency($currency_code);
     if (!$currency) {
-        wp_send_json_error([
-            'message' => __('Currency not found', 'yoursite'),
-            'code' => 'currency_not_found'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('Currency not found', 'yoursite'));
     }
     
     if ($currency['status'] !== 'active') {
-        wp_send_json_error([
-            'message' => __('Currency not available', 'yoursite'),
-            'code' => 'currency_inactive'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('Currency not available', 'yoursite'));
     }
+    
+    // Clean output buffer before processing
+    ob_end_clean();
     
     // Start session if not already started
     if (!session_id()) {
@@ -80,46 +68,74 @@ function yoursite_ajax_switch_user_currency() {
     $_SESSION['preferred_currency'] = $currency_code;
     
     // Update user meta if logged in (persistent across sessions)
-    $user_meta_updated = false;
     if (is_user_logged_in()) {
-        $user_meta_updated = update_user_meta(get_current_user_id(), 'preferred_currency', $currency_code);
+        update_user_meta(get_current_user_id(), 'preferred_currency', $currency_code);
     }
     
-    // Log for debugging
-    yoursite_log_currency_debug("Currency switched to: $currency_code", [
-        'user_id' => is_user_logged_in() ? get_current_user_id() : 0,
-        'session_id' => session_id()
-    ]);
+    // Log for debugging (remove in production)
+    if (WP_DEBUG_LOG) {
+        error_log("Currency switched to: $currency_code for user: " . (is_user_logged_in() ? get_current_user_id() : 'guest'));
+    }
     
-    wp_send_json_success([
+    wp_send_json_success(array(
         'currency' => $currency,
         'currency_code' => $currency_code,
         'message' => sprintf(__('Currency switched to %s (%s)', 'yoursite'), $currency['name'], $currency_code),
-        'set_cookie_js' => true,
+        'set_cookie_js' => true, // Tell frontend to set cookie via JavaScript
         'session_set' => isset($_SESSION['preferred_currency']),
-        'user_meta_updated' => $user_meta_updated,
-        'debug' => WP_DEBUG ? [
+        'user_meta_updated' => is_user_logged_in(),
+        'debug' => array(
             'session_id' => session_id(),
             'user_id' => is_user_logged_in() ? get_current_user_id() : 0,
             'timestamp' => current_time('mysql')
-        ] : []
-    ]);
+        )
+    ));
 }
 
 /**
- * Get current user currency info
+ * ALTERNATIVE: Get current user currency info
  */
 function yoursite_ajax_get_current_currency() {
     $current_currency = yoursite_get_user_currency();
     
-    wp_send_json_success([
+    wp_send_json_success(array(
         'currency' => $current_currency,
         'currency_code' => $current_currency['code'],
         'symbol' => $current_currency['symbol'] ?? $current_currency['code'],
         'name' => $current_currency['name']
-    ]);
+    ));
 }
 
+/**
+ * BULK: Get all available currencies for frontend
+ */
+if (!function_exists('yoursite_ajax_get_available_currencies')) {
+    function yoursite_ajax_get_available_currencies() {
+        $currencies = yoursite_get_active_currencies();
+        
+        if (empty($currencies)) {
+            wp_send_json_error(__('No currencies available', 'yoursite'));
+        }
+        
+        // Format for frontend consumption
+        $formatted_currencies = array();
+        foreach ($currencies as $currency) {
+            $formatted_currencies[] = array(
+                'code'    => $currency['code'],
+                'name'    => $currency['name'],
+                'symbol'  => $currency['symbol'] ?? $currency['code'],
+                'flag'    => $currency['flag'] ?? '',
+                'is_base' => !empty($currency['is_base_currency'])
+            );
+        }
+        
+        wp_send_json_success(array(
+            'currencies' => $formatted_currencies,
+            'count'      => count($formatted_currencies),
+            'current'    => yoursite_get_user_currency()['code']
+        ));
+    }
+}
 
 
 // =============================================================================
@@ -130,28 +146,21 @@ function yoursite_ajax_get_current_currency() {
  * Get pricing for specific plan in specific currency
  */
 function yoursite_ajax_get_currency_pricing() {
-    if (ob_get_level()) {
-        ob_clean();
-    }
+    if (!ob_get_level()) ob_start();
     
     $plan_id = intval($_POST['plan_id'] ?? 0);
     $currency_code = sanitize_text_field($_POST['currency'] ?? '');
     
-    // Validate input
     if (!$plan_id || !$currency_code) {
-        wp_send_json_error([
-            'message' => __('Plan ID and currency code are required', 'yoursite'),
-            'code' => 'missing_parameters'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('Plan ID and currency code are required', 'yoursite'));
     }
     
     // Verify plan exists
     $plan = get_post($plan_id);
     if (!$plan || $plan->post_type !== 'pricing' || $plan->post_status !== 'publish') {
-        wp_send_json_error([
-            'message' => __('Invalid plan', 'yoursite'),
-            'code' => 'invalid_plan'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('Invalid plan', 'yoursite'));
     }
     
     // Get pricing in requested currency
@@ -159,10 +168,8 @@ function yoursite_ajax_get_currency_pricing() {
     $annual_price = yoursite_get_pricing_plan_price($plan_id, $currency_code, 'annual');
     
     if ($monthly_price === false || $annual_price === false) {
-        wp_send_json_error([
-            'message' => __('Unable to calculate pricing', 'yoursite'),
-            'code' => 'pricing_calculation_failed'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('Unable to calculate pricing', 'yoursite'));
     }
     
     // Calculate additional pricing info
@@ -179,76 +186,72 @@ function yoursite_ajax_get_currency_pricing() {
     // Get currency info
     $currency = yoursite_get_currency($currency_code);
     
-    wp_send_json_success([
+    ob_end_clean();
+    
+    wp_send_json_success(array(
         'plan_id' => $plan_id,
         'currency_code' => $currency_code,
-        'pricing' => [
-            'monthly' => [
+        'pricing' => array(
+            'monthly' => array(
                 'raw' => $monthly_price,
                 'formatted' => $formatted_monthly
-            ],
-            'annual' => [
+            ),
+            'annual' => array(
                 'raw' => $annual_price,
                 'formatted' => $formatted_annual,
-                'monthly_equivalent' => [
+                'monthly_equivalent' => array(
                     'raw' => $annual_monthly_equivalent,
                     'formatted' => $formatted_annual_monthly
-                ]
-            ],
-            'savings' => [
+                )
+            ),
+            'savings' => array(
                 'raw' => $savings,
                 'formatted' => $formatted_savings,
                 'percentage' => $discount_percentage
-            ]
-        ],
+            )
+        ),
         'currency' => $currency
-    ]);
+    ));
 }
 
 /**
  * Get pricing for ALL plans in specific currency
  */
 function yoursite_ajax_get_all_pricing_in_currency() {
-    if (ob_get_level()) {
-        ob_clean();
-    }
+    if (!ob_get_level()) ob_start();
     
     $currency_code = sanitize_text_field($_POST['currency'] ?? '');
     
     if (!$currency_code) {
-        wp_send_json_error([
-            'message' => __('Currency code is required', 'yoursite'),
-            'code' => 'missing_currency'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('Currency code is required', 'yoursite'));
     }
     
     // Validate currency
     $currency = yoursite_get_currency($currency_code);
     if (!$currency || $currency['status'] !== 'active') {
-        wp_send_json_error([
-            'message' => __('Invalid or inactive currency', 'yoursite'),
-            'code' => 'invalid_currency'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('Invalid or inactive currency', 'yoursite'));
     }
     
     // Get all published pricing plans
-    $plans = get_posts([
+    $args = array(
         'post_type' => 'pricing',
         'posts_per_page' => -1,
         'post_status' => 'publish',
         'meta_key' => '_pricing_monthly_price',
         'orderby' => 'meta_value_num',
         'order' => 'ASC'
-    ]);
+    );
+    
+    $plans = get_posts($args);
     
     if (empty($plans)) {
-        wp_send_json_error([
-            'message' => __('No pricing plans found', 'yoursite'),
-            'code' => 'no_plans'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('No pricing plans found', 'yoursite'));
     }
     
-    $pricing_data = [];
+    $pricing_data = array();
     
     foreach ($plans as $plan) {
         $monthly_price = yoursite_get_pricing_plan_price($plan->ID, $currency_code, 'monthly');
@@ -262,75 +265,73 @@ function yoursite_ajax_get_all_pricing_in_currency() {
         $savings = yoursite_calculate_annual_savings($plan->ID, $currency_code);
         $discount_percentage = yoursite_calculate_annual_discount_percentage($plan->ID, $currency_code);
         
-        $pricing_data[$plan->ID] = [
+        $pricing_data[$plan->ID] = array(
             'title' => $plan->post_title,
-            'monthly' => [
+            'monthly' => array(
                 'raw' => $monthly_price,
                 'formatted' => yoursite_format_currency($monthly_price, $currency_code)
-            ],
-            'annual' => [
+            ),
+            'annual' => array(
                 'raw' => $annual_price,
                 'formatted' => yoursite_format_currency($annual_price, $currency_code),
-                'monthly_equivalent' => [
+                'monthly_equivalent' => array(
                     'raw' => $annual_monthly_equivalent,
                     'formatted' => yoursite_format_currency($annual_monthly_equivalent, $currency_code)
-                ]
-            ],
-            'savings' => [
+                )
+            ),
+            'savings' => array(
                 'raw' => $savings,
                 'formatted' => $savings > 0 ? yoursite_format_currency($savings, $currency_code) : '',
                 'percentage' => $discount_percentage
-            ],
+            ),
             'featured' => get_post_meta($plan->ID, '_pricing_featured', true) === '1'
-        ];
+        );
     }
     
-    wp_send_json_success([
+    ob_end_clean();
+    
+    wp_send_json_success(array(
         'currency_code' => $currency_code,
         'currency' => $currency,
         'plans' => $pricing_data,
         'plan_count' => count($pricing_data)
-    ]);
+    ));
 }
 
 /**
  * Convert a specific price between currencies
  */
 function yoursite_ajax_convert_currency_price() {
-    if (ob_get_level()) {
-        ob_clean();
-    }
+    if (!ob_get_level()) ob_start();
     
     $from_currency = sanitize_text_field($_POST['from_currency'] ?? '');
     $to_currency = sanitize_text_field($_POST['to_currency'] ?? '');
     $amount = floatval($_POST['amount'] ?? 0);
     
     if (!$from_currency || !$to_currency || $amount <= 0) {
-        wp_send_json_error([
-            'message' => __('Invalid conversion parameters', 'yoursite'),
-            'code' => 'invalid_parameters'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('Invalid conversion parameters', 'yoursite'));
     }
     
     $converted_amount = yoursite_convert_price($amount, $from_currency, $to_currency);
     
     if ($converted_amount === false) {
-        wp_send_json_error([
-            'message' => __('Currency conversion failed', 'yoursite'),
-            'code' => 'conversion_failed'
-        ]);
+        ob_end_clean();
+        wp_send_json_error(__('Currency conversion failed', 'yoursite'));
     }
     
     $formatted_amount = yoursite_format_currency($converted_amount, $to_currency);
     
-    wp_send_json_success([
+    ob_end_clean();
+    
+    wp_send_json_success(array(
         'from_currency' => $from_currency,
         'to_currency' => $to_currency,
         'original_amount' => $amount,
         'converted_amount' => $converted_amount,
         'formatted_amount' => $formatted_amount,
         'conversion_rate' => yoursite_get_conversion_rate($from_currency, $to_currency)
-    ]);
+    ));
 }
 
 // =============================================================================
@@ -341,32 +342,27 @@ function yoursite_ajax_convert_currency_price() {
  * ADMIN: Refresh all currency rates
  */
 function yoursite_ajax_refresh_currency_rates() {
-    if (ob_get_level()) {
-        ob_clean();
-    }
+    if (!ob_get_level()) ob_start();
     
     check_ajax_referer('currency_management_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
-        wp_send_json_error([
-            'message' => __('Insufficient permissions', 'yoursite'),
-            'code' => 'insufficient_permissions'
-        ]);
+        ob_end_clean();
+        wp_die(__('Insufficient permissions', 'yoursite'));
     }
     
     $updated_count = yoursite_update_currency_rates();
     
+    ob_end_clean();
+    
     if ($updated_count !== false) {
-        wp_send_json_success([
+        wp_send_json_success(array(
             'message' => sprintf(__('%d currencies updated successfully', 'yoursite'), $updated_count),
             'updated_count' => $updated_count,
             'last_update' => current_time('mysql')
-        ]);
+        ));
     } else {
-        wp_send_json_error([
-            'message' => __('Failed to update currency rates', 'yoursite'),
-            'code' => 'update_failed'
-        ]);
+        wp_send_json_error(__('Failed to update currency rates', 'yoursite'));
     }
 }
 
@@ -396,13 +392,10 @@ function yoursite_ajax_toggle_currency_status() {
     
     $result = $wpdb->update(
         $table_name,
-        array(
-            'status' => $status, 
-            'updated_at' => current_time('mysql')
-        ),
+        array('status' => $status, 'updated_at' => current_time('mysql')),
         array('id' => $currency_id),
-        array('%s', '%s'),  // FIXED: Format for data
-        array('%d')         // FIXED: Format for where clause
+        array('%s', '%s'),
+        array('%d')
     );
     
     ob_end_clean();
@@ -442,7 +435,7 @@ function yoursite_ajax_update_conversion_rate() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'yoursite_currencies';
     
-    // Get old rate for history
+    // Log the rate change for history
     $old_rate = $wpdb->get_var($wpdb->prepare(
         "SELECT conversion_rate FROM $table_name WHERE id = %d",
         $currency_id
@@ -456,8 +449,8 @@ function yoursite_ajax_update_conversion_rate() {
             'updated_at' => current_time('mysql')
         ),
         array('id' => $currency_id),
-        array('%f', '%s', '%s'),  // FIXED: Format for data
-        array('%d')               // FIXED: Format for where clause
+        array('%f', '%s', '%s'),
+        array('%d')
     );
     
     ob_end_clean();
@@ -465,7 +458,7 @@ function yoursite_ajax_update_conversion_rate() {
     if ($result !== false) {
         // Log rate change if history table exists
         $history_table = $wpdb->prefix . 'yoursite_currency_rate_history';
-        if ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $history_table)) === $history_table) {
+        if ($wpdb->get_var("SHOW TABLES LIKE '$history_table'") === $history_table) {
             $wpdb->insert(
                 $history_table,
                 array(
@@ -474,8 +467,7 @@ function yoursite_ajax_update_conversion_rate() {
                     'new_rate' => $conversion_rate,
                     'change_type' => 'manual',
                     'created_at' => current_time('mysql')
-                ),
-                array('%d', '%f', '%f', '%s', '%s')  // FIXED: Proper format array
+                )
             );
         }
         
@@ -490,58 +482,55 @@ function yoursite_ajax_update_conversion_rate() {
     }
 }
 
-
 /**
  * ADMIN: Get currency statistics
  */
 function yoursite_ajax_get_currency_statistics() {
-    if (ob_get_level()) {
-        ob_clean();
-    }
+    if (!ob_get_level()) ob_start();
     
     check_ajax_referer('currency_management_nonce', 'nonce');
     
     if (!current_user_can('manage_options')) {
-        wp_send_json_error([
-            'message' => __('Insufficient permissions', 'yoursite'),
-            'code' => 'insufficient_permissions'
-        ]);
+        ob_end_clean();
+        wp_die(__('Insufficient permissions', 'yoursite'));
     }
     
     global $wpdb;
     $currencies_table = $wpdb->prefix . 'yoursite_currencies';
     $pricing_table = $wpdb->prefix . 'yoursite_pricing_currencies';
     
-    // Get basic statistics with prepared statements
-    $stats = [
-        'total_currencies' => $wpdb->get_var("SELECT COUNT(*) FROM {$currencies_table}"),
-        'active_currencies' => $wpdb->get_var("SELECT COUNT(*) FROM {$currencies_table} WHERE status = 'active'"),
-        'inactive_currencies' => $wpdb->get_var("SELECT COUNT(*) FROM {$currencies_table} WHERE status = 'inactive'"),
-        'crypto_currencies' => $wpdb->get_var("SELECT COUNT(*) FROM {$currencies_table} WHERE is_crypto = 1"),
-        'fiat_currencies' => $wpdb->get_var("SELECT COUNT(*) FROM {$currencies_table} WHERE is_crypto = 0"),
-        'auto_update_enabled' => $wpdb->get_var("SELECT COUNT(*) FROM {$currencies_table} WHERE auto_update = 1"),
-        'base_currency' => $wpdb->get_var("SELECT code FROM {$currencies_table} WHERE is_base_currency = 1"),
-        'last_rate_update' => $wpdb->get_var("SELECT MAX(last_updated) FROM {$currencies_table} WHERE auto_update = 1"),
+    // Get basic statistics
+    $stats = array(
+        'total_currencies' => $wpdb->get_var("SELECT COUNT(*) FROM $currencies_table"),
+        'active_currencies' => $wpdb->get_var("SELECT COUNT(*) FROM $currencies_table WHERE status = 'active'"),
+        'inactive_currencies' => $wpdb->get_var("SELECT COUNT(*) FROM $currencies_table WHERE status = 'inactive'"),
+        'crypto_currencies' => $wpdb->get_var("SELECT COUNT(*) FROM $currencies_table WHERE is_crypto = 1"),
+        'fiat_currencies' => $wpdb->get_var("SELECT COUNT(*) FROM $currencies_table WHERE is_crypto = 0"),
+        'auto_update_enabled' => $wpdb->get_var("SELECT COUNT(*) FROM $currencies_table WHERE auto_update = 1"),
+        'base_currency' => $wpdb->get_var("SELECT code FROM $currencies_table WHERE is_base_currency = 1"),
+        'last_rate_update' => $wpdb->get_var("SELECT MAX(last_updated) FROM $currencies_table WHERE auto_update = 1"),
         'stale_rates_count' => $wpdb->get_var(
-            "SELECT COUNT(*) FROM {$currencies_table} 
+            "SELECT COUNT(*) FROM $currencies_table 
              WHERE status = 'active' 
              AND auto_update = 1 
              AND (last_updated IS NULL OR last_updated < DATE_SUB(NOW(), INTERVAL 24 HOUR))"
         )
-    ];
+    );
     
     // Get most used currencies
     $popular_currencies = $wpdb->get_results(
         "SELECT c.code, c.name, c.symbol, COUNT(pc.id) as usage_count
-         FROM {$currencies_table} c
-         LEFT JOIN {$pricing_table} pc ON c.code = pc.currency_code
+         FROM $currencies_table c
+         LEFT JOIN $pricing_table pc ON c.code = pc.currency_code
          WHERE c.status = 'active'
-         GROUP BY c.code, c.name, c.symbol
+         GROUP BY c.code
          ORDER BY usage_count DESC, c.name ASC
          LIMIT 10"
     );
     
     $stats['popular_currencies'] = $popular_currencies;
+    
+    ob_end_clean();
     
     wp_send_json_success($stats);
 }
@@ -555,28 +544,25 @@ function yoursite_ajax_get_currency_statistics() {
  */
 function yoursite_ajax_test_currency_format() {
     $currency_code = sanitize_text_field($_POST['currency_code'] ?? '');
-    $test_amounts = [9.99, 123.45, 1234.56, 12345.67];
+    $test_amounts = array(9.99, 123.45, 1234.56, 12345.67);
     
     if (empty($currency_code)) {
-        wp_send_json_error([
-            'message' => __('Currency code is required', 'yoursite'),
-            'code' => 'missing_currency'
-        ]);
+        wp_send_json_error(__('Currency code is required', 'yoursite'));
     }
     
-    $formatted_amounts = [];
+    $formatted_amounts = array();
     
     foreach ($test_amounts as $amount) {
-        $formatted_amounts[] = [
+        $formatted_amounts[] = array(
             'amount' => $amount,
             'formatted' => yoursite_format_currency($amount, $currency_code)
-        ];
+        );
     }
     
-    wp_send_json_success([
+    wp_send_json_success(array(
         'currency_code' => $currency_code,
         'test_results' => $formatted_amounts
-    ]);
+    ));
 }
 
 /**
@@ -587,28 +573,22 @@ function yoursite_ajax_get_conversion_rate() {
     $to_currency = sanitize_text_field($_POST['to'] ?? '');
     
     if (!$from_currency || !$to_currency) {
-        wp_send_json_error([
-            'message' => __('Both currency codes are required', 'yoursite'),
-            'code' => 'missing_currencies'
-        ]);
+        wp_send_json_error(__('Both currency codes are required', 'yoursite'));
     }
     
     $rate = yoursite_get_conversion_rate($from_currency, $to_currency);
     
     if ($rate === false) {
-        wp_send_json_error([
-            'message' => __('Unable to get conversion rate', 'yoursite'),
-            'code' => 'rate_unavailable'
-        ]);
+        wp_send_json_error(__('Unable to get conversion rate', 'yoursite'));
     }
     
-    wp_send_json_success([
+    wp_send_json_success(array(
         'from' => $from_currency,
         'to' => $to_currency,
         'rate' => $rate,
         'formatted_rate' => number_format($rate, 6),
         'inverse_rate' => $rate > 0 ? 1 / $rate : 0
-    ]);
+    ));
 }
 
 // =============================================================================
@@ -620,7 +600,7 @@ function yoursite_ajax_get_conversion_rate() {
  */
 function yoursite_register_currency_ajax_handlers() {
     // Public handlers (logged in and non-logged in users)
-    $public_handlers = [
+    $public_handlers = array(
         'switch_user_currency' => 'yoursite_ajax_switch_user_currency',
         'get_current_currency' => 'yoursite_ajax_get_current_currency',
         'get_available_currencies' => 'yoursite_ajax_get_available_currencies',
@@ -629,7 +609,7 @@ function yoursite_register_currency_ajax_handlers() {
         'convert_currency_price' => 'yoursite_ajax_convert_currency_price',
         'test_currency_format' => 'yoursite_ajax_test_currency_format',
         'get_conversion_rate' => 'yoursite_ajax_get_conversion_rate'
-    ];
+    );
     
     foreach ($public_handlers as $action => $callback) {
         add_action('wp_ajax_' . $action, $callback);
@@ -637,12 +617,12 @@ function yoursite_register_currency_ajax_handlers() {
     }
     
     // Admin-only handlers
-    $admin_handlers = [
+    $admin_handlers = array(
         'refresh_currency_rates' => 'yoursite_ajax_refresh_currency_rates',
         'toggle_currency_status' => 'yoursite_ajax_toggle_currency_status',
         'update_conversion_rate' => 'yoursite_ajax_update_conversion_rate',
         'get_currency_statistics' => 'yoursite_ajax_get_currency_statistics'
-    ];
+    );
     
     foreach ($admin_handlers as $action => $callback) {
         add_action('wp_ajax_' . $action, $callback);
@@ -661,16 +641,16 @@ add_action('wp_loaded', 'yoursite_register_currency_ajax_handlers', 1);
  */
 function yoursite_get_user_currency_enhanced() {
     static $current_currency = null;
-    
+
     // Return cached result
     if ($current_currency !== null) {
         return $current_currency;
     }
-    
-    $cookie_name = 'yoursite_preferred_currency';
-    
 
-    
+    $cookie_name = 'yoursite_preferred_currency';
+
+    // Session should already be started by the init hook, so no session_start() here!
+
     // 1. Check session (most reliable for current request)
     if (isset($_SESSION['preferred_currency'])) {
         $currency_code = sanitize_text_field($_SESSION['preferred_currency']);
@@ -680,7 +660,7 @@ function yoursite_get_user_currency_enhanced() {
             return $current_currency;
         }
     }
-    
+
     // 2. Check cookie
     if (isset($_COOKIE[$cookie_name])) {
         $currency_code = sanitize_text_field($_COOKIE[$cookie_name]);
@@ -691,7 +671,7 @@ function yoursite_get_user_currency_enhanced() {
             return $current_currency;
         }
     }
-    
+
     // 3. Check user meta
     if (is_user_logged_in()) {
         $user_currency = get_user_meta(get_current_user_id(), 'preferred_currency', true);
@@ -704,16 +684,16 @@ function yoursite_get_user_currency_enhanced() {
             }
         }
     }
-    
+
     // 4. Fallback to base currency
     $base_currency = yoursite_get_base_currency();
-    $current_currency = $base_currency ?: [
+    $current_currency = $base_currency ?: array(
         'code' => 'USD',
         'name' => 'US Dollar',
         'symbol' => '$',
         'status' => 'active'
-    ];
-    
+    );
+
     return $current_currency;
 }
 
@@ -765,104 +745,14 @@ function yoursite_validate_currency_code($currency_code) {
 }
 
 /**
- * Improved error handler for AJAX requests with consistent structure
+ * Error handler for AJAX requests
  */
 function yoursite_ajax_error_handler($error_message, $error_code = 'currency_error', $data = null) {
     yoursite_log_currency_debug("AJAX Error: $error_message", $data);
     
-    wp_send_json_error([
+    wp_send_json_error(array(
         'message' => $error_message,
         'code' => $error_code,
-        'timestamp' => current_time('mysql'),
-        'debug_data' => WP_DEBUG ? $data : null
-    ]);
-}
-
-/**
- * Sanitize and validate AJAX input data
- */
-function yoursite_sanitize_ajax_input($input_data, $expected_fields = []) {
-    $sanitized = [];
-    
-    foreach ($expected_fields as $field => $type) {
-        $value = $input_data[$field] ?? null;
-        
-        switch ($type) {
-            case 'int':
-                $sanitized[$field] = intval($value);
-                break;
-            case 'float':
-                $sanitized[$field] = floatval($value);
-                break;
-            case 'currency_code':
-                $sanitized[$field] = strtoupper(sanitize_text_field($value));
-                break;
-            case 'text':
-            default:
-                $sanitized[$field] = sanitize_text_field($value);
-                break;
-        }
-    }
-    
-    return $sanitized;
-}
-
-/**
- * Check rate limits for AJAX requests (optional security enhancement)
- */
-function yoursite_check_ajax_rate_limit($action, $limit = 60, $window = 60) {
-    if (!WP_DEBUG) { // Only enable in production
-        $transient_key = 'ajax_rate_limit_' . $action . '_' . md5($_SERVER['REMOTE_ADDR'] ?? '');
-        $current_count = get_transient($transient_key);
-        
-        if ($current_count === false) {
-            set_transient($transient_key, 1, $window);
-            return true;
-        }
-        
-        if ($current_count >= $limit) {
-            wp_send_json_error([
-                'message' => __('Rate limit exceeded. Please try again later.', 'yoursite'),
-                'code' => 'rate_limit_exceeded'
-            ]);
-        }
-        
-        set_transient($transient_key, $current_count + 1, $window);
-    }
-    
-    return true;
-}
-
-/**
- * Centralized currency cache management
- */
-class YourSite_Currency_Cache {
-    private static $cache = [];
-    private static $cache_duration = 300; // 5 minutes
-    
-    public static function get($key) {
-        if (isset(self::$cache[$key])) {
-            $cache_item = self::$cache[$key];
-            if (time() - $cache_item['timestamp'] < self::$cache_duration) {
-                return $cache_item['data'];
-            }
-            unset(self::$cache[$key]);
-        }
-        return false;
-    }
-    
-    public static function set($key, $data) {
-        self::$cache[$key] = [
-            'data' => $data,
-            'timestamp' => time()
-        ];
-    }
-    
-    public static function clear($key = null) {
-        if ($key) {
-            unset(self::$cache[$key]);
-        } else {
-            self::$cache = [];
-        }
-    }
+        'timestamp' => current_time('mysql')
+    ));
 }

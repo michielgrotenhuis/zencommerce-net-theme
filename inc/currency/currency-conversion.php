@@ -269,8 +269,8 @@ function yoursite_update_specific_currency_rates($currency_codes = array()) {
                     'last_updated' => current_time('mysql')
                 ),
                 array('code' => $currency_code),
-                array('%f', '%s'),
-                array('%s')
+                array('%f', '%s'),  // FIXED: Format for data
+                array('%s')         // FIXED: Format for where clause
             );
             
             if ($result !== false) {

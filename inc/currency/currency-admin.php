@@ -552,7 +552,19 @@ function yoursite_handle_currency_form() {
         'status' => 'active'
     ));
     
-    $result = $wpdb->insert($table_name, $currency_data);
+    // FIXED: Build format array based on currency_data keys
+    $format_array = array();
+    foreach ($currency_data as $key => $value) {
+        if (is_int($value)) {
+            $format_array[] = '%d';
+        } elseif (is_float($value)) {
+            $format_array[] = '%f';
+        } else {
+            $format_array[] = '%s';
+        }
+    }
+    
+    $result = $wpdb->insert($table_name, $currency_data, $format_array);
     
     if ($result) {
         add_action('admin_notices', function() {
@@ -564,6 +576,7 @@ function yoursite_handle_currency_form() {
         });
     }
 }
+
 
 
 /**

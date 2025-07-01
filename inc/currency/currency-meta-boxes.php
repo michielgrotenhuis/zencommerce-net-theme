@@ -733,6 +733,7 @@ function yoursite_get_pricing_plan_currencies($plan_id) {
     return $currencies;
 }
 
+
 /**
  * Save currency pricing data
  */

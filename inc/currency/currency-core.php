@@ -402,14 +402,13 @@ function yoursite_get_active_currencies() {
  */
 function yoursite_get_currency($code) {
     global $wpdb;
-
+    
     $table_name = $wpdb->prefix . 'yoursite_currencies';
-
-    // Build query first, then prepare separately
-    $sql = "SELECT * FROM `{$table_name}` WHERE code = %s";
-    $prepared_sql = $wpdb->prepare($sql, $code);
-
-    return $wpdb->get_row($prepared_sql, ARRAY_A);
+    
+    return $wpdb->get_row(
+        $wpdb->prepare("SELECT * FROM $table_name WHERE code = %s", $code),
+        ARRAY_A
+    );
 }
 
 
@@ -453,43 +452,38 @@ function yoursite_get_base_currency() {
  */
 function yoursite_update_currency_rates($rates_data = null) {
     global $wpdb;
-
-    if (empty($rates_data)) {
+    
+    if (!$rates_data) {
         $rates_data = yoursite_fetch_exchange_rates();
     }
-
-    if (!is_array($rates_data)) {
-        return 0;
+    
+    if (!$rates_data || !is_array($rates_data)) {
+        return false;
     }
-
+    
     $table_name = $wpdb->prefix . 'yoursite_currencies';
     $updated_count = 0;
-
+    
     foreach ($rates_data as $currency_code => $rate) {
-        // Validate input
-        if (!is_string($currency_code) || !is_numeric($rate)) {
-            continue;
-        }
-
         $result = $wpdb->update(
             $table_name,
-            [
-                'conversion_rate' => floatval($rate),
-                'last_updated'    => current_time('mysql')
-            ],
-            ['code' => $currency_code],
-            ['%f', '%s'],
-            ['%s']
+            array(
+                'conversion_rate' => $rate,
+                'last_updated' => current_time('mysql')
+            ),
+            array('code' => $currency_code),
+            array('%f', '%s'),  // FIXED: Proper format array for data
+            array('%s')         // FIXED: Proper format array for where clause
         );
-
+        
         if ($result !== false) {
             $updated_count++;
         }
     }
-
-    // Save last update timestamp
+    
+    // Update last refresh time
     update_option('yoursite_currency_last_update', current_time('mysql'));
-
+    
     return $updated_count;
 }
 
