@@ -1,0 +1,456 @@
+/**
+ * Currency System Styles
+ * File: /css/currency-system.css or /assets/css/currency-system.css
+ * Version: 1.0.0
+ */
+
+/* =============================================================================
+   CURRENCY SWITCHER COMPONENTS
+   ============================================================================= */
+
+.currency-switcher {
+    position: relative;
+    display: inline-block;
+}
+
+.currency-switcher select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+    line-height: 1.4;
+    min-width: 100px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.currency-switcher select:hover {
+    border-color: #007cba;
+}
+
+.currency-switcher select:focus {
+    outline: none;
+    border-color: #007cba;
+    box-shadow: 0 0 0 2px rgba(0, 124, 186, 0.2);
+}
+
+.currency-switcher select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f9f9f9;
+}
+
+/* Currency Buttons */
+.currency-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.currency-button {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.currency-button:hover {
+    border-color: #007cba;
+    background-color: #f0f8ff;
+    color: #007cba;
+    text-decoration: none;
+}
+
+.currency-button.active,
+.currency-button.current,
+.currency-button.selected {
+    background-color: #007cba;
+    border-color: #007cba;
+    color: #fff;
+}
+
+.currency-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.currency-button-flag {
+    width: 16px;
+    height: 12px;
+    display: inline-block;
+    border-radius: 2px;
+    object-fit: cover;
+}
+
+/* =============================================================================
+   LOADING STATES
+   ============================================================================= */
+
+.currency-loading {
+    display: none;
+    position: relative;
+}
+
+.currency-loading.show,
+.currency-loading:not([hidden]) {
+    display: inline-block;
+}
+
+.currency-loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007cba;
+    border-radius: 50%;
+    animation: currency-spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes currency-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.currency-loading-text {
+    font-size: 14px;
+    color: #666;
+    margin-left: 4px;
+}
+
+/* Global loading state */
+.currency-loading-active .currency-switcher {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.currency-loading-active .currency-button {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* =============================================================================
+   PRICING ELEMENTS
+   ============================================================================= */
+
+.pricing-amount,
+.price,
+[data-price] {
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.currency-updating {
+    opacity: 0.7;
+    position: relative;
+}
+
+.currency-updating::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: currency-shimmer 1.5s infinite;
+}
+
+@keyframes currency-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.currency-update-failed {
+    background-color: #fee;
+    border-left: 3px solid #dc3545;
+    padding-left: 8px;
+    animation: currency-shake 0.5s ease-in-out;
+}
+
+@keyframes currency-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+/* Currency symbols */
+.currency-symbol {
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.current-currency-code {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* =============================================================================
+   NOTIFICATIONS
+   ============================================================================= */
+
+.currency-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 350px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.currency-notification.show {
+    transform: translateX(0);
+}
+
+.currency-notification--success {
+    background-color: #28a745;
+    color: white;
+}
+
+.currency-notification--error {
+    background-color: #dc3545;
+    color: white;
+}
+
+.currency-notification--warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.currency-notification--info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.currency-notification-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.currency-notification-close:hover {
+    opacity: 1;
+}
+
+/* =============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================= */
+
+@media (max-width: 768px) {
+    .currency-switcher select {
+        font-size: 16px; /* Prevent zoom on iOS */
+        min-width: 80px;
+    }
+    
+    .currency-buttons {
+        gap: 6px;
+    }
+    
+    .currency-button {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+    
+    .currency-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .currency-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .currency-button {
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+/* =============================================================================
+   THEME INTEGRATION STYLES
+   ============================================================================= */
+
+/* Header integration */
+.site-header .currency-switcher {
+    margin-left: 15px;
+}
+
+.site-header .currency-switcher select {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: inherit;
+}
+
+.site-header .currency-switcher select:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Footer integration */
+.site-footer .currency-switcher {
+    margin-top: 10px;
+}
+
+/* Widget integration */
+.widget .currency-switcher {
+    margin-bottom: 10px;
+}
+
+.widget .currency-buttons {
+    margin-bottom: 15px;
+}
+
+/* =============================================================================
+   ACCESSIBILITY IMPROVEMENTS
+   ============================================================================= */
+
+.currency-switcher select:focus-visible {
+    outline: 2px solid #007cba;
+    outline-offset: 2px;
+}
+
+.currency-button:focus-visible {
+    outline: 2px solid #007cba;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .currency-button {
+        border-width: 2px;
+    }
+    
+    .currency-button.active {
+        border-width: 3px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .currency-switcher select,
+    .currency-button,
+    .currency-notification,
+    .pricing-amount,
+    .price,
+    [data-price] {
+        transition: none;
+    }
+    
+    .currency-loading-spinner {
+        animation: none;
+        border-top-color: transparent;
+    }
+    
+    .currency-updating::after {
+        animation: none;
+        display: none;
+    }
+}
+
+/* =============================================================================
+   DARK MODE SUPPORT
+   ============================================================================= */
+
+@media (prefers-color-scheme: dark) {
+    .currency-switcher select {
+        background-color: #2a2a2a;
+        border-color: #555;
+        color: #fff;
+    }
+    
+    .currency-switcher select:disabled {
+        background-color: #1a1a1a;
+    }
+    
+    .currency-button {
+        background-color: #2a2a2a;
+        border-color: #555;
+        color: #fff;
+    }
+    
+    .currency-button:hover {
+        background-color: #3a3a3a;
+        border-color: #007cba;
+    }
+    
+    .currency-update-failed {
+        background-color: #331;
+    }
+}
+
+/* =============================================================================
+   UTILITY CLASSES
+   ============================================================================= */
+
+.currency-hidden {
+    display: none !important;
+}
+
+.currency-visible {
+    display: block !important;
+}
+
+.currency-inline {
+    display: inline-block !important;
+}
+
+.currency-text-center {
+    text-align: center;
+}
+
+.currency-text-right {
+    text-align: right;
+}
+
+.currency-margin-small {
+    margin: 8px 0;
+}
+
+.currency-margin-large {
+    margin: 16px 0;
+}
+
+/* =============================================================================
+   PRINT STYLES
+   ============================================================================= */
+
+@media print {
+    .currency-switcher,
+    .currency-buttons,
+    .currency-notification,
+    .currency-loading {
+        display: none !important;
+    }
+}
