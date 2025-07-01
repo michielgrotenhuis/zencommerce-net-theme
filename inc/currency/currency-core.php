@@ -406,7 +406,7 @@ function yoursite_get_currency($code) {
     $table_name = $wpdb->prefix . 'yoursite_currencies';
 
     $sql = $wpdb->prepare(
-        "SELECT * FROM {$table_name} WHERE code = %s",
+        "SELECT * FROM `{$table_name}` WHERE code = %s",
         $code
     );
 

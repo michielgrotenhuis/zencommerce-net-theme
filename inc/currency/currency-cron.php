@@ -233,17 +233,23 @@ function yoursite_monitor_currency_staleness() {
     global $wpdb;
 
     $table_name = $wpdb->prefix . 'yoursite_currencies';
+
+    // Check table exists
+    $like_table = $wpdb->esc_like($table_name);
+    if ($wpdb->get_var("SHOW TABLES LIKE '{$like_table}'") !== $table_name) {
+        return; // Table doesn't exist, exit early
+    }
+
     $settings = get_option('yoursite_currency_settings', array());
-    $staleness_threshold = isset($settings['staleness_threshold']) ? (int)$settings['staleness_threshold'] : 48; // hours
+    $staleness_threshold = max(1, (int)($settings['staleness_threshold'] ?? 48)); // hours
 
-    $threshold_datetime = date('Y-m-d H:i:s', time() - ($staleness_threshold * HOUR_IN_SECONDS));
+    $threshold_datetime = date('Y-m-d H:i:s', current_time('timestamp') - ($staleness_threshold * HOUR_IN_SECONDS));
 
-    // Safe query with placeholder
     $query = $wpdb->prepare(
-        "SELECT code, last_updated 
+        "SELECT code, last_updated
          FROM {$table_name}
          WHERE status = %s
-         AND (last_updated IS NULL OR last_updated < %s)",
+           AND (last_updated IS NULL OR last_updated < %s)",
         'active',
         $threshold_datetime
     );
@@ -251,16 +257,14 @@ function yoursite_monitor_currency_staleness() {
     $stale_currencies = $wpdb->get_results($query);
 
     if (!empty($stale_currencies)) {
-        $currency_codes = array_column($stale_currencies, 'code');
+        $currency_codes = wp_list_pluck($stale_currencies, 'code');
 
-        // Log the stale currencies
         yoursite_log_currency_update('stale_detected', array(
-            'stale_currencies' => $currency_codes,
+            'stale_currencies'    => $currency_codes,
             'staleness_threshold' => $staleness_threshold,
-            'timestamp' => current_time('mysql')
+            'timestamp'           => current_time('mysql'),
         ));
 
-        // Update the stale currencies
         yoursite_update_specific_currency_rates($currency_codes);
     }
 }

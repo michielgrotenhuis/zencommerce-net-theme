@@ -715,11 +715,15 @@ function yoursite_currency_pricing_meta_box_styles() {
 function yoursite_get_pricing_plan_currencies($plan_id) {
     global $wpdb;
     
+    if (empty($plan_id)) {
+        return array(); // no plan id, return empty array early
+    }
+    
     $table_name = $wpdb->prefix . 'yoursite_pricing_currencies';
     
     $results = $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT * FROM $table_name WHERE pricing_plan_id = %d",
+            "SELECT * FROM `{$table_name}` WHERE pricing_plan_id = %d",
             $plan_id
         ),
         ARRAY_A
@@ -732,6 +736,7 @@ function yoursite_get_pricing_plan_currencies($plan_id) {
     
     return $currencies;
 }
+
 
 
 /**

@@ -653,10 +653,10 @@ function yoursite_is_currency_available($code) {
     $table_name = $wpdb->prefix . 'yoursite_currencies';
     
     $exists = $wpdb->get_var(
-        $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE code = %s", strtoupper($code))
+        $wpdb->prepare("SELECT COUNT(*) FROM `{$table_name}` WHERE code = %s", strtoupper($code))
     );
     
-    return $exists == 0;
+    return $exists > 0;
 }
 
 /**

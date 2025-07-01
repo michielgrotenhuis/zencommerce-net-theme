@@ -441,7 +441,6 @@ function yoursite_ajax_update_conversion_rate() {
     $currencies_table = $wpdb->prefix . 'yoursite_currencies';
     $history_table = $wpdb->prefix . 'yoursite_currency_rate_history';
 
-    // Fetch old conversion rate
     $old_rate = $wpdb->get_var(
         $wpdb->prepare(
             "SELECT conversion_rate FROM {$currencies_table} WHERE id = %d",
@@ -449,13 +448,12 @@ function yoursite_ajax_update_conversion_rate() {
         )
     );
 
-    // Update the currency rate
     $updated = $wpdb->update(
         $currencies_table,
         array(
             'conversion_rate' => $conversion_rate,
             'last_updated'    => current_time('mysql'),
-            'updated_at'      => current_time('mysql')
+            'updated_at'      => current_time('mysql'),
         ),
         array('id' => $currency_id),
         array('%f', '%s', '%s'),
@@ -467,9 +465,10 @@ function yoursite_ajax_update_conversion_rate() {
         wp_send_json_error(__('Failed to update conversion rate', 'yoursite'));
     }
 
-    // Check if history table exists safely
-    $tables = $wpdb->get_col("SHOW TABLES LIKE '{$history_table}'");
-    if (!empty($tables)) {
+    $history_table_like = $wpdb->esc_like($history_table);
+    $tables = $wpdb->get_col("SHOW TABLES LIKE '{$history_table_like}'");
+
+    if (!empty($tables) && $old_rate !== null) {
         $wpdb->insert(
             $history_table,
             array(
@@ -477,20 +476,22 @@ function yoursite_ajax_update_conversion_rate() {
                 'old_rate'    => $old_rate,
                 'new_rate'    => $conversion_rate,
                 'change_type' => 'manual',
-                'created_at'  => current_time('mysql')
+                'created_at'  => current_time('mysql'),
             ),
             array('%d', '%f', '%f', '%s', '%s')
         );
     }
 
     ob_end_clean();
+
     wp_send_json_success(array(
         'message'     => __('Conversion rate updated', 'yoursite'),
         'currency_id' => $currency_id,
         'new_rate'    => $conversion_rate,
-        'old_rate'    => $old_rate
+        'old_rate'    => $old_rate,
     ));
 }
+
 
 
 

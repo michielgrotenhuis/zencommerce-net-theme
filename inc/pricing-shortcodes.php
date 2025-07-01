@@ -1788,25 +1788,12 @@ function yoursite_clear_currency_pricing_cache($post_id = null) {
         return;
     }
     
-    // Clear all currency pricing related transients
     global $wpdb;
     
-    // Use direct queries without prepare() since we're using literal strings
     $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_yoursite_pricing_plans_currency_%'");
     $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_timeout_yoursite_pricing_plans_currency_%'");
-    
-    // Alternative safer approach using wpdb::prepare() properly:
-    /*
-    $wpdb->query($wpdb->prepare(
-        "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
-        '_transient_yoursite_pricing_plans_currency_%'
-    ));
-    $wpdb->query($wpdb->prepare(
-        "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", 
-        '_transient_timeout_yoursite_pricing_plans_currency_%'
-    ));
-    */
 }
+
 
 add_action('save_post', 'yoursite_clear_currency_pricing_cache');
 add_action('delete_post', 'yoursite_clear_currency_pricing_cache');

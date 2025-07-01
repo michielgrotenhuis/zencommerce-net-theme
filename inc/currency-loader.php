@@ -164,19 +164,24 @@ add_action('admin_menu', 'yoursite_add_currency_menu');
 function yoursite_get_active_currencies_count() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'yoursite_currencies';
-    
-    // Check if table exists first
-    $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name));
-    
+
+    // Escape the table name for LIKE clause, add wildcards
+    $like_table = $wpdb->esc_like($table_name);
+
+    // No need to use prepare here, just safely embed the escaped string
+    $table_exists = $wpdb->get_var("SHOW TABLES LIKE '{$like_table}'");
+
     if ($table_exists !== $table_name) {
-        return 1; // Default USD
+        return 1; // Default USD count if table missing
     }
-    
-    // Use wpdb::prepare() properly for the count query
-    $count = $wpdb->get_var($wpdb->prepare(
-        "SELECT COUNT(*) FROM $table_name WHERE status = %s",
-        'active'
-    ));
-    
+
+    // Properly prepare the count query
+    $count = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT COUNT(*) FROM {$table_name} WHERE status = %s",
+            'active'
+        )
+    );
+
     return (int) $count;
 }

@@ -376,44 +376,37 @@ function yoursite_maybe_update_currency_rates() {
  */
 function yoursite_get_pricing_plan_price($plan_id, $currency_code, $period = 'monthly') {
     global $wpdb;
-    
-    // First try to get specific currency pricing
+
+    $period = sanitize_key($period); // sanitize once
+
     $table_name = $wpdb->prefix . 'yoursite_pricing_currencies';
-    
-    // FIX: Handle the dynamic column name properly
-    if ($period === 'annual') {
-        $specific_price = $wpdb->get_var(
-            $wpdb->prepare(
-                "SELECT annual_price FROM {$table_name} WHERE pricing_plan_id = %d AND currency_code = %s",
-                $plan_id,
-                $currency_code
-            )
-        );
-    } else {
-        $specific_price = $wpdb->get_var(
-            $wpdb->prepare(
-                "SELECT monthly_price FROM {$table_name} WHERE pricing_plan_id = %d AND currency_code = %s",
-                $plan_id,
-                $currency_code
-            )
-        );
-    }
-    
-    if ($specific_price !== null) {
+
+    $price_column = ($period === 'annual') ? 'annual_price' : 'monthly_price';
+
+    $specific_price = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT {$price_column} FROM {$table_name} WHERE pricing_plan_id = %d AND currency_code = %s",
+            $plan_id,
+            $currency_code
+        )
+    );
+
+    if ($specific_price !== false && $specific_price !== null) {
         return floatval($specific_price);
     }
-    
-    // Fallback to base currency conversion
+
+    // Fallback to base currency
     $base_currency = yoursite_get_base_currency();
-    $meta_key = '_pricing_' . sanitize_key($period) . '_price';
+    $meta_key = '_pricing_' . $period . '_price';
     $base_price_meta = get_post_meta($plan_id, $meta_key, true);
-    
-    if (!$base_price_meta) {
+
+    if ($base_price_meta === '' || $base_price_meta === false) {
         return 0;
     }
-    
+
     return yoursite_convert_price(floatval($base_price_meta), $base_currency['code'], $currency_code);
 }
+
 
 /**
  * Get formatted pricing plan price
