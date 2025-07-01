@@ -14,7 +14,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-
 // =============================================================================
 // EARLY SESSION INITIALIZATION - MUST BE FIRST
 // =============================================================================
@@ -2039,12 +2038,6 @@ function yoursite_final_session_check() {
 add_action('template_redirect', 'yoursite_final_session_check', -1000);
 require_once get_template_directory() . '/inc/currency/currency-enqueue.php';
 
-add_action('init', function() {
-    if (current_user_can('manage_options') && isset($_GET['debug_currency'])) {
-        $results = yoursite_test_database_functions();
-        wp_die('<pre>' . print_r($results, true) . '</pre>');
-    }
-});
 
 // =============================================================================
 // END OF FUNCTIONS.PHP
