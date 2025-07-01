@@ -26,24 +26,26 @@ function yoursite_pricing_table_shortcode($atts) {
         'currency' => '' // Override default currency
     ), $atts, 'pricing_table');
 
-    // Get pricing plans
-    if ($atts['plans'] === 'all' || empty($atts['plans'])) {
-        $plan_ids = get_posts(array(
-            'post_type' => 'pricing',
-            'posts_per_page' => -1,
-            'post_status' => 'publish',
-            'fields' => 'ids',
-            'meta_key' => '_pricing_monthly_price',
-            'orderby' => 'meta_value_num',
-            'order' => 'ASC'
-        ));
-    } else {
-        $plan_ids = array_map('trim', explode(',', $atts['plans']));
-    }
+    // Get pricing plans using safer method
+    $plan_ids = yoursite_get_pricing_plans_safe($atts);
 
     if (empty($plan_ids)) {
         return '<p>' . __('No pricing plans found.', 'yoursite') . '</p>';
     }
+
+    // Get plan objects safely
+    $plans = array();
+    foreach ($plan_ids as $plan_id) {
+        $plan = get_post($plan_id);
+        if ($plan && $plan->post_status === 'publish' && $plan->post_type === 'pricing') {
+            $plans[] = $plan;
+        }
+    }
+
+    if (empty($plans)) {
+        return '<p>' . __('No valid pricing plans found.', 'yoursite') . '</p>';
+    }
+
 
     // Get plan objects
     $plans = array();
@@ -1788,11 +1790,97 @@ function yoursite_clear_currency_pricing_cache($post_id = null) {
     
     // Clear all currency pricing related transients
     global $wpdb;
+    
+    // Use direct queries without prepare() since we're using literal strings
     $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_yoursite_pricing_plans_currency_%'");
     $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_timeout_yoursite_pricing_plans_currency_%'");
+    
+    // Alternative safer approach using wpdb::prepare() properly:
+    /*
+    $wpdb->query($wpdb->prepare(
+        "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
+        '_transient_yoursite_pricing_plans_currency_%'
+    ));
+    $wpdb->query($wpdb->prepare(
+        "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", 
+        '_transient_timeout_yoursite_pricing_plans_currency_%'
+    ));
+    */
 }
+
 add_action('save_post', 'yoursite_clear_currency_pricing_cache');
 add_action('delete_post', 'yoursite_clear_currency_pricing_cache');
+
+/**
+ * Safer way to get pricing plans to avoid wpdb::prepare issues
+ */
+function yoursite_get_pricing_plans_safe($atts) {
+    // Get pricing plans safely
+    if ($atts['plans'] === 'all' || empty($atts['plans'])) {
+        $query_args = array(
+            'post_type' => 'pricing',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'fields' => 'ids',
+            'orderby' => 'meta_value_num',
+            'order' => 'ASC',
+            'meta_query' => array(
+                array(
+                    'key' => '_pricing_monthly_price',
+                    'compare' => 'EXISTS'
+                )
+            )
+        );
+        
+        $query = new WP_Query($query_args);
+        $plan_ids = $query->posts;
+        wp_reset_postdata();
+    } else {
+        $plan_ids = array_map('intval', array_map('trim', explode(',', $atts['plans'])));
+        // Validate plan IDs exist and are pricing posts
+        $plan_ids = array_filter($plan_ids, function($id) {
+            $post = get_post($id);
+            return $post && $post->post_type === 'pricing' && $post->post_status === 'publish';
+        });
+    }
+
+    return $plan_ids;
+}
+
+/**
+ * Safer cached pricing plans function
+ */
+function yoursite_get_cached_pricing_plans_with_currency_safe($args = array()) {
+    $current_currency = function_exists('yoursite_get_user_currency') ? yoursite_get_user_currency() : array('code' => 'USD');
+    $cache_key = 'yoursite_pricing_plans_currency_' . $current_currency['code'] . '_' . md5(serialize($args));
+    $cached_plans = get_transient($cache_key);
+    
+    if (false === $cached_plans) {
+        $default_args = array(
+            'post_type' => 'pricing',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'orderby' => 'meta_value_num',
+            'order' => 'ASC',
+            'meta_query' => array(
+                array(
+                    'key' => '_pricing_monthly_price',
+                    'compare' => 'EXISTS'
+                )
+            )
+        );
+        
+        $query_args = wp_parse_args($args, $default_args);
+        $query = new WP_Query($query_args);
+        $cached_plans = $query->posts;
+        wp_reset_postdata();
+        
+        // Cache for 30 minutes
+        set_transient($cache_key, $cached_plans, 30 * MINUTE_IN_SECONDS);
+    }
+    
+    return $cached_plans;
+}
 
 // Clear cache when currency rates are updated
 add_action('yoursite_currency_rates_updated', 'yoursite_clear_currency_pricing_cache');

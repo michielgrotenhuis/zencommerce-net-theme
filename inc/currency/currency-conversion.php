@@ -269,8 +269,8 @@ function yoursite_update_specific_currency_rates($currency_codes = array()) {
                     'last_updated' => current_time('mysql')
                 ),
                 array('code' => $currency_code),
-                array('%f', '%s'),  // FIXED: Format for data
-                array('%s')         // FIXED: Format for where clause
+                array('%f', '%s'),
+                array('%s')
             );
             
             if ($result !== false) {
@@ -372,7 +372,7 @@ function yoursite_maybe_update_currency_rates() {
 }
 
 /**
- * Convert pricing plan prices to specific currency
+ * Convert pricing plan prices to specific currency - FIXED
  */
 function yoursite_get_pricing_plan_price($plan_id, $currency_code, $period = 'monthly') {
     global $wpdb;
@@ -380,15 +380,24 @@ function yoursite_get_pricing_plan_price($plan_id, $currency_code, $period = 'mo
     // First try to get specific currency pricing
     $table_name = $wpdb->prefix . 'yoursite_pricing_currencies';
     
-    $price_field = $period === 'annual' ? 'annual_price' : 'monthly_price';
-    
-    $specific_price = $wpdb->get_var(
-        $wpdb->prepare(
-            "SELECT {$price_field} FROM {$table_name} WHERE pricing_plan_id = %d AND currency_code = %s",
-            $plan_id,
-            $currency_code
-        )
-    );
+    // FIX: Handle the dynamic column name properly
+    if ($period === 'annual') {
+        $specific_price = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT annual_price FROM {$table_name} WHERE pricing_plan_id = %d AND currency_code = %s",
+                $plan_id,
+                $currency_code
+            )
+        );
+    } else {
+        $specific_price = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT monthly_price FROM {$table_name} WHERE pricing_plan_id = %d AND currency_code = %s",
+                $plan_id,
+                $currency_code
+            )
+        );
+    }
     
     if ($specific_price !== null) {
         return floatval($specific_price);
@@ -396,7 +405,8 @@ function yoursite_get_pricing_plan_price($plan_id, $currency_code, $period = 'mo
     
     // Fallback to base currency conversion
     $base_currency = yoursite_get_base_currency();
-    $base_price_meta = get_post_meta($plan_id, '_pricing_' . $period . '_price', true);
+    $meta_key = '_pricing_' . sanitize_key($period) . '_price';
+    $base_price_meta = get_post_meta($plan_id, $meta_key, true);
     
     if (!$base_price_meta) {
         return 0;
@@ -459,24 +469,27 @@ function yoursite_calculate_annual_discount_percentage($plan_id, $currency_code)
 }
 
 /**
- * Smart currency detection based on various factors
+ * Smart currency detection based on various factors - FIXED
  */
 function yoursite_smart_currency_detection() {
     $detected_currency = null;
     
-    // 1. Check user preference (cookie/session)
+    // 1. Check user preference (cookie/session) - with better sanitization
     if (isset($_COOKIE['yoursite_preferred_currency'])) {
         $currency_code = sanitize_text_field($_COOKIE['yoursite_preferred_currency']);
-        $currency = yoursite_get_currency($currency_code);
-        if ($currency && $currency['status'] === 'active') {
-            return $currency;
+        // Additional validation - ensure it's a valid currency code format
+        if (preg_match('/^[A-Z]{3}$/', $currency_code)) {
+            $currency = yoursite_get_currency($currency_code);
+            if ($currency && $currency['status'] === 'active') {
+                return $currency;
+            }
         }
     }
     
     // 2. Check logged-in user meta
     if (is_user_logged_in()) {
         $user_currency = get_user_meta(get_current_user_id(), 'preferred_currency', true);
-        if ($user_currency) {
+        if ($user_currency && preg_match('/^[A-Z]{3}$/', $user_currency)) {
             $currency = yoursite_get_currency($user_currency);
             if ($currency && $currency['status'] === 'active') {
                 return $currency;
@@ -504,22 +517,38 @@ function yoursite_smart_currency_detection() {
 }
 
 /**
- * Detect currency by IP geolocation
+ * Detect currency by IP geolocation - FIXED
  */
 function yoursite_detect_currency_by_ip() {
-    $user_ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    // Get user IP with better detection
+    $user_ip = '';
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        $user_ip = trim($ips[0]);
+    } elseif (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+        $user_ip = $_SERVER['HTTP_X_REAL_IP'];
+    } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
+        $user_ip = $_SERVER['REMOTE_ADDR'];
+    }
     
     // Skip for localhost/private IPs
-    if (filter_var($user_ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+    if (empty($user_ip) || filter_var($user_ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+        return null;
+    }
+    
+    // Sanitize IP
+    $user_ip = filter_var($user_ip, FILTER_VALIDATE_IP);
+    if (!$user_ip) {
         return null;
     }
     
     // Simple IP to country detection using a free service
-    $geo_api_url = "http://ip-api.com/json/{$user_ip}?fields=countryCode";
+    $geo_api_url = "http://ip-api.com/json/" . urlencode($user_ip) . "?fields=countryCode";
     
     $response = wp_remote_get($geo_api_url, array(
         'timeout' => 5,
-        'sslverify' => false
+        'sslverify' => false,
+        'user-agent' => 'WordPress/' . get_bloginfo('version') . '; ' . home_url()
     ));
     
     if (is_wp_error($response)) {
@@ -543,7 +572,7 @@ function yoursite_detect_currency_by_ip() {
         'SG' => 'SGD', 'NZ' => 'NZD', 'HK' => 'HKD'
     );
     
-    $country_code = $data['countryCode'];
+    $country_code = sanitize_text_field($data['countryCode']);
     $currency_code = $country_currency_map[$country_code] ?? null;
     
     if ($currency_code) {
@@ -554,7 +583,7 @@ function yoursite_detect_currency_by_ip() {
 }
 
 /**
- * Detect currency by browser language
+ * Detect currency by browser language - FIXED
  */
 function yoursite_detect_currency_by_browser_language() {
     $accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
@@ -562,6 +591,9 @@ function yoursite_detect_currency_by_browser_language() {
     if (empty($accept_language)) {
         return null;
     }
+    
+    // Sanitize the accept language header
+    $accept_language = sanitize_text_field($accept_language);
     
     // Parse accept-language header
     preg_match_all('/([a-z]{1,8}(?:-[a-z]{1,8})?)\s*(?:;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $accept_language, $matches);

@@ -159,14 +159,24 @@ add_action('admin_menu', 'yoursite_add_currency_menu');
 
 /**
  * Get count of active currencies
+ * Fixed to properly handle database queries without wpdb::prepare issues
  */
 function yoursite_get_active_currencies_count() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'yoursite_currencies';
     
-    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") !== $table_name) {
+    // Check if table exists first
+    $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name));
+    
+    if ($table_exists !== $table_name) {
         return 1; // Default USD
     }
     
-    return $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE status = 'active'");
+    // Use wpdb::prepare() properly for the count query
+    $count = $wpdb->get_var($wpdb->prepare(
+        "SELECT COUNT(*) FROM $table_name WHERE status = %s",
+        'active'
+    ));
+    
+    return (int) $count;
 }
