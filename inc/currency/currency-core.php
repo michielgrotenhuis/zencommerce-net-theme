@@ -402,14 +402,17 @@ function yoursite_get_active_currencies() {
  */
 function yoursite_get_currency($code) {
     global $wpdb;
-    
+
     $table_name = $wpdb->prefix . 'yoursite_currencies';
-    
-    return $wpdb->get_row(
-        $wpdb->prepare("SELECT * FROM $table_name WHERE code = %s", $code),
-        ARRAY_A
+
+    $sql = $wpdb->prepare(
+        "SELECT * FROM {$table_name} WHERE code = %s",
+        $code
     );
+
+    return $wpdb->get_row($sql, ARRAY_A);
 }
+
 
 
 

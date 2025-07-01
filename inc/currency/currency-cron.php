@@ -231,30 +231,36 @@ function yoursite_currency_deactivation_tasks() {
  */
 function yoursite_monitor_currency_staleness() {
     global $wpdb;
-    
+
     $table_name = $wpdb->prefix . 'yoursite_currencies';
     $settings = get_option('yoursite_currency_settings', array());
-    $staleness_threshold = $settings['staleness_threshold'] ?? 48; // hours
-    
-    $stale_currencies = $wpdb->get_results(
-        $wpdb->prepare(
-            "SELECT code, last_updated FROM {$table_name} 
-             WHERE status = 'active' 
-             AND (last_updated IS NULL OR last_updated < %s)",
-            date('Y-m-d H:i:s', time() - ($staleness_threshold * HOUR_IN_SECONDS))
-        )
+    $staleness_threshold = isset($settings['staleness_threshold']) ? (int)$settings['staleness_threshold'] : 48; // hours
+
+    $threshold_datetime = date('Y-m-d H:i:s', time() - ($staleness_threshold * HOUR_IN_SECONDS));
+
+    // Safe query with placeholder
+    $query = $wpdb->prepare(
+        "SELECT code, last_updated 
+         FROM {$table_name}
+         WHERE status = %s
+         AND (last_updated IS NULL OR last_updated < %s)",
+        'active',
+        $threshold_datetime
     );
-    
+
+    $stale_currencies = $wpdb->get_results($query);
+
     if (!empty($stale_currencies)) {
-        // Log stale currencies
+        $currency_codes = array_column($stale_currencies, 'code');
+
+        // Log the stale currencies
         yoursite_log_currency_update('stale_detected', array(
-            'stale_currencies' => array_column($stale_currencies, 'code'),
+            'stale_currencies' => $currency_codes,
             'staleness_threshold' => $staleness_threshold,
             'timestamp' => current_time('mysql')
         ));
-        
-        // Try to update stale currencies
-        $currency_codes = array_column($stale_currencies, 'code');
+
+        // Update the stale currencies
         yoursite_update_specific_currency_rates($currency_codes);
     }
 }

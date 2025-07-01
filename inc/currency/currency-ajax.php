@@ -418,77 +418,80 @@ function yoursite_ajax_toggle_currency_status() {
     }
 }
 
-/**
- * ADMIN: Update conversion rate
- */
+
 function yoursite_ajax_update_conversion_rate() {
     if (!ob_get_level()) ob_start();
-    
+
     check_ajax_referer('currency_management_nonce', 'nonce');
-    
+
     if (!current_user_can('manage_options')) {
         ob_end_clean();
         wp_die(__('Insufficient permissions', 'yoursite'));
     }
-    
-    $currency_id = intval($_POST['currency_id'] ?? 0);
-    $conversion_rate = floatval($_POST['conversion_rate'] ?? 0);
-    
+
+    $currency_id = isset($_POST['currency_id']) ? intval($_POST['currency_id']) : 0;
+    $conversion_rate = isset($_POST['conversion_rate']) ? floatval($_POST['conversion_rate']) : 0;
+
     if (!$currency_id || $conversion_rate <= 0) {
         ob_end_clean();
         wp_send_json_error(__('Invalid parameters', 'yoursite'));
     }
-    
+
     global $wpdb;
-    $table_name = $wpdb->prefix . 'yoursite_currencies';
-    
-    // Get old rate for history
-    $old_rate = $wpdb->get_var($wpdb->prepare(
-        "SELECT conversion_rate FROM $table_name WHERE id = %d",
-        $currency_id
-    ));
-    
-    $result = $wpdb->update(
-        $table_name,
+    $currencies_table = $wpdb->prefix . 'yoursite_currencies';
+    $history_table = $wpdb->prefix . 'yoursite_currency_rate_history';
+
+    // Fetch old conversion rate
+    $old_rate = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT conversion_rate FROM {$currencies_table} WHERE id = %d",
+            $currency_id
+        )
+    );
+
+    // Update the currency rate
+    $updated = $wpdb->update(
+        $currencies_table,
         array(
             'conversion_rate' => $conversion_rate,
-            'last_updated' => current_time('mysql'),
-            'updated_at' => current_time('mysql')
+            'last_updated'    => current_time('mysql'),
+            'updated_at'      => current_time('mysql')
         ),
         array('id' => $currency_id),
-        array('%f', '%s', '%s'),  // FIXED: Format for data
-        array('%d')               // FIXED: Format for where clause
+        array('%f', '%s', '%s'),
+        array('%d')
     );
-    
-    ob_end_clean();
-    
-    if ($result !== false) {
-        // Log rate change if history table exists
-        $history_table = $wpdb->prefix . 'yoursite_currency_rate_history';
-        if ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $history_table)) === $history_table) {
-            $wpdb->insert(
-                $history_table,
-                array(
-                    'currency_id' => $currency_id,
-                    'old_rate' => $old_rate,
-                    'new_rate' => $conversion_rate,
-                    'change_type' => 'manual',
-                    'created_at' => current_time('mysql')
-                ),
-                array('%d', '%f', '%f', '%s', '%s')  // FIXED: Proper format array
-            );
-        }
-        
-        wp_send_json_success(array(
-            'message' => __('Conversion rate updated', 'yoursite'),
-            'currency_id' => $currency_id,
-            'new_rate' => $conversion_rate,
-            'old_rate' => $old_rate
-        ));
-    } else {
+
+    if ($updated === false) {
+        ob_end_clean();
         wp_send_json_error(__('Failed to update conversion rate', 'yoursite'));
     }
+
+    // Check if history table exists safely
+    $tables = $wpdb->get_col("SHOW TABLES LIKE '{$history_table}'");
+    if (!empty($tables)) {
+        $wpdb->insert(
+            $history_table,
+            array(
+                'currency_id' => $currency_id,
+                'old_rate'    => $old_rate,
+                'new_rate'    => $conversion_rate,
+                'change_type' => 'manual',
+                'created_at'  => current_time('mysql')
+            ),
+            array('%d', '%f', '%f', '%s', '%s')
+        );
+    }
+
+    ob_end_clean();
+    wp_send_json_success(array(
+        'message'     => __('Conversion rate updated', 'yoursite'),
+        'currency_id' => $currency_id,
+        'new_rate'    => $conversion_rate,
+        'old_rate'    => $old_rate
+    ));
 }
+
 
 
 /**
