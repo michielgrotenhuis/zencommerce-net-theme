@@ -839,8 +839,14 @@ function yoursite_currency_javascript_system() {
         };
         
         // Enhanced initialization on document ready
-        jQuery(document).ready(function($) {
-            try {
+  jQuery(document).ready(function($) {
+    try {
+        if (typeof config === 'undefined' || typeof cookieUtils === 'undefined' || typeof uiHelpers === 'undefined' || typeof window.YourSiteCurrency === 'undefined') {
+            console.error('Currency system dependencies are missing.');
+            return;
+        }
+
+
                 // Sync cookie with current currency
                 const cookieCurrency = cookieUtils.get(config.cookieName);
                 if (cookieCurrency && cookieCurrency !== config.current) {
