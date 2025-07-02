@@ -172,53 +172,6 @@ get_header();
     </section>
 </div>
 
-<style>
-/* Blog specific styles */
-.line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* Pagination styles */
-.blog-pagination {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 2rem;
-}
-
-.blog-pagination .page-numbers {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 12px;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    color: #374151;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.blog-pagination .page-numbers:hover,
-.blog-pagination .page-numbers.current {
-    background-color: #667eea;
-    border-color: #667eea;
-    color: white;
-}
-
-.blog-pagination .page-numbers.dots {
-    border: none;
-    background: none;
-    cursor: default;
-}
-
-.blog-pagination .page-numbers.dots:hover {
-    background: none;
-    color: #374151;
-}
-</style>
 
 <?php
 get_sidebar();

@@ -270,38 +270,6 @@ get_header();
     </section>
 </main>
 
-<style>
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.feature-card {
-    transition: all 0.3s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-2px);
-}
-
-.search-form .search-submit {
-    border-left: none !important;
-}
-
-.search-form .search-field:focus + .search-submit {
-    border-color: #3b82f6;
-}
-</style>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Add some interactive behavior

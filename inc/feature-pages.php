@@ -142,17 +142,6 @@ function yoursite_feature_hero_meta_box_callback($post) {
     $hero_cta_url = get_post_meta($post->ID, '_feature_hero_cta_url', true);
     ?>
     
-    <style>
-    .feature-meta-table { width: 100%; border-collapse: collapse; }
-    .feature-meta-table th, .feature-meta-table td { padding: 12px; border-bottom: 1px solid #ddd; vertical-align: top; }
-    .feature-meta-table th { background: #f9f9f9; font-weight: 600; width: 200px; }
-    .feature-meta-table input[type="text"], .feature-meta-table input[type="url"], .feature-meta-table textarea, .feature-meta-table select { width: 100%; }
-    .feature-meta-table textarea { height: 80px; resize: vertical; }
-    .color-picker { width: 80px !important; }
-    .bg-type-fields { margin-top: 10px; }
-    .bg-type-fields > div { margin-bottom: 15px; }
-    </style>
-    
     <table class="feature-meta-table">
         <tr>
             <th><label for="feature_hero_subtitle"><?php _e('Hero Subtitle', 'yoursite'); ?></label></th>

@@ -523,306 +523,6 @@ $formatted_amount = format_currency_for_offer($converted_amount, $current_curren
 </div>
 <?php endif; ?>
 
-<style>
-/* ENHANCED FANCY SELECTOR STYLES - MATCHING LANGUAGE SELECTOR */
-.fancy-selector-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-.fancy-selector {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    color: #e5e7eb;
-    font-size: 14px;
-    padding: 10px 16px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    position: relative;
-    overflow: hidden;
-    min-width: 120px;
-    justify-content: space-between;
-}
-
-.fancy-selector::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s ease;
-}
-
-.fancy-selector:hover::before {
-    left: 100%;
-}
-
-.fancy-selector:hover {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
-    border-color: rgba(99, 102, 241, 0.5);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
-}
-
-.fancy-selector .currency-symbol {
-    color: #60a5fa;
-    font-weight: 600;
-    font-size: 16px;
-}
-
-.fancy-selector .selector-text {
-    flex: 1;
-    text-align: left;
-}
-
-.fancy-selector .chevron {
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-}
-
-.fancy-selector-wrapper.active .chevron {
-    transform: rotate(180deg);
-}
-
-/* DROPDOWN STYLES */
-.fancy-dropdown {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    min-width: 180px;
-    background: rgba(17, 24, 39, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    z-index: 1000;
-    padding: 8px;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.fancy-selector-wrapper.active .fancy-dropdown {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    color: #d1d5db;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.dropdown-item:hover {
-    background: rgba(99, 102, 241, 0.2);
-    color: #ffffff;
-    transform: translateX(4px);
-    text-decoration: none;
-}
-
-.dropdown-item.active {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
-    color: #ffffff;
-}
-
-.dropdown-item .flag,
-.dropdown-item .currency-flag {
-    font-size: 18px;
-    flex-shrink: 0;
-}
-
-.dropdown-item .currency-details {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.dropdown-item .currency-symbol {
-    color: #60a5fa;
-    font-weight: 600;
-    min-width: 20px;
-}
-
-.dropdown-item .currency-code {
-    font-weight: 500;
-    min-width: 40px;
-}
-
-.dropdown-item .currency-name {
-    color: #9ca3af;
-    font-size: 12px;
-}
-
-/* LIMITED TIME OFFER STYLES */
-.limited-time-offer {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.limited-time-offer:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.offer-amount {
-    font-weight: 800;
-    display: inline-block;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-}
-
-/* Animation for amount changes */
-.offer-amount.updating {
-    opacity: 0.6;
-    transform: scale(0.95);
-}
-
-/* DARK MODE ADJUSTMENTS */
-body.dark-mode .fancy-selector,
-body.dark-mode .fancy-dropdown,
-body.dark-mode .dropdown-item {
-    /* Already optimized for dark mode */
-}
-
-/* MOBILE RESPONSIVE */
-@media (max-width: 768px) {
-    .fancy-selector {
-        padding: 8px 12px;
-        font-size: 13px;
-        min-width: 100px;
-    }
-    
-    .fancy-dropdown {
-        left: auto;
-        right: 0;
-        min-width: 160px;
-    }
-    
-    .dropdown-item {
-        padding: 8px 10px;
-        font-size: 13px;
-    }
-    
-    .limited-time-offer {
-        font-size: 1rem;
-        padding: 1rem 1.5rem;
-    }
-}
-
-/* ENSURE NO EXTRA SPACING */
-.fancy-selector-wrapper {
-    margin: 0;
-    padding: 0;
-}
-
-.fancy-dropdown {
-    margin: 0;
-}
-
-/* FIX FOR FOOTER SPACING ISSUES */
-.site-footer .flex.items-center.gap-3 {
-    margin: 0;
-    padding: 0;
-    flex-wrap: nowrap;
-}
-
-/* REMOVE ANY EXTRA WHITE SPACE */
-.site-footer .bottom-bar {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-.site-footer .bottom-bar .flex {
-    margin-bottom: 0 !important;
-}
-
-/* PREVENT DROPDOWN FROM CAUSING LAYOUT SHIFTS */
-.fancy-dropdown {
-    position: absolute;
-    width: max-content;
-}
-
-/* ACCESSIBILITY IMPROVEMENTS */
-.fancy-selector:focus {
-    outline: 2px solid rgba(99, 102, 241, 0.5);
-    outline-offset: 2px;
-}
-
-.dropdown-item:focus {
-    background: rgba(99, 102, 241, 0.3);
-    color: #ffffff;
-    outline: 1px solid rgba(99, 102, 241, 0.5);
-}
-
-/* HIGH CONTRAST MODE SUPPORT */
-@media (prefers-contrast: high) {
-    .fancy-selector {
-        border-width: 2px;
-        background: #000;
-        color: #fff;
-    }
-    
-    .fancy-dropdown {
-        background: #000;
-        border-width: 2px;
-    }
-    
-    .dropdown-item {
-        color: #fff;
-    }
-    
-    .limited-time-offer {
-        border: 2px solid #000;
-        font-weight: 900;
-    }
-}
-
-/* REDUCED MOTION SUPPORT */
-@media (prefers-reduced-motion: reduce) {
-    .fancy-selector,
-    .fancy-dropdown,
-    .dropdown-item,
-    .chevron,
-    .limited-time-offer,
-    .offer-amount {
-        transition: none;
-    }
-    
-    .fancy-selector::before {
-        display: none;
-    }
-    
-    .limited-time-offer:hover {
-        transform: none;
-    }
-}
-
-/* DARK MODE ENHANCEMENTS */
-@media (prefers-color-scheme: dark) {
-    .limited-time-offer {
-        background: linear-gradient(45deg, #fbbf24, #f59e0b);
-        color: #92400e;
-    }
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -907,82 +607,83 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Currency symbols mapping
     const currencySymbols = {
-        'USD': '                ,
-        'EUR': '€',
-        'GBP': '£',
-        'CAD': 'C                ,
-        'AUD': 'A                ,
-        'JPY': '¥',
-        'CHF': 'CHF ',
-        'SEK': 'kr',
-        'NOK': 'kr',
-        'DKK': 'kr',
-        'PLN': 'zł',
-        'CZK': 'Kč',
-        'HUF': 'Ft',
-        'BGN': 'лв',
-        'RON': 'lei',
-        'HRK': 'kn',
-        'RUB': '₽',
-        'CNY': '¥',
-        'INR': '₹',
-        'KRW': '₩',
-        'SGD': 'S                ,
-        'HKD': 'HK                ,
-        'MXN': '                ,
-        'BRL': 'R                ,
-        'ARS': '                ,
-        'CLP': '                ,
-        'COP': '                ,
-        'PEN': 'S/',
-        'UYU': '$U',
-        'ZAR': 'R',
-        'EGP': 'E£',
-        'NGN': '₦',
-        'KES': 'KSh',
-        'GHS': 'GH₵',
-        'TND': 'د.ت',
-        'MAD': 'د.م.',
-        'THB': '฿',
-        'PHP': '₱',
-        'VND': '₫',
-        'IDR': 'Rp',
-        'MYR': 'RM',
-        'ILS': '₪',
-        'AED': 'د.إ',
-        'SAR': '﷼',
-        'QAR': 'ر.ق',
-        'KWD': 'د.ك',
-        'BHD': '.د.ب',
-        'OMR': 'ر.ع.',
-        'JOD': 'د.ا',
-        'LBP': 'ل.ل',
-        'TRY': '₺',
-        'IRR': '﷼',
-        'PKR': '₨',
-        'BDT': '৳',
-        'LKR': '₨',
-        'NPR': '₨',
-        'BTN': 'Nu.',
-        'MVR': 'Rf',
-        'AFN': '؋',
-        'UZS': 'лв',
-        'KZT': '₸',
-        'KGS': 'лв',
-        'TJS': 'смн',
-        'TMT': 'T',
-        'AZN': '₼',
-        'GEL': '₾',
-        'AMD': '֏',
-        'BYN': 'Br',
-        'MDL': 'lei',
-        'UAH': '₴',
-        'RSD': 'дин.',
-        'MKD': 'ден',
-        'ALL': 'L',
-        'BAM': 'КМ',
-        'ISK': 'kr'
-    };
+    'USD': '$',
+    'EUR': '€',
+    'GBP': '£',
+    'CAD': 'C$',
+    'AUD': 'A$',
+    'JPY': '¥',
+    'CHF': 'CHF',
+    'SEK': 'kr',
+    'NOK': 'kr',
+    'DKK': 'kr',
+    'PLN': 'zł',
+    'CZK': 'Kč',
+    'HUF': 'Ft',
+    'BGN': 'лв',
+    'RON': 'lei',
+    'HRK': 'kn',
+    'RUB': '₽',
+    'CNY': '¥',
+    'INR': '₹',
+    'KRW': '₩',
+    'SGD': 'S$',
+    'HKD': 'HK$',
+    'MXN': 'MX$',
+    'BRL': 'R$',
+    'ARS': 'ARS$',
+    'CLP': 'CLP$',
+    'COP': 'COL$',
+    'PEN': 'S/',
+    'UYU': '$U',
+    'ZAR': 'R',
+    'EGP': 'E£',
+    'NGN': '₦',
+    'KES': 'KSh',
+    'GHS': 'GH₵',
+    'TND': 'د.ت',
+    'MAD': 'د.م.',
+    'THB': '฿',
+    'PHP': '₱',
+    'VND': '₫',
+    'IDR': 'Rp',
+    'MYR': 'RM',
+    'ILS': '₪',
+    'AED': 'د.إ',
+    'SAR': '﷼',
+    'QAR': 'ر.ق',
+    'KWD': 'د.ك',
+    'BHD': '.د.ب',
+    'OMR': 'ر.ع.',
+    'JOD': 'د.ا',
+    'LBP': 'ل.ل',
+    'TRY': '₺',
+    'IRR': '﷼',
+    'PKR': '₨',
+    'BDT': '৳',
+    'LKR': '₨',
+    'NPR': '₨',
+    'BTN': 'Nu.',
+    'MVR': 'Rf',
+    'AFN': '؋',
+    'UZS': 'лв',
+    'KZT': '₸',
+    'KGS': 'лв',
+    'TJS': 'смн',
+    'TMT': 'T',
+    'AZN': '₼',
+    'GEL': '₾',
+    'AMD': '֏',
+    'BYN': 'Br',
+    'MDL': 'lei',
+    'UAH': '₴',
+    'RSD': 'дин.',
+    'MKD': 'ден',
+    'ALL': 'L',
+    'BAM': 'КМ',
+    'ISK': 'kr'
+};
+
 
     // Convert USD to target currency
     function convertUsdToCurrency(usdAmount, targetCurrency) {

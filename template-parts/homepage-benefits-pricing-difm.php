@@ -116,7 +116,7 @@ $current_currency = yoursite_get_user_currency();
                     </button>
                     <button class="billing-btn annual-btn active" data-billing="annual">
                         Annual
-                        <span class="savings-badge">Save 20%</span>
+                        <span class="annual-savings">Save 20%</span>
                     </button>
                 </div>
             </div>
@@ -221,7 +221,7 @@ $current_currency = yoursite_get_user_currency();
                                         }
                                         ?>
                                     </span>
-                                    <span class="text-lg font-normal text-secondary">/mo</span>
+                                    <span class="price-period">/mo</span>
                                 </div>
                                 <?php if ($monthly_price > 0) : ?>
                                 <p class="text-tertiary text-sm mt-1">
@@ -242,7 +242,7 @@ $current_currency = yoursite_get_user_currency();
                                         }
                                         ?>
                                     </span>
-                                    <span class="text-lg font-normal text-secondary">/mo</span>
+                                    <span class="price-period">/mo</span>
                                 </div>
                                 <?php if ($annual_price > 0) : ?>
                                 <p class="text-tertiary text-sm mt-1">
@@ -257,7 +257,7 @@ $current_currency = yoursite_get_user_currency();
                                     </span>)
                                 </p>
                                 <div class="mt-2">
-                                    <span class="savings-indicator">
+                                    <span class="annual-savings">
                                         Save <span data-savings-amount class="ml-1">
                                             <?php 
                                             if (function_exists('yoursite_format_currency')) {
@@ -805,10 +805,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCurrencySymbolsOnly(currencyCode) {
         // Get currency symbol based on code
         const currencySymbols = {
-            'USD': ',
+            'USD': '$',
             'EUR': '€',
             'GBP': '£',
-            'CAD': 'C,
+            'CAD': 'C',
             'AUD': 'A,
             'JPY': '¥',
             'CHF': 'CHF',

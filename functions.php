@@ -1505,70 +1505,7 @@ function yoursite_pricing_admin_styles() {
     
     if (in_array($screen->id, array('pricing', 'edit-pricing'))) {
         ?>
-        <style>
-        .pricing-admin-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
         
-        .pricing-admin-header h2 {
-            color: white;
-            margin: 0 0 10px 0;
-        }
-        
-        .pricing-feature-category {
-            background: #fafafa;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-bottom: 20px;
-        }
-        
-        .pricing-feature-category h4 {
-            background: #667eea;
-            color: white;
-            margin: 0;
-            padding: 15px;
-            border-radius: 6px 6px 0 0;
-        }
-        
-        .pricing-tips {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 4px;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        
-        .pricing-tips h4 {
-            margin-top: 0;
-            color: #856404;
-        }
-        
-        .feature-field {
-            position: relative;
-        }
-        
-        .feature-field input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 1px #667eea;
-        }
-        
-        .pricing-meta-table input[type="number"]:focus,
-        .pricing-meta-table input[type="text"]:focus,
-        .pricing-meta-table input[type="url"]:focus,
-        .pricing-meta-table select:focus,
-        .pricing-meta-table textarea:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 1px #667eea;
-        }
-        
-        .admin-color-fresh .pricing-admin-header {
-            background: linear-gradient(135deg, #00a0d2 0%, #0073aa 100%);
-        }
-        </style>
         
         <script>
         jQuery(document).ready(function($) {
