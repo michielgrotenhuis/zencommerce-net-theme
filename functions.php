@@ -1980,8 +1980,296 @@ function yoursite_final_session_check() {
 }
 add_action('template_redirect', 'yoursite_final_session_check', -1000);
 require_once get_template_directory() . '/inc/currency/currency-enqueue.php';
+/**
+ * Simple Currency Backgrounds Setup
+ * Add this to your functions.php file
+ */
 
+// Remove any conflicting menu items first
+remove_action('admin_menu', 'yoursite_currency_backgrounds_admin_menu');
 
+// Create a simple admin menu for currency backgrounds
+function simple_currency_backgrounds_menu() {
+    add_options_page(
+        'Currency Backgrounds',
+        'Currency Backgrounds',
+        'manage_options',
+        'simple-currency-backgrounds',
+        'simple_currency_backgrounds_page'
+    );
+}
+add_action('admin_menu', 'simple_currency_backgrounds_menu');
+
+// Simple admin page for managing currency backgrounds
+function simple_currency_backgrounds_page() {
+    // Handle form submissions
+    if (isset($_POST['save_backgrounds']) && wp_verify_nonce($_POST['_wpnonce'], 'save_currency_backgrounds')) {
+        $backgrounds = array();
+        
+        if (!empty($_POST['currencies'])) {
+            foreach ($_POST['currencies'] as $currency => $data) {
+                if (!empty($data['image_url'])) {
+                    $backgrounds[$currency] = array(
+                        'image_url' => esc_url_raw($data['image_url']),
+                        'description' => sanitize_text_field($data['description']),
+                        'created_at' => current_time('mysql'),
+                        'updated_at' => current_time('mysql')
+                    );
+                }
+            }
+        }
+        
+        update_option('yoursite_currency_backgrounds_config', $backgrounds);
+        update_option('yoursite_currency_backgrounds_enabled', isset($_POST['enable_backgrounds']));
+        update_option('yoursite_currency_backgrounds_default', esc_url_raw($_POST['default_background']));
+        
+        echo '<div class="notice notice-success"><p>Currency backgrounds saved successfully!</p></div>';
+    }
+    
+    // Handle adding default backgrounds
+    if (isset($_POST['add_defaults']) && wp_verify_nonce($_POST['_wpnonce'], 'add_default_backgrounds')) {
+        $default_backgrounds = array(
+            'USD' => array(
+                'image_url' => 'https://images.unsplash.com/photo-1485081669829-bacb8c7bb1f3?w=1920&h=1080&fit=crop&q=80',
+                'description' => 'American city skyline',
+                'created_at' => current_time('mysql'),
+                'updated_at' => current_time('mysql')
+            ),
+            'EUR' => array(
+                'image_url' => 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1920&h=1080&fit=crop&q=80',
+                'description' => 'European architecture',
+                'created_at' => current_time('mysql'),
+                'updated_at' => current_time('mysql')
+            ),
+            'INR' => array(
+                'image_url' => 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1920&h=1080&fit=crop&q=80',
+                'description' => 'Indian palace',
+                'created_at' => current_time('mysql'),
+                'updated_at' => current_time('mysql')
+            ),
+            'GBP' => array(
+                'image_url' => 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1920&h=1080&fit=crop&q=80',
+                'description' => 'London landmarks',
+                'created_at' => current_time('mysql'),
+                'updated_at' => current_time('mysql')
+            ),
+            'JPY' => array(
+                'image_url' => 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=1920&h=1080&fit=crop&q=80',
+                'description' => 'Japanese temple',
+                'created_at' => current_time('mysql'),
+                'updated_at' => current_time('mysql')
+            ),
+            'CAD' => array(
+                'image_url' => 'https://images.unsplash.com/photo-1503614472-8c93d56cd665?w=1920&h=1080&fit=crop&q=80',
+                'description' => 'Canadian mountains',
+                'created_at' => current_time('mysql'),
+                'updated_at' => current_time('mysql')
+            )
+        );
+        
+        update_option('yoursite_currency_backgrounds_config', $default_backgrounds);
+        update_option('yoursite_currency_backgrounds_enabled', true);
+        echo '<div class="notice notice-success"><p>Default backgrounds added successfully!</p></div>';
+    }
+    
+    // Get current settings
+    $backgrounds_config = get_option('yoursite_currency_backgrounds_config', array());
+    $backgrounds_enabled = get_option('yoursite_currency_backgrounds_enabled', false);
+    $default_background = get_option('yoursite_currency_backgrounds_default', '');
+    
+    // Common currencies
+    $currencies = array(
+        'USD' => array('name' => 'US Dollar', 'flag' => '🇺🇸'),
+        'EUR' => array('name' => 'Euro', 'flag' => '🇪🇺'),
+        'GBP' => array('name' => 'British Pound', 'flag' => '🇬🇧'),
+        'JPY' => array('name' => 'Japanese Yen', 'flag' => '🇯🇵'),
+        'CAD' => array('name' => 'Canadian Dollar', 'flag' => '🇨🇦'),
+        'AUD' => array('name' => 'Australian Dollar', 'flag' => '🇦🇺'),
+        'INR' => array('name' => 'Indian Rupee', 'flag' => '🇮🇳'),
+        'CHF' => array('name' => 'Swiss Franc', 'flag' => '🇨🇭'),
+        'CNY' => array('name' => 'Chinese Yuan', 'flag' => '🇨🇳'),
+        'KRW' => array('name' => 'Korean Won', 'flag' => '🇰🇷')
+    );
+    ?>
+    
+    <div class="wrap">
+        <h1>🖼️ Currency Dynamic Backgrounds</h1>
+        
+        <!-- Quick Setup -->
+        <div class="card" style="max-width: none; margin-bottom: 20px;">
+            <h2>Quick Setup</h2>
+            <p>Get started quickly with default currency backgrounds:</p>
+            <form method="post" style="display: inline;">
+                <?php wp_nonce_field('add_default_backgrounds'); ?>
+                <input type="submit" name="add_defaults" value="Add Default Backgrounds" class="button button-primary">
+            </form>
+        </div>
+        
+        <!-- Main Settings Form -->
+        <form method="post">
+            <?php wp_nonce_field('save_currency_backgrounds'); ?>
+            
+            <!-- System Settings -->
+            <div class="card" style="max-width: none; margin-bottom: 20px;">
+                <h2>System Settings</h2>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">Enable Currency Backgrounds</th>
+                        <td>
+                            <label>
+                                <input type="checkbox" name="enable_backgrounds" value="1" <?php checked($backgrounds_enabled, 1); ?>>
+                                Enable dynamic background changes based on currency
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Default Background</th>
+                        <td>
+                            <input type="url" name="default_background" value="<?php echo esc_attr($default_background); ?>" class="regular-text" placeholder="https://example.com/default-background.jpg">
+                            <p class="description">Fallback background when no currency-specific image is available</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Currency Backgrounds -->
+            <div class="card" style="max-width: none;">
+                <h2>Currency Backgrounds</h2>
+                <p>Set specific background images for each currency:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <?php foreach ($currencies as $code => $currency) : 
+                        $current_bg = isset($backgrounds_config[$code]) ? $backgrounds_config[$code] : array('image_url' => '', 'description' => '');
+                    ?>
+                    <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+                        <h3 style="margin-top: 0;">
+                            <?php echo esc_html($currency['flag']); ?> 
+                            <?php echo esc_html($code); ?> - <?php echo esc_html($currency['name']); ?>
+                        </h3>
+                        
+                        <label>
+                            <strong>Background Image URL:</strong><br>
+                            <input type="url" 
+                                   name="currencies[<?php echo esc_attr($code); ?>][image_url]" 
+                                   value="<?php echo esc_attr($current_bg['image_url']); ?>" 
+                                   class="widefat" 
+                                   placeholder="https://example.com/background.jpg">
+                        </label>
+                        
+                        <label style="margin-top: 10px; display: block;">
+                            <strong>Description:</strong><br>
+                            <input type="text" 
+                                   name="currencies[<?php echo esc_attr($code); ?>][description]" 
+                                   value="<?php echo esc_attr($current_bg['description']); ?>" 
+                                   class="widefat" 
+                                   placeholder="e.g., American cityscape">
+                        </label>
+                        
+                        <?php if (!empty($current_bg['image_url'])) : ?>
+                        <div style="margin-top: 10px;">
+                            <img src="<?php echo esc_url($current_bg['image_url']); ?>" 
+                                 style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px;">
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            
+            <p class="submit">
+                <input type="submit" name="save_backgrounds" value="Save Currency Backgrounds" class="button button-primary">
+            </p>
+        </form>
+        
+        <!-- Current Status -->
+        <div class="card" style="max-width: none; margin-top: 20px;">
+            <h2>Current Status</h2>
+            <ul>
+                <li><strong>System Status:</strong> <?php echo $backgrounds_enabled ? '✅ Enabled' : '❌ Disabled'; ?></li>
+                <li><strong>Default Background:</strong> <?php echo $default_background ? '✅ Set' : '❌ Not set'; ?></li>
+                <li><strong>Configured Currencies:</strong> <?php echo count($backgrounds_config); ?> out of <?php echo count($currencies); ?></li>
+            </ul>
+            
+            <?php if (!empty($backgrounds_config)) : ?>
+            <h3>Configured Backgrounds:</h3>
+            <ul>
+                <?php foreach ($backgrounds_config as $currency_code => $bg_data) : ?>
+                <li>
+                    <?php echo isset($currencies[$currency_code]) ? $currencies[$currency_code]['flag'] : ''; ?> 
+                    <strong><?php echo esc_html($currency_code); ?></strong>: 
+                    <?php echo esc_html($bg_data['description'] ?: 'No description'); ?>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            <?php endif; ?>
+        </div>
+        
+        <!-- Usage Instructions -->
+        <div class="card" style="max-width: none; margin-top: 20px;">
+            <h2>How to Use</h2>
+            <ol>
+                <li><strong>Enable the system</strong> by checking "Enable Currency Backgrounds" above</li>
+                <li><strong>Set a default background</strong> image URL for fallback</li>
+                <li><strong>Add currency-specific backgrounds</strong> by entering image URLs for each currency</li>
+                <li><strong>Save your settings</strong></li>
+                <li>The hero section will automatically show the correct background based on the user's selected currency</li>
+            </ol>
+            
+            <h3>Image Requirements:</h3>
+            <ul>
+                <li>Recommended size: 1920x1080 or larger</li>
+                <li>Format: JPG or PNG</li>
+                <li>File size: Under 500KB for best performance</li>
+                <li>Make sure images are web-accessible (https:// URLs)</li>
+            </ul>
+        </div>
+    </div>
+    
+    <style>
+    .card {
+        background: #fff;
+        border: 1px solid #ccd0d4;
+        border-radius: 4px;
+        padding: 20px;
+        margin: 20px 0;
+    }
+    
+    .card h2 {
+        margin-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+    </style>
+    <?php
+}
+
+// Helper function for getting user currency (if not exists)
+if (!function_exists('yoursite_get_user_currency_safe')) {
+    function yoursite_get_user_currency_safe() {
+        // Try to get from cookie or session
+        $currency_code = 'USD'; // Default
+        
+        if (isset($_COOKIE['yoursite_preferred_currency'])) {
+            $currency_code = sanitize_text_field($_COOKIE['yoursite_preferred_currency']);
+        }
+        
+        // Currency data
+        $currencies = array(
+            'USD' => array('code' => 'USD', 'name' => 'US Dollar', 'symbol' => '$', 'flag' => '🇺🇸'),
+            'EUR' => array('code' => 'EUR', 'name' => 'Euro', 'symbol' => '€', 'flag' => '🇪🇺'),
+            'GBP' => array('code' => 'GBP', 'name' => 'British Pound', 'symbol' => '£', 'flag' => '🇬🇧'),
+            'JPY' => array('code' => 'JPY', 'name' => 'Japanese Yen', 'symbol' => '¥', 'flag' => '🇯🇵'),
+            'CAD' => array('code' => 'CAD', 'name' => 'Canadian Dollar', 'symbol' => 'C$', 'flag' => '🇨🇦'),
+            'AUD' => array('code' => 'AUD', 'name' => 'Australian Dollar', 'symbol' => 'A$', 'flag' => '🇦🇺'),
+            'INR' => array('code' => 'INR', 'name' => 'Indian Rupee', 'symbol' => '₹', 'flag' => '🇮🇳'),
+            'CHF' => array('code' => 'CHF', 'name' => 'Swiss Franc', 'symbol' => 'CHF', 'flag' => '🇨🇭'),
+            'CNY' => array('code' => 'CNY', 'name' => 'Chinese Yuan', 'symbol' => '¥', 'flag' => '🇨🇳'),
+            'KRW' => array('code' => 'KRW', 'name' => 'Korean Won', 'symbol' => '₩', 'flag' => '🇰🇷')
+        );
+        
+        return isset($currencies[$currency_code]) ? $currencies[$currency_code] : $currencies['USD'];
+    }
+}
 // =============================================================================
 // END OF FUNCTIONS.PHP
 // =============================================================================
