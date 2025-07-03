@@ -120,7 +120,7 @@ if (function_exists('yoursite_get_user_currency')) {
         
         <!-- Benefits CTA -->
         <div class="text-center mt-12">
-            <a href="<?php echo home_url('/features'); ?>" class="btn btn-primary btn-l">
+            <a href="<?php echo home_url('/features'); ?>" class="pricing-btn pricing-btn-secondary pricing-button">
                 Explore All Features
             </a>
         </div>
@@ -325,9 +325,8 @@ if (function_exists('yoursite_get_user_currency')) {
                     
                     <!-- Trust Signals -->
                     <div class="trust-signals">
-                        <div class="money-back-guarantee">30-day money back</div>
+                        <div class="free-plugins"> <u>28 Plugins</u> worth <strong>$50</strong> included</div>
                         <?php if ($index === 0) : ?>
-                        <div class="trial-notice">14-day free trial</div>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -427,7 +426,7 @@ if (function_exists('yoursite_get_user_currency')) {
                     </a>
                     <div class="trust-signals">
                         <div class="money-back-guarantee">30-day money back</div>
-                        <div class="trial-notice">14-day free trial</div>
+
                     </div>
                 </div>
             </div>
@@ -520,7 +519,7 @@ if (function_exists('yoursite_get_user_currency')) {
     </div>
     
     <!-- Grid Pattern Overlay -->
-    <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+<div class="absolute -top-10 -left-10 w-[300px] h-[300px] bg-white/10 blur-3xl rounded-full opacity-10"></div>
     
     <div class="relative z-10 py-24 lg:py-32">
         <div class="layout-container">
@@ -533,7 +532,7 @@ if (function_exists('yoursite_get_user_currency')) {
                 $badge_text = get_theme_mod('difm_banner_badge_text', __('Done-For-You Service', 'yoursite'));
                 if (!empty($badge_text)) :
                 ?>
-                <div class="inline-flex items-center rounded-full px-6 py-3 mb-6 text-sm font-bold bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 shadow-xl border-2 border-yellow-300">
+                <div class="inline-flex items-center rounded-full px-6 py-3 mb-6 text-sm font-bold bg-gradient-to-r from-yellow-400 to-orange-400 text-white-900 shadow-xl border-2 border-yellow-300">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-2m-2 0H7m5 0v-9a1 1 0 00-1-1H9a1 1 0 00-1 1v9m5 0H9m6-12v4m-8-4v4"></path>
                     </svg>
@@ -748,45 +747,6 @@ if (function_exists('yoursite_get_user_currency')) {
 <?php endif; ?>
 
 <style>
-/* DIFM Secondary Button Styling */
-.difm-secondary-btn {
-    background: transparent;
-    border: 2px solid white;
-    color: white;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.difm-secondary-btn:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: white;
-    transition: left 0.3s ease;
-    z-index: 1;
-}
-
-.difm-secondary-btn:hover:before {
-    left: 0;
-}
-
-.difm-secondary-btn:hover {
-    background: white;
-    color: #1e40af;
-    border-color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
-}
-
-.difm-secondary-btn:hover svg,
-.difm-secondary-btn:hover span {
-    color: #1e40af !important;
-}
-
 /* Billing Toggle Styling */
 .billing-toggle-container {
     display: flex;

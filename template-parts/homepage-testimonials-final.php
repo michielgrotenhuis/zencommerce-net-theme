@@ -204,27 +204,17 @@ if (!defined('ABSPATH')) {
                         $toggle_id = "faq-toggle-{$i}";
                 ?>
                     <li class="faq-item bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600" id="<?php echo esc_attr($faq_id); ?>">
-                        <button 
-                            class="faq-toggle w-full px-6 py-5 text-left flex justify-between items-center gap-4 cursor-pointer transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset" 
-                            type="button" 
-                            id="<?php echo esc_attr($toggle_id); ?>"
-                            aria-expanded="false"
-                            aria-controls="<?php echo esc_attr($content_id); ?>"
-                            data-faq-toggle="<?php echo esc_attr($i); ?>"
-                        >
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white pr-4 flex-1 leading-relaxed">
-                                <?php echo esc_html($question); ?>
-                            </h3>
-                            <svg 
-                                class="faq-toggle-icon w-6 h-6 text-gray-500 dark:text-gray-400 transform transition-transform duration-300 flex-shrink-0" 
-                                fill="none" 
-                                stroke="currentColor" 
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
+                  <button 
+    class="faq-toggle" 
+    type="button" 
+    aria-expanded="false"
+    aria-controls="<?php echo esc_attr($content_id); ?>"
+>
+    <h3><?php echo esc_html($question); ?></h3>
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+</button>
                         <div 
                             class="faq-content max-h-0 overflow-hidden transition-all duration-400 ease-in-out border-t-0 border-gray-200 dark:border-gray-700" 
                             id="<?php echo esc_attr($content_id); ?>"
@@ -276,147 +266,49 @@ if (!defined('ABSPATH')) {
 
 <!-- FAQ JavaScript - Inline for immediate functionality -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    initializeFAQ();
-});
-
 function initializeFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
     
     faqItems.forEach(function(item) {
         const toggle = item.querySelector('.faq-toggle');
         const content = item.querySelector('.faq-content');
-        const icon = toggle.querySelector('.faq-toggle-icon');
         
         if (toggle && content) {
-            // Add click event listener
             toggle.addEventListener('click', function(e) {
                 e.preventDefault();
-                toggleFAQItem(item, toggle, content, icon);
-            });
-            
-            // Add keyboard support
-            toggle.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleFAQItem(item, toggle, content, icon);
+                
+                // Toggle active class
+                const isActive = toggle.classList.contains('active');
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-toggle').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-expanded', 'false');
+                });
+                document.querySelectorAll('.faq-content').forEach(c => {
+                    c.classList.remove('active');
+                });
+                
+                // Toggle current FAQ
+                if (!isActive) {
+                    toggle.classList.add('active');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    content.classList.add('active');
+                } else {
+                    toggle.classList.remove('active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    content.classList.remove('active');
                 }
             });
         }
     });
 }
 
-function toggleFAQItem(item, toggle, content, icon) {
-    const isActive = item.classList.contains('faq-active');
-    
-    // Close all other FAQ items (accordion behavior)
-    const allFaqItems = document.querySelectorAll('.faq-item');
-    allFaqItems.forEach(function(otherItem) {
-        if (otherItem !== item) {
-            closeFAQItem(otherItem);
-        }
-    });
-    
-    if (isActive) {
-        closeFAQItem(item);
-    } else {
-        openFAQItem(item);
-    }
-}
+// Initialize on DOM load
+document.addEventListener('DOMContentLoaded', function() {
+    initializeFAQ();
+});
 
-function openFAQItem(item) {
-    const toggle = item.querySelector('.faq-toggle');
-    const content = item.querySelector('.faq-content');
-    const icon = item.querySelector('.faq-toggle-icon');
-    const contentInner = content.querySelector('.faq-content-inner');
-    
-    // Add active state
-    item.classList.add('faq-active');
-    
-    // Update ARIA attributes
-    toggle.setAttribute('aria-expanded', 'true');
-    
-    // Rotate icon
-    if (icon) {
-        icon.style.transform = 'rotate(180deg)';
-        icon.style.color = 'rgb(37 99 235)'; // Blue color when active
-    }
-    
-    // Show border
-    content.style.borderTopWidth = '1px';
-    
-    // Calculate and set max-height for smooth animation
-    if (contentInner) {
-        const height = contentInner.scrollHeight;
-        content.style.maxHeight = height + 'px';
-    }
-    
-    // Add active styling to item
-    item.style.borderColor = 'rgb(147 197 253)'; // Light blue border
-    item.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.1)';
-}
-
-function closeFAQItem(item) {
-    const toggle = item.querySelector('.faq-toggle');
-    const content = item.querySelector('.faq-content');
-    const icon = item.querySelector('.faq-toggle-icon');
-    
-    // Remove active state
-    item.classList.remove('faq-active');
-    
-    // Update ARIA attributes
-    toggle.setAttribute('aria-expanded', 'false');
-    
-    // Reset icon
-    if (icon) {
-        icon.style.transform = 'rotate(0deg)';
-        icon.style.color = ''; // Reset to default color
-    }
-    
-    // Hide border
-    content.style.borderTopWidth = '0px';
-    
-    // Reset max-height for smooth animation
-    content.style.maxHeight = '0px';
-    
-    // Reset item styling
-    item.style.borderColor = '';
-    item.style.boxShadow = '';
-}
-
-// Handle responsive behavior
-function handleResponsiveBehavior() {
-    const isMobile = window.innerWidth <= 768;
-    const faqToggles = document.querySelectorAll('.faq-toggle');
-    
-    faqToggles.forEach(function(toggle) {
-        if (isMobile) {
-            toggle.style.padding = '1rem 1.25rem';
-        } else {
-            toggle.style.padding = '1.25rem 1.5rem';
-        }
-    });
-}
-
-// Initialize responsive behavior
-handleResponsiveBehavior();
-window.addEventListener('resize', handleResponsiveBehavior);
-
-// Smooth scroll to FAQ item if hash in URL
-if (window.location.hash) {
-    const hash = window.location.hash.substring(1);
-    const faqItem = document.getElementById(hash);
-    if (faqItem && faqItem.classList.contains('faq-item')) {
-        setTimeout(function() {
-            faqItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            // Auto-open the FAQ item
-            const toggle = faqItem.querySelector('.faq-toggle');
-            if (toggle) {
-                toggle.click();
-            }
-        }, 500);
-    }
-}
 </script>
 
 <style>

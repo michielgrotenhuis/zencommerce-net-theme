@@ -352,6 +352,11 @@ add_action('wp_head', 'yoursite_homepage_conversion_tracking');
 <!-- Load Homepage Part 1: Hero & Social Proof -->
 <?php get_template_part('template-parts/homepage', 'hero-social-proof'); ?>
 
+<!-- Load Homepage Part 1.4: USP Benefits -->
+
+<?php get_template_part('template-parts/homepage-usp-benefits'); ?>
+
+
 <!-- Load Homepage Part 2: Benefits, Pricing & DIFM -->
 <?php get_template_part('template-parts/homepage', 'benefits-pricing-difm'); ?>
 
@@ -940,18 +945,4 @@ function yoursite_homepage_debug_mode() {
     <?php
 }
 add_action('wp_footer', 'yoursite_homepage_debug_mode', 999);
-
-/**
- * File names for the split template parts (for reference)
- * 
- * Save these parts as:
- * - template-parts/homepage-hero-social-proof.php (Part 1)
- * - template-parts/homepage-benefits-pricing-difm.php (Part 2) 
- * - template-parts/homepage-testimonials-final.php (Part 3)
- * 
- * Or use the get_template_part naming convention:
- * - template-parts/homepage/hero-social-proof.php
- * - template-parts/homepage/benefits-pricing-difm.php
- * - template-parts/homepage/testimonials-final.php
- */
 ?>
