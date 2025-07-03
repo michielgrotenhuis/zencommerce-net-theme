@@ -177,9 +177,10 @@ if (!defined('ABSPATH')) {
 </section>
 <?php endif; ?>
 
-<!-- FAQ Section -->
+
+<!-- FAQ Section - FIXED VERSION -->
 <?php if (get_theme_mod('faq_enable', true)) : ?>
-<section class="py-20 bg-gray-50 dark:bg-gray-900">
+<section class="faq-section py-20 bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-16">
@@ -191,37 +192,335 @@ if (!defined('ABSPATH')) {
                 </p>
             </div>
             
-            <div class="space-y-6">
+            <ul class="faq-list space-y-4" role="list">
                 <?php 
-                for ($i = 1; $i <= 5; $i++) {
+                for ($i = 1; $i <= 8; $i++) { // Increased to 8 for more FAQs
                     $question = get_theme_mod("faq_{$i}_question", '');
                     $answer = get_theme_mod("faq_{$i}_answer", '');
                     
                     if (!empty(trim($question)) && !empty(trim($answer))) :
+                        $faq_id = "faq-item-{$i}";
+                        $content_id = "faq-content-{$i}";
+                        $toggle_id = "faq-toggle-{$i}";
                 ?>
-                    <div class="faq-item bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-                        <button class="faq-toggle" data-index="<?php echo $i; ?>" type="button" aria-expanded="false">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    <li class="faq-item bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600" id="<?php echo esc_attr($faq_id); ?>">
+                        <button 
+                            class="faq-toggle w-full px-6 py-5 text-left flex justify-between items-center gap-4 cursor-pointer transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset" 
+                            type="button" 
+                            id="<?php echo esc_attr($toggle_id); ?>"
+                            aria-expanded="false"
+                            aria-controls="<?php echo esc_attr($content_id); ?>"
+                            data-faq-toggle="<?php echo esc_attr($i); ?>"
+                        >
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white pr-4 flex-1 leading-relaxed">
                                 <?php echo esc_html($question); ?>
                             </h3>
-                            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 transform transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg 
+                                class="faq-toggle-icon w-6 h-6 text-gray-500 dark:text-gray-400 transform transition-transform duration-300 flex-shrink-0" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        <div class="faq-content">
-                            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
-                                <?php echo esc_html($answer); ?>
-                            </p>
+                        <div 
+                            class="faq-content max-h-0 overflow-hidden transition-all duration-400 ease-in-out border-t-0 border-gray-200 dark:border-gray-700" 
+                            id="<?php echo esc_attr($content_id); ?>"
+                            aria-labelledby="<?php echo esc_attr($toggle_id); ?>"
+                            role="region"
+                        >
+                            <div class="faq-content-inner px-6 pb-5 pt-2">
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                                    <?php echo wp_kses_post(nl2br($answer)); ?>
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    </li>
                 <?php 
                     endif;
                 }
                 ?>
+            </ul>
+            
+            <!-- FAQ CTA Section -->
+            <div class="text-center mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-4 text-blue-600 dark:text-blue-400">
+                    <?php echo esc_html(get_theme_mod('faq_cta_title', __('Still have questions?', 'yoursite'))); ?>
+                </h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+                    <?php echo esc_html(get_theme_mod('faq_cta_description', __('Our team is here to help you every step of the way. Get in touch for personalized support.', 'yoursite'))); ?>
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="<?php echo esc_url(get_theme_mod('faq_cta_primary_url', '/contact')); ?>" 
+                       class="faq-cta-button inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        <?php echo esc_html(get_theme_mod('faq_cta_primary_text', __('Contact Support', 'yoursite'))); ?>
+                    </a>
+                    
+                    <a href="<?php echo esc_url(get_theme_mod('faq_cta_secondary_url', '/help')); ?>" 
+                       class="inline-flex items-center justify-center gap-2 bg-transparent border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <?php echo esc_html(get_theme_mod('faq_cta_secondary_text', __('Help Center', 'yoursite'))); ?>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- FAQ JavaScript - Inline for immediate functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    initializeFAQ();
+});
+
+function initializeFAQ() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(function(item) {
+        const toggle = item.querySelector('.faq-toggle');
+        const content = item.querySelector('.faq-content');
+        const icon = toggle.querySelector('.faq-toggle-icon');
+        
+        if (toggle && content) {
+            // Add click event listener
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleFAQItem(item, toggle, content, icon);
+            });
+            
+            // Add keyboard support
+            toggle.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleFAQItem(item, toggle, content, icon);
+                }
+            });
+        }
+    });
+}
+
+function toggleFAQItem(item, toggle, content, icon) {
+    const isActive = item.classList.contains('faq-active');
+    
+    // Close all other FAQ items (accordion behavior)
+    const allFaqItems = document.querySelectorAll('.faq-item');
+    allFaqItems.forEach(function(otherItem) {
+        if (otherItem !== item) {
+            closeFAQItem(otherItem);
+        }
+    });
+    
+    if (isActive) {
+        closeFAQItem(item);
+    } else {
+        openFAQItem(item);
+    }
+}
+
+function openFAQItem(item) {
+    const toggle = item.querySelector('.faq-toggle');
+    const content = item.querySelector('.faq-content');
+    const icon = item.querySelector('.faq-toggle-icon');
+    const contentInner = content.querySelector('.faq-content-inner');
+    
+    // Add active state
+    item.classList.add('faq-active');
+    
+    // Update ARIA attributes
+    toggle.setAttribute('aria-expanded', 'true');
+    
+    // Rotate icon
+    if (icon) {
+        icon.style.transform = 'rotate(180deg)';
+        icon.style.color = 'rgb(37 99 235)'; // Blue color when active
+    }
+    
+    // Show border
+    content.style.borderTopWidth = '1px';
+    
+    // Calculate and set max-height for smooth animation
+    if (contentInner) {
+        const height = contentInner.scrollHeight;
+        content.style.maxHeight = height + 'px';
+    }
+    
+    // Add active styling to item
+    item.style.borderColor = 'rgb(147 197 253)'; // Light blue border
+    item.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.1)';
+}
+
+function closeFAQItem(item) {
+    const toggle = item.querySelector('.faq-toggle');
+    const content = item.querySelector('.faq-content');
+    const icon = item.querySelector('.faq-toggle-icon');
+    
+    // Remove active state
+    item.classList.remove('faq-active');
+    
+    // Update ARIA attributes
+    toggle.setAttribute('aria-expanded', 'false');
+    
+    // Reset icon
+    if (icon) {
+        icon.style.transform = 'rotate(0deg)';
+        icon.style.color = ''; // Reset to default color
+    }
+    
+    // Hide border
+    content.style.borderTopWidth = '0px';
+    
+    // Reset max-height for smooth animation
+    content.style.maxHeight = '0px';
+    
+    // Reset item styling
+    item.style.borderColor = '';
+    item.style.boxShadow = '';
+}
+
+// Handle responsive behavior
+function handleResponsiveBehavior() {
+    const isMobile = window.innerWidth <= 768;
+    const faqToggles = document.querySelectorAll('.faq-toggle');
+    
+    faqToggles.forEach(function(toggle) {
+        if (isMobile) {
+            toggle.style.padding = '1rem 1.25rem';
+        } else {
+            toggle.style.padding = '1.25rem 1.5rem';
+        }
+    });
+}
+
+// Initialize responsive behavior
+handleResponsiveBehavior();
+window.addEventListener('resize', handleResponsiveBehavior);
+
+// Smooth scroll to FAQ item if hash in URL
+if (window.location.hash) {
+    const hash = window.location.hash.substring(1);
+    const faqItem = document.getElementById(hash);
+    if (faqItem && faqItem.classList.contains('faq-item')) {
+        setTimeout(function() {
+            faqItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Auto-open the FAQ item
+            const toggle = faqItem.querySelector('.faq-toggle');
+            if (toggle) {
+                toggle.click();
+            }
+        }, 500);
+    }
+}
+</script>
+
+<style>
+/* FAQ Section Additional Styles */
+.faq-section .faq-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.faq-item {
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    transform: translateY(-1px);
+}
+
+.faq-toggle:focus {
+    outline: none;
+}
+
+.faq-toggle h3 {
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.4;
+}
+
+.faq-content {
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-top-width 0.3s ease;
+}
+
+.faq-content-inner {
+    padding-top: 0.5rem;
+}
+
+.faq-toggle-icon {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.faq-cta-button:focus {
+    outline: none;
+    ring: 3px solid rgba(59, 130, 246, 0.5);
+    ring-offset: 2px;
+}
+
+/* Dark mode adjustments */
+.dark .faq-item.faq-active {
+    border-color: rgb(59 130 246);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .faq-toggle {
+        padding: 1rem 1.25rem !important;
+    }
+    
+    .faq-toggle h3 {
+        font-size: 1rem;
+        padding-right: 0.75rem;
+    }
+    
+    .faq-content-inner {
+        padding: 0.5rem 1.25rem 1.25rem 1.25rem;
+    }
+    
+    .faq-toggle-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .faq-item,
+    .faq-content,
+    .faq-toggle-icon,
+    .faq-cta-button {
+        transition: none !important;
+    }
+    
+    .faq-item:hover {
+        transform: none !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    .faq-content {
+        max-height: none !important;
+        overflow: visible !important;
+    }
+    
+    .faq-toggle-icon {
+        display: none;
+    }
+    
+    .faq-cta-button {
+        display: none;
+    }
+}
+</style>
 <?php endif; ?>
 
 <!-- Video Modal -->
