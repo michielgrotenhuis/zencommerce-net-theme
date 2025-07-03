@@ -585,7 +585,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-    
-    console.log('✅ Homepage Part 3 initialization complete');
 });
 </script>
