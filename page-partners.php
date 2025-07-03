@@ -451,10 +451,10 @@ if (isset($_POST['submit_partner_application'])) {
 <?php endif; ?>
 
 <?php if (get_theme_mod('partners_faq_enable', true)) : ?>
-<!-- FAQ Section - FIXED AND ADDED -->
-<section class="py-20 bg-white">
+<!-- FAQ Section -->
+<section class="faq-section py-20 bg-white">
     <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
+        <div class="layout-container max-w-4xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                     <?php echo esc_html(get_theme_mod('partners_faq_title', __('Frequently Asked Questions', 'yoursite'))); ?>
@@ -464,7 +464,7 @@ if (isset($_POST['submit_partner_application'])) {
                 </p>
             </div>
             
-            <div class="space-y-6">
+            <ul class="faq-list">
                 <?php 
                 // Default FAQ data in case customizer hasn't been set
                 $default_faqs = array(
@@ -496,36 +496,29 @@ if (isset($_POST['submit_partner_application'])) {
                         $answer = get_theme_mod("partners_faq_{$i}_answer", $default_faqs[$i-1]['answer']);
                         if ($question && $answer) :
                 ?>
-                    <div class="bg-gray-50 rounded-lg overflow-hidden">
-                        <button class="faq-toggle w-full text-left p-6 focus:outline-none focus:bg-gray-100 transition-colors" 
-                                onclick="toggleFAQ(<?php echo $i; ?>)">
-                            <div class="flex justify-between items-center">
-                                <h3 class="text-lg font-semibold text-gray-900 pr-8">
-                                    <?php echo esc_html($question); ?>
-                                </h3>
-                                <svg class="faq-icon w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
+                    <li class="faq-item">
+                        <button class="faq-toggle" type="button" aria-expanded="false">
+                            <h3><?php echo esc_html($question); ?></h3>
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </button>
-                        <div id="faq-answer-<?php echo $i; ?>" class="faq-answer hidden px-6 pb-6">
-                            <p class="text-gray-600 leading-relaxed">
-                                <?php echo esc_html($answer); ?>
-                            </p>
+                        <div class="faq-content">
+                            <p><?php echo esc_html($answer); ?></p>
                         </div>
-                    </div>
+                    </li>
                 <?php 
                         endif;
                     endif;
                 endfor; 
                 ?>
-            </div>
+            </ul>
             
             <!-- Contact CTA -->
             <div class="text-center mt-12 p-8 bg-blue-50 rounded-xl">
                 <h3 class="text-xl font-semibold text-gray-900 mb-4">Still have questions?</h3>
                 <p class="text-gray-600 mb-6">Our partner team is here to help you succeed. Get in touch for personalized support.</p>
-                <a href="/contact" class="btn-primary px-6 py-3 rounded-lg font-semibold">Contact Partner Team</a>
+                <a href="/contact" class="btn btn-primary">Contact Partner Team</a>
             </div>
         </div>
     </div>
@@ -571,39 +564,7 @@ body.dark-mode .partners-hero-section .text-gray-600 {
     color: #d1d5db !important;
 }
 
-/* FAQ Interactive Styles */
-.faq-toggle:hover {
-    background-color: #f3f4f6;
-}
 
-.faq-toggle.active .faq-icon {
-    transform: rotate(180deg);
-}
-
-.faq-answer {
-    transition: all 0.3s ease;
-}
-
-.faq-answer.show {
-    display: block !important;
-}
-
-/* Dark mode FAQ styles */
-body.dark-mode .faq-toggle {
-    background-color: var(--bg-tertiary) !important;
-}
-
-body.dark-mode .faq-toggle:hover {
-    background-color: var(--bg-secondary) !important;
-}
-
-body.dark-mode .faq-toggle h3 {
-    color: var(--text-primary) !important;
-}
-
-body.dark-mode .faq-answer p {
-    color: var(--text-secondary) !important;
-}
 
 /* Button fixes for dark mode */
 body.dark-mode .btn-secondary {
@@ -632,72 +593,46 @@ body.dark-mode .partner-type-card p {
 }
 </style>
 
-<!-- FAQ JavaScript -->
 <script>
-function toggleFAQ(index) {
-    const answer = document.getElementById('faq-answer-' + index);
-    const button = answer.previousElementSibling;
-    const icon = button.querySelector('.faq-icon');
+document.addEventListener('DOMContentLoaded', function() {
+    // FAQ toggle functionality - matching homepage style
+    const faqItems = document.querySelectorAll('.faq-item');
     
-    // Close all other FAQs
-    const allAnswers = document.querySelectorAll('.faq-answer');
-    const allButtons = document.querySelectorAll('.faq-toggle');
-    const allIcons = document.querySelectorAll('.faq-icon');
-    
-    allAnswers.forEach((item, i) => {
-        if (i !== index - 1) {
-            item.classList.add('hidden');
-            item.classList.remove('show');
+    faqItems.forEach(function(item) {
+        const toggle = item.querySelector('.faq-toggle');
+        const content = item.querySelector('.faq-content');
+        
+        if (toggle && content) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Toggle active class
+                const isActive = toggle.classList.contains('active');
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-toggle').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-expanded', 'false');
+                });
+                document.querySelectorAll('.faq-content').forEach(c => {
+                    c.classList.remove('active');
+                });
+                
+                // Toggle current FAQ
+                if (!isActive) {
+                    toggle.classList.add('active');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    content.classList.add('active');
+                } else {
+                    toggle.classList.remove('active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    content.classList.remove('active');
+                }
+            });
         }
     });
-    
-    allButtons.forEach((item, i) => {
-        if (i !== index - 1) {
-            item.classList.remove('active');
-        }
-    });
-    
-    allIcons.forEach((item, i) => {
-        if (i !== index - 1) {
-            item.style.transform = 'rotate(0deg)';
-        }
-    });
-    
-    // Toggle current FAQ
-    if (answer.classList.contains('hidden')) {
-        answer.classList.remove('hidden');
-        answer.classList.add('show');
-        button.classList.add('active');
-        icon.style.transform = 'rotate(180deg)';
-    } else {
-        answer.classList.add('hidden');
-        answer.classList.remove('show');
-        button.classList.remove('active');
-        icon.style.transform = 'rotate(0deg)';
-    }
-}
-
-// Close FAQ when clicking outside
-document.addEventListener('click', function(event) {
-    if (!event.target.closest('.faq-toggle') && !event.target.closest('.faq-answer')) {
-        const allAnswers = document.querySelectorAll('.faq-answer');
-        const allButtons = document.querySelectorAll('.faq-toggle');
-        const allIcons = document.querySelectorAll('.faq-icon');
-        
-        allAnswers.forEach(item => {
-            item.classList.add('hidden');
-            item.classList.remove('show');
-        });
-        
-        allButtons.forEach(item => {
-            item.classList.remove('active');
-        });
-        
-        allIcons.forEach(item => {
-            item.style.transform = 'rotate(0deg)';
-        });
-    }
 });
 </script>
+
 
 <?php get_footer(); ?>

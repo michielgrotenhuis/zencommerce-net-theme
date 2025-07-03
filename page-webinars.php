@@ -534,185 +534,174 @@ $has_webinars = $webinars_query->have_posts();
         </div>
     </section>
 
-   <!-- FAQ Section -->
-<section class="py-20 bg-gray-50">
+  <!-- FAQ Section -->
+<section class="faq-section py-20 bg-gray-50">
     <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
+        <div class="layout-container max-w-4xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
                 <p class="text-xl text-gray-600">Quick answers to common questions about our platform</p>
             </div>
             
-            <div class="space-y-4">
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <button class="flex justify-between items-center w-full text-left p-6 hover:bg-gray-50 transition-colors faq-toggle" data-target="faq-1">
-                        <h3 class="text-lg font-semibold text-gray-900 pr-4">How quickly can I get my store online?</h3>
-                        <div class="flex-shrink-0">
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </div>
+            <ul class="faq-list">
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>How quickly can I get my store online?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </button>
-                    <div id="faq-1" class="faq-content hidden border-t border-gray-100">
-                        <div class="p-6 pt-4">
-                            <p class="text-gray-600 leading-relaxed">Most merchants can set up their store and start selling within minutes using our templates and drag-and-drop builder. For custom designs, it may take a few hours to get everything exactly how you want it. Our quick-start wizard guides you through the essential steps to get your store live fast.</p>
-                        </div>
+                    <div class="faq-content">
+                        <p>Most merchants can set up their store and start selling within minutes using our templates and drag-and-drop builder. For custom designs, it may take a few hours to get everything exactly how you want it. Our quick-start wizard guides you through the essential steps to get your store live fast.</p>
                     </div>
-                </div>
+                </li>
                 
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <button class="flex justify-between items-center w-full text-left p-6 hover:bg-gray-50 transition-colors faq-toggle" data-target="faq-2">
-                        <h3 class="text-lg font-semibold text-gray-900 pr-4">What payment methods do you support?</h3>
-                        <div class="flex-shrink-0">
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </div>
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>What payment methods do you support?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </button>
-                    <div id="faq-2" class="faq-content hidden border-t border-gray-100">
-                        <div class="p-6 pt-4">
-                            <p class="text-gray-600 leading-relaxed">We support all major credit cards (Visa, Mastercard, American Express, Discover), PayPal, Apple Pay, Google Pay, Shop Pay, and many other payment methods. Our platform integrates seamlessly with leading payment processors like Stripe, Square, and PayPal, ensuring secure and reliable transactions for your customers.</p>
-                        </div>
+                    <div class="faq-content">
+                        <p>We support all major credit cards (Visa, Mastercard, American Express, Discover), PayPal, Apple Pay, Google Pay, Shop Pay, and many other payment methods. Our platform integrates seamlessly with leading payment processors like Stripe, Square, and PayPal, ensuring secure and reliable transactions for your customers.</p>
                     </div>
-                </div>
+                </li>
                 
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <button class="flex justify-between items-center w-full text-left p-6 hover:bg-gray-50 transition-colors faq-toggle" data-target="faq-3">
-                        <h3 class="text-lg font-semibold text-gray-900 pr-4">Do you offer customer support?</h3>
-                        <div class="flex-shrink-0">
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </div>
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>Do you offer customer support?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </button>
-                    <div id="faq-3" class="faq-content hidden border-t border-gray-100">
-                        <div class="p-6 pt-4">
-                            <p class="text-gray-600 leading-relaxed">Yes! We provide comprehensive support including 24/7 live chat support, email support with guaranteed 24-hour response times, phone support during business hours (9 AM - 6 PM EST), and an extensive help center with step-by-step tutorials, video guides, and detailed documentation.</p>
-                        </div>
+                    <div class="faq-content">
+                        <p>Yes! We provide comprehensive support including 24/7 live chat support, email support with guaranteed 24-hour response times, phone support during business hours (9 AM - 6 PM EST), and an extensive help center with step-by-step tutorials, video guides, and detailed documentation.</p>
                     </div>
-                </div>
+                </li>
                 
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <button class="flex justify-between items-center w-full text-left p-6 hover:bg-gray-50 transition-colors faq-toggle" data-target="faq-4">
-                        <h3 class="text-lg font-semibold text-gray-900 pr-4">Can I migrate my existing store?</h3>
-                        <div class="flex-shrink-0">
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </div>
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>Can I migrate my existing store?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </button>
-                    <div id="faq-4" class="faq-content hidden border-t border-gray-100">
-                        <div class="p-6 pt-4">
-                            <p class="text-gray-600 leading-relaxed">Absolutely! We offer free migration services to help you seamlessly transfer your products, customers, order history, and other important data from platforms like Shopify, WooCommerce, Magento, BigCommerce, and others. Our dedicated migration team handles all the technical details, ensuring zero downtime and data integrity throughout the process.</p>
-                        </div>
+                    <div class="faq-content">
+                        <p>Absolutely! We offer free migration services to help you seamlessly transfer your products, customers, order history, and other important data from platforms like Shopify, WooCommerce, Magento, BigCommerce, and others. Our dedicated migration team handles all the technical details, ensuring zero downtime and data integrity throughout the process.</p>
                     </div>
-                </div>
+                </li>
                 
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <button class="flex justify-between items-center w-full text-left p-6 hover:bg-gray-50 transition-colors faq-toggle" data-target="faq-5">
-                        <h3 class="text-lg font-semibold text-gray-900 pr-4">What's included in the free trial?</h3>
-                        <div class="flex-shrink-0">
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </div>
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>What's included in the free trial?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </button>
-                    <div id="faq-5" class="faq-content hidden border-t border-gray-100">
-                        <div class="p-6 pt-4">
-                            <p class="text-gray-600 leading-relaxed">Our 14-day free trial includes access to all premium features, unlimited products, all premium templates and themes, full customer support, payment processing capabilities, and all integrations. No credit card required to start, and you can upgrade, downgrade, or cancel anytime with no hidden fees or commitments.</p>
-                        </div>
+                    <div class="faq-content">
+                        <p>Our 14-day free trial includes access to all premium features, unlimited products, all premium templates and themes, full customer support, payment processing capabilities, and all integrations. No credit card required to start, and you can upgrade, downgrade, or cancel anytime with no hidden fees or commitments.</p>
                     </div>
-                </div>
+                </li>
 
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <button class="flex justify-between items-center w-full text-left p-6 hover:bg-gray-50 transition-colors faq-toggle" data-target="faq-6">
-                        <h3 class="text-lg font-semibold text-gray-900 pr-4">Are there any transaction fees?</h3>
-                        <div class="flex-shrink-0">
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </div>
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>Are there any transaction fees?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </button>
-                    <div id="faq-6" class="faq-content hidden border-t border-gray-100">
-                        <div class="p-6 pt-4">
-                            <p class="text-gray-600 leading-relaxed">We don't charge any transaction fees on top of your monthly subscription. You'll only pay the standard payment processing fees charged by your payment provider (typically 2.9% + 30¢ per transaction for Stripe). This means more money stays in your pocket compared to platforms that charge additional transaction fees.</p>
-                        </div>
+                    <div class="faq-content">
+                        <p>We don't charge any transaction fees on top of your monthly subscription. You'll only pay the standard payment processing fees charged by your payment provider (typically 2.9% + 30¢ per transaction for Stripe). This means more money stays in your pocket compared to platforms that charge additional transaction fees.</p>
                     </div>
-                </div>
+                </li>
 
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <button class="flex justify-between items-center w-full text-left p-6 hover:bg-gray-50 transition-colors faq-toggle" data-target="faq-7">
-                        <h3 class="text-lg font-semibold text-gray-900 pr-4">Can I use my own domain name?</h3>
-                        <div class="flex-shrink-0">
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </div>
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>Can I use my own domain name?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </button>
-                    <div id="faq-7" class="faq-content hidden border-t border-gray-100">
-                        <div class="p-6 pt-4">
-                            <p class="text-gray-600 leading-relaxed">Yes! You can connect your existing domain or purchase a new one through our platform. We provide free SSL certificates for all custom domains, and our team can help you with the setup process. If you don't have a domain yet, we also provide free subdomains to get you started (e.g., yourstore.ourplatform.com).</p>
-                        </div>
+                    <div class="faq-content">
+                        <p>Yes! You can connect your existing domain or purchase a new one through our platform. We provide free SSL certificates for all custom domains, and our team can help you with the setup process. If you don't have a domain yet, we also provide free subdomains to get you started (e.g., yourstore.ourplatform.com).</p>
                     </div>
+                </li>
+            </ul>
+
+            <!-- Still have questions CTA -->
+            <div class="text-center mt-12 p-8 bg-white rounded-lg shadow-sm border border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Still have questions?</h3>
+                <p class="text-gray-600 mb-6">Our support team is here to help you get started</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/contact" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        Contact Support
+                    </a>
+                    <a href="/webinars" class="btn btn-border" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        Join a Webinar
+                    </a>
                 </div>
             </div>
-
-         <!-- Still have questions CTA -->
-<!-- Replace the button section in your FAQ area with this: -->
-
-<!-- Still have questions CTA -->
-<div class="text-center mt-12 p-8 bg-white rounded-lg shadow-sm border border-gray-200">
-    <h3 class="text-xl font-semibold text-gray-900 mb-2">Still have questions?</h3>
-    <p class="text-gray-600 mb-6">Our support team is here to help you get started</p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/contact" class="btn-primary px-6 py-3 rounded-lg font-semibold transition-all" style="display: flex !important; align-items: center !important; justify-content: center !important; flex-direction: row !important;">
-            <svg class="w-5 h-5" style="margin-right: 0.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-            </svg>
-            Contact Support
-        </a>
-        <a href="/webinars" class="btn-secondary px-6 py-3 rounded-lg font-semibold transition-all" style="display: flex !important; align-items: center !important; justify-content: center !important; flex-direction: row !important;">
-            <svg class="w-5 h-5" style="margin-right: 0.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-            </svg>
-            Join a Webinar
-        </a>
-    </div>
-</div>
+        </div>
     </div>
 </section>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const faqToggles = document.querySelectorAll('.faq-toggle');
+    // FAQ toggle functionality - matching homepage style
+    const faqItems = document.querySelectorAll('.faq-item');
     
-    faqToggles.forEach(toggle => {
-        toggle.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            const targetContent = document.getElementById(targetId);
-            const icon = this.querySelector('svg');
-            
-            // Close all other FAQ items
-            faqToggles.forEach(otherToggle => {
-                if (otherToggle !== this) {
-                    const otherTargetId = otherToggle.getAttribute('data-target');
-                    const otherContent = document.getElementById(otherTargetId);
-                    const otherIcon = otherToggle.querySelector('svg');
-                    
-                    otherContent.classList.add('hidden');
-                    otherIcon.style.transform = 'rotate(0deg)';
+    faqItems.forEach(function(item) {
+        const toggle = item.querySelector('.faq-toggle');
+        const content = item.querySelector('.faq-content');
+        
+        if (toggle && content) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Toggle active class
+                const isActive = toggle.classList.contains('active');
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-toggle').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-expanded', 'false');
+                });
+                document.querySelectorAll('.faq-content').forEach(c => {
+                    c.classList.remove('active');
+                });
+                
+                // Toggle current FAQ
+                if (!isActive) {
+                    toggle.classList.add('active');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    content.classList.add('active');
+                } else {
+                    toggle.classList.remove('active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    content.classList.remove('active');
                 }
             });
-            
-            // Toggle current FAQ item
-            if (targetContent.classList.contains('hidden')) {
-                targetContent.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                targetContent.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        });
+        }
+    });
+    
+    // Newsletter signup functionality (keep existing code)
+    const newsletterForm = document.querySelector('.webinar-newsletter-form');
+    const messageDiv = document.querySelector('.webinar-newsletter-message');
+    
+    if (newsletterForm) {
+        // ... existing newsletter code ...
+    }
+    
+    // Smooth scrolling for anchor links (keep existing code)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        // ... existing smooth scroll code ...
     });
 });
 </script>
@@ -758,14 +747,6 @@ document.addEventListener('DOMContentLoaded', function() {
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
-/* FAQ hover effects */
-.faq-item {
-    transition: all 0.2s ease;
-}
-
-.faq-item:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
 
 /* Admin bar adjustment */
 .sticky {

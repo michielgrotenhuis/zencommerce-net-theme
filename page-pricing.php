@@ -347,272 +347,204 @@ function get_pricing_currency_symbol($currency = 'USD') {
     </section>
     <?php endif; ?>
 
-    <?php if ($faq_enable) : ?>
-    <!-- FAQ Section -->
-    <section class="faq-section">
-        <div class="layout-container">
-            <div style="text-center; margin-bottom: 4em;">
-                <h2><?php echo esc_html($faq_title); ?></h2>
-                <p><?php echo esc_html($faq_subtitle); ?></p>
-            </div>
+ <?php if ($faq_enable) : ?>
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="layout-container">
+        <div style="text-center; margin-bottom: 4em;">
+            <h2><?php echo esc_html($faq_title); ?></h2>
+            <p><?php echo esc_html($faq_subtitle); ?></p>
+        </div>
+        
+        <ul class="faq-list">
+            <?php 
+            $faq_count = 0;
             
-            <ul class="faq-list">
-                <?php 
-                $faq_count = 0;
+            // Default FAQ data
+            $default_faqs = array(
+                1 => array('question' => 'Can I change plans anytime?', 'answer' => 'Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle, and we\'ll prorate any differences.'),
+                2 => array('question' => 'Is there a free trial?', 'answer' => 'Yes, all paid plans come with a 14-day free trial. No credit card required to get started. You can also use our Free plan indefinitely.'),
+                3 => array('question' => 'What payment methods do you accept?', 'answer' => 'We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for enterprise customers.'),
+                4 => array('question' => 'Do you offer refunds?', 'answer' => 'Yes, we offer a 30-day money-back guarantee. If you\'re not satisfied with our service, contact us within 30 days for a full refund.'),
+                5 => array('question' => 'Can I cancel anytime?', 'answer' => 'Absolutely! You can cancel your subscription at any time. Your account will remain active until the end of your current billing period.')
+            );
+            
+            for ($i = 1; $i <= 5; $i++) : 
+                $faq_enabled = get_theme_mod("pricing_faq_{$i}_enable", true);
+                $question = get_theme_mod("pricing_faq_{$i}_question", $default_faqs[$i]['question']);
+                $answer = get_theme_mod("pricing_faq_{$i}_answer", $default_faqs[$i]['answer']);
                 
-                // Default FAQ data
-                $default_faqs = array(
-                    1 => array('question' => 'Can I change plans anytime?', 'answer' => 'Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle, and we\'ll prorate any differences.'),
-                    2 => array('question' => 'Is there a free trial?', 'answer' => 'Yes, all paid plans come with a 14-day free trial. No credit card required to get started. You can also use our Free plan indefinitely.'),
-                    3 => array('question' => 'What payment methods do you accept?', 'answer' => 'We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for enterprise customers.'),
-                    4 => array('question' => 'Do you offer refunds?', 'answer' => 'Yes, we offer a 30-day money-back guarantee. If you\'re not satisfied with our service, contact us within 30 days for a full refund.'),
-                    5 => array('question' => 'Can I cancel anytime?', 'answer' => 'Absolutely! You can cancel your subscription at any time. Your account will remain active until the end of your current billing period.')
-                );
+                if (!$faq_enabled || empty(trim($question)) || empty(trim($answer))) {
+                    continue;
+                }
                 
-                for ($i = 1; $i <= 5; $i++) : 
-                    $faq_enabled = get_theme_mod("pricing_faq_{$i}_enable", true);
-                    $question = get_theme_mod("pricing_faq_{$i}_question", $default_faqs[$i]['question']);
-                    $answer = get_theme_mod("pricing_faq_{$i}_answer", $default_faqs[$i]['answer']);
-                    
-                    if (!$faq_enabled || empty(trim($question)) || empty(trim($answer))) {
-                        continue;
-                    }
-                    
-                    $faq_count++;
-                ?>
-                    <li class="faq-item">
-                        <button class="faq-question">
-                            <?php echo esc_html($question); ?>
-                        </button>
-                        <div class="faq-answer">
-                            <p><?php echo esc_html($answer); ?></p>
-                        </div>
-                    </li>
-                <?php endfor; 
-                
-                if ($faq_count === 0 && current_user_can('manage_options')) : ?>
-                    <li class="faq-item">
-                        <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; padding: 1em; text-align: center;">
-                            <p><strong>Admin Notice:</strong> No FAQ items are being displayed. Check <strong>Appearance → Customize → Pricing Page</strong> to configure your FAQs.</p>
-                        </div>
-                    </li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </section>
-    <?php endif; ?>
+                $faq_count++;
+            ?>
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3><?php echo esc_html($question); ?></h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content">
+                        <p><?php echo esc_html($answer); ?></p>
+                    </div>
+                </li>
+            <?php endfor; 
+            
+            if ($faq_count === 0 && current_user_can('manage_options')) : ?>
+                <li class="faq-item">
+                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; padding: 1em; text-align: center;">
+                        <p><strong>Admin Notice:</strong> No FAQ items are being displayed. Check <strong>Appearance → Customize → Pricing Page</strong> to configure your FAQs.</p>
+                    </div>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</section>
+<?php endif; ?>
 
-    <?php if ($cta_enable) : ?>
-    <!-- Final CTA Section -->
-    <section>
-        <div class="layout-container">
-            <div class="cta-section">
-                <h2><?php echo esc_html($cta_title); ?></h2>
-                <p><?php echo esc_html($cta_subtitle); ?></p>
-                <div class="l-flex l-flex-center" style="gap: 1rem; flex-wrap: wrap;">
-                    <a href="<?php echo esc_url($cta_primary_url); ?>" class="btn btn-primary" style="background-color: white; color: var(--zc-secondary); border-color: white;">
-                        <?php echo esc_html($cta_primary_text); ?>
-                    </a>
-                    <a href="<?php echo esc_url($cta_secondary_url); ?>" class="btn btn-border" style="border-color: rgba(255,255,255,0.8); color: white;">
-                        <?php echo esc_html($cta_secondary_text); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <?php endif; ?>
+
+   
 
 </div>
 
 <!-- Enhanced JavaScript for Zencommerce-style interactions -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('=== ZENCOMMERCE PRICING PAGE LOADED ===');
-    
-    // Find elements
-    var pricingPage = document.querySelector('.pricing-page');
-    var monthlyBtn = document.querySelector('.monthly-btn');
-    var annualBtn = document.querySelector('.annual-btn');
-    var currencySelector = document.querySelector('.pricing-currency-selector');
-    
-    // Find all pricing elements
-    var monthlyPricing = document.querySelectorAll('.monthly-pricing');
-    var annualPricing = document.querySelectorAll('.annual-pricing');
-    
-    // Set initial state (annual default)
+
+    const pricingPage = document.querySelector('.pricing-page');
+    const monthlyBtn = document.querySelector('.monthly-btn');
+    const annualBtn = document.querySelector('.annual-btn');
+    const currencySelector = document.querySelector('.pricing-currency-selector');
+    const pricingSection = document.querySelector('.section-bg');
+    const compareBtn = document.querySelector('a[href="#comparison"]');
+
+    const currencySymbols = {
+        'USD': '$', 'EUR': '€', 'GBP': '£', 'CAD': 'C$', 'AUD': 'A$',
+        'JPY': '¥', 'CHF': 'CHF', 'SEK': 'kr', 'NOK': 'kr', 'DKK': 'kr'
+    };
+
+    // Default state
     if (pricingPage) {
         pricingPage.classList.add('show-annual');
         pricingPage.classList.remove('show-monthly');
     }
-    
-    function showYearlyPricing() {
-        console.log('Showing yearly pricing');
-        
-        if (pricingPage) {
-            pricingPage.classList.add('show-annual');
-            pricingPage.classList.remove('show-monthly');
-        }
-        
-        if (annualBtn) {
-            annualBtn.classList.add('active');
-        }
-        if (monthlyBtn) {
-            monthlyBtn.classList.remove('active');
-        }
+
+    function showPricingMode(mode) {
+        if (!pricingPage) return;
+
+        const isAnnual = mode === 'annual';
+
+        pricingPage.classList.toggle('show-annual', isAnnual);
+        pricingPage.classList.toggle('show-monthly', !isAnnual);
+
+        annualBtn?.classList.toggle('active', isAnnual);
+        monthlyBtn?.classList.toggle('active', !isAnnual);
+
+        console.log(`Showing ${mode} pricing`);
     }
-    
-    function showMonthlyPricing() {
-        console.log('Showing monthly pricing');
-        
-        if (pricingPage) {
-            pricingPage.classList.remove('show-annual');
-            pricingPage.classList.add('show-monthly');
-        }
-        
-        if (monthlyBtn) {
-            monthlyBtn.classList.add('active');
-        }
-        if (annualBtn) {
-            annualBtn.classList.remove('active');
-        }
-    }
-    
-    // Billing toggle events
-    if (monthlyBtn) {
-        monthlyBtn.addEventListener('click', function() {
-            showMonthlyPricing();
-        });
-    }
-    
-    if (annualBtn) {
-        annualBtn.addEventListener('click', function() {
-            showYearlyPricing();
-        });
-    }
-    
-    // Currency change functionality
-    document.addEventListener('currencyChanged', function(e) {
+
+    monthlyBtn?.addEventListener('click', () => showPricingMode('monthly'));
+    annualBtn?.addEventListener('click', () => showPricingMode('annual'));
+
+    // Listen for currency changes (custom or DOM-based)
+    document.addEventListener('currencyChanged', (e) => {
         updateAllPricing(e.detail.currency);
     });
-    
-    // Listen for currency selector changes
-    document.addEventListener('click', function(e) {
-        var currencyItem = e.target.closest('[data-currency-code], [data-currency]');
+
+    document.addEventListener('click', (e) => {
+        const currencyItem = e.target.closest('[data-currency-code], [data-currency]');
         if (!currencyItem) return;
-        
-        var newCurrency = currencyItem.dataset.currency || currencyItem.dataset.currencyCode;
-        if (newCurrency) {
-            updateAllPricing(newCurrency);
-        }
+
+        const newCurrency = currencyItem.dataset.currency || currencyItem.dataset.currencyCode;
+        if (newCurrency) updateAllPricing(newCurrency);
     });
-    
+
     function updateAllPricing(currencyCode) {
         console.log('Updating all pricing to currency:', currencyCode);
-        
-        // Show loading state
-        var pricingSection = document.querySelector('.section-bg');
-        if (pricingSection) {
-            pricingSection.style.opacity = '0.7';
-            pricingSection.style.pointerEvents = 'none';
-        }
-        
-        // Get all plan IDs
-        var planCards = document.querySelectorAll('[data-plan-id]');
-        var planIds = Array.from(planCards).map(function(card) { 
-            return card.dataset.planId; 
-        }).filter(function(id) { 
-            return id && id !== 'free' && id !== 'pro' && id !== 'enterprise'; 
-        });
-        
-        if (planIds.length > 0 && typeof ajaxurl !== 'undefined') {
-            // Fetch pricing for real plans
+
+        setLoadingState(true);
+
+        const planCards = document.querySelectorAll('[data-plan-id]');
+        const planIds = Array.from(planCards)
+            .map(card => card.dataset.planId)
+            .filter(id => id && !['free', 'pro', 'enterprise'].includes(id));
+
+        if (planIds.length && typeof ajaxurl !== 'undefined') {
             fetch(ajaxurl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: new URLSearchParams({
                     action: 'get_all_pricing_in_currency',
                     currency: currencyCode,
                     plan_ids: planIds.join(','),
-                    nonce: '<?php echo wp_create_nonce("get_pricing"); ?>'
+                    nonce: PRICING.nonce // Defined via wp_localize_script
                 })
             })
-            .then(function(response) { return response.json(); })
-            .then(function(data) {
+            .then(response => response.json())
+            .then(data => {
                 if (data.success && data.data.pricing) {
                     updatePricingCards(data.data.pricing, data.data.currency_info);
                     showCurrencyChangeNotification(currencyCode);
                 } else {
                     console.error('Failed to update pricing:', data.data);
-                    updateCurrencySymbolsOnly(currencyCode);
-                    showCurrencyChangeNotification(currencyCode);
+                    fallbackCurrencyUpdate(currencyCode);
                 }
             })
-            .catch(function(error) {
+            .catch(error => {
                 console.error('Error updating pricing:', error);
-                updateCurrencySymbolsOnly(currencyCode);
-                showCurrencyChangeNotification(currencyCode);
+                fallbackCurrencyUpdate(currencyCode);
             })
-            .finally(function() {
-                // Remove loading state
-                if (pricingSection) {
-                    pricingSection.style.opacity = '';
-                    pricingSection.style.pointerEvents = '';
-                }
-            });
+            .finally(() => setLoadingState(false));
         } else {
-            // Update fallback pricing cards
-            updateCurrencySymbolsOnly(currencyCode);
-            showCurrencyChangeNotification(currencyCode);
-            if (pricingSection) {
-                pricingSection.style.opacity = '';
-                pricingSection.style.pointerEvents = '';
-            }
+            fallbackCurrencyUpdate(currencyCode);
+            setLoadingState(false);
         }
     }
-    
-    function updateCurrencySymbolsOnly(currencyCode) {
-        // Get currency symbol based on code
-        var currencySymbols = {
-            'USD': ', 'EUR': '€', 'GBP': '£', 'CAD': 'C, 'AUD': 'A,
-            'JPY': '¥', 'CHF': 'CHF', 'SEK': 'kr', 'NOK': 'kr', 'DKK': 'kr'
-        };
-        
-        var symbol = currencySymbols[currencyCode] || ';
-        
-        // Update all price amounts
-        var priceAmounts = document.querySelectorAll('.price-amount');
-        priceAmounts.forEach(function(amount) {
-            var currentText = amount.textContent;
-            var numericValue = currentText.replace(/[^\d]/g, '');
+
+    function fallbackCurrencyUpdate(currencyCode) {
+        const symbol = currencySymbols[currencyCode] || '';
+
+        // Update price amounts
+        document.querySelectorAll('.price-amount').forEach(amount => {
+            const currentText = amount.textContent.trim();
+            const numericValue = currentText.replace(/[^\d]/g, '');
+
             if (numericValue) {
-                var periodSpan = amount.querySelector('.price-period');
-                var periodText = periodSpan ? periodSpan.textContent : '';
-                amount.innerHTML = symbol + numericValue + (periodSpan ? '<span class="price-period">' + periodText + '</span>' : '');
+                const periodSpan = amount.querySelector('.price-period');
+                const periodText = periodSpan?.textContent || '';
+                amount.innerHTML = symbol + numericValue +
+                    (periodSpan ? `<span class="price-period">${periodText}</span>` : '');
             }
         });
-        
+
         // Update price notes
-        var priceNotes = document.querySelectorAll('.price-note');
-        priceNotes.forEach(function(note) {
-            if (note.textContent.includes('Billed annually')) {
-                var matches = note.textContent.match(/\d+/);
+        document.querySelectorAll('.price-note').forEach(note => {
+            if (/billed annually/i.test(note.textContent)) {
+                const matches = note.textContent.match(/\d+/);
                 if (matches) {
-                    var price = parseInt(matches[0]);
+                    const price = parseInt(matches[0]);
                     note.textContent = note.textContent.replace(/[$€£¥]\d+/, symbol + price);
                 }
             }
         });
+
+        showCurrencyChangeNotification(currencyCode);
     }
-    
+
+    function setLoadingState(active) {
+        if (!pricingSection) return;
+        pricingSection.style.opacity = active ? '0.7' : '';
+        pricingSection.style.pointerEvents = active ? 'none' : '';
+    }
+
     function showCurrencyChangeNotification(currencyCode) {
-        // Remove any existing notifications
-        var existingNotifications = document.querySelectorAll('.currency-change-notification');
-        existingNotifications.forEach(function(n) { n.remove(); });
-        
-        // Create notification
-        var notification = document.createElement('div');
+        document.querySelectorAll('.currency-change-notification').forEach(el => el.remove());
+
+        const notification = document.createElement('div');
         notification.className = 'currency-change-notification';
         notification.style.cssText = `
             position: fixed;
@@ -634,75 +566,69 @@ document.addEventListener('DOMContentLoaded', function() {
                 <svg style="width: 20px; height: 20px; margin-right: 12px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                <span>Prices updated to ` + currencyCode + `</span>
+                <span>Prices updated to ${currencyCode}</span>
             </div>
         `;
-        
         document.body.appendChild(notification);
-        
-        // Animate in
-        requestAnimationFrame(function() {
+
+        requestAnimationFrame(() => {
             notification.style.transform = 'translateX(0)';
         });
-        
-        // Remove after 3 seconds
-        setTimeout(function() {
+
+        setTimeout(() => {
             notification.style.transform = 'translateX(120%)';
-            setTimeout(function() { 
-                if (notification.parentNode) {
-                    notification.remove(); 
-                }
-            }, 400);
+            setTimeout(() => notification.remove(), 400);
         }, 3000);
     }
+
+    // Smooth scroll for comparison section
+    compareBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector('#comparison')?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
+
+    console.log('Zencommerce pricing page setup complete');
+});
+// FAQ toggle functionality - matching homepage style
+var faqItems = document.querySelectorAll('.faq-item');
+
+faqItems.forEach(function(item) {
+    var toggle = item.querySelector('.faq-toggle');
+    var content = item.querySelector('.faq-content');
     
-    // FAQ toggle functionality
-    var faqQuestions = document.querySelectorAll('.faq-question');
-    
-    faqQuestions.forEach(function(question) {
-        question.addEventListener('click', function() {
-            var answer = this.nextElementSibling;
-            var isActive = this.classList.contains('active');
+    if (toggle && content) {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Toggle active class
+            var isActive = toggle.classList.contains('active');
             
             // Close all other FAQs
-            faqQuestions.forEach(function(otherQuestion) {
-                if (otherQuestion !== question) {
-                    otherQuestion.classList.remove('active');
-                    var otherAnswer = otherQuestion.nextElementSibling;
-                    if (otherAnswer) {
-                        otherAnswer.classList.remove('active');
-                    }
-                }
+            document.querySelectorAll('.faq-toggle').forEach(function(t) {
+                t.classList.remove('active');
+                t.setAttribute('aria-expanded', 'false');
+            });
+            document.querySelectorAll('.faq-content').forEach(function(c) {
+                c.classList.remove('active');
             });
             
             // Toggle current FAQ
-            if (isActive) {
-                this.classList.remove('active');
-                if (answer) answer.classList.remove('active');
+            if (!isActive) {
+                toggle.classList.add('active');
+                toggle.setAttribute('aria-expanded', 'true');
+                content.classList.add('active');
             } else {
-                this.classList.add('active');
-                if (answer) answer.classList.add('active');
-            }
-        });
-    });
-    
-    // Smooth scroll for compare features button
-    var compareBtn = document.querySelector('a[href="#comparison"]');
-    if (compareBtn) {
-        compareBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            var target = document.querySelector('#comparison');
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                toggle.classList.remove('active');
+                toggle.setAttribute('aria-expanded', 'false');
+                content.classList.remove('active');
             }
         });
     }
-    
-    console.log('Zencommerce pricing page setup complete');
 });
 </script>
+
 
 <?php get_footer(); ?>

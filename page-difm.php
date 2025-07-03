@@ -887,92 +887,82 @@ get_header(); ?>
     </section>
 
     <!-- FAQ Section -->
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                        Frequently Asked Questions
-                    </h2>
-                    <p class="text-xl text-gray-600">
-                        Everything you need to know about our done-for-you website service
-                    </p>
-                </div>
-                
-                <div class="space-y-6">
-                    <div class="border border-gray-200 rounded-xl">
-                        <button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 rounded-xl" onclick="toggleFaq(this)">
-                            <span class="font-semibold text-gray-900">How long does it really take to build my website?</span>
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div class="faq-content hidden px-6 pb-4">
-                            <p class="text-gray-600">
-                                Our delivery times are guaranteed: 14 days for Standard, 7 days for Professional, and 5 days for Enterprise packages. These timelines include design, development, testing, and launch. We provide daily updates so you know exactly where we are in the process.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="border border-gray-200 rounded-xl">
-                        <button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 rounded-xl" onclick="toggleFaq(this)">
-                            <span class="font-semibold text-gray-900">What if I'm not satisfied with the final result?</span>
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div class="faq-content hidden px-6 pb-4">
-                            <p class="text-gray-600">
-                                We offer a 100% money-back guarantee within 30 days of project completion. If you're not completely satisfied with your website, we'll refund your entire payment - no questions asked. We're confident in our work because we've delivered 500+ successful projects.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="border border-gray-200 rounded-xl">
-                        <button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 rounded-xl" onclick="toggleFaq(this)">
-                            <span class="font-semibold text-gray-900">Do I own the website and can I make changes later?</span>
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div class="faq-content hidden px-6 pb-4">
-                            <p class="text-gray-600">
-                                Yes, you own 100% of your website, domain, and all content. We build your site using popular platforms that give you full control. We also provide comprehensive training so you can make updates yourself, or you can hire us for ongoing maintenance and updates.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="border border-gray-200 rounded-xl">
-                        <button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 rounded-xl" onclick="toggleFaq(this)">
-                            <span class="font-semibold text-gray-900">What information do you need from me to get started?</span>
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div class="faq-content hidden px-6 pb-4">
-                            <p class="text-gray-600">
-                                We'll gather everything we need during our discovery call. This includes your business goals, target audience, brand preferences, content, and any specific functionality requirements. Don't worry if you don't have everything ready - we'll guide you through the entire process.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="border border-gray-200 rounded-xl">
-                        <button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 rounded-xl" onclick="toggleFaq(this)">
-                            <span class="font-semibold text-gray-900">Can you help with content creation and copywriting?</span>
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div class="faq-content hidden px-6 pb-4">
-                            <p class="text-gray-600">
-                                Absolutely! Our team includes professional copywriters who can create compelling content for your website. We can also help source high-quality images and create graphics. Content creation is included in Professional and Enterprise packages, and available as an add-on for Standard packages.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+<section class="faq-section py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="layout-container max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+                    Frequently Asked Questions
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Everything you need to know about our done-for-you website service
+                </p>
             </div>
+            
+            <ul class="faq-list">
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>How long does it really take to build my website?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content">
+                        <p>Our delivery times are guaranteed: 14 days for Standard, 7 days for Professional, and 5 days for Enterprise packages. These timelines include design, development, testing, and launch. We provide daily updates so you know exactly where we are in the process.</p>
+                    </div>
+                </li>
+                
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>What if I'm not satisfied with the final result?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content">
+                        <p>We offer a 100% money-back guarantee within 30 days of project completion. If you're not completely satisfied with your website, we'll refund your entire payment - no questions asked. We're confident in our work because we've delivered 500+ successful projects.</p>
+                    </div>
+                </li>
+                
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>Do I own the website and can I make changes later?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content">
+                        <p>Yes, you own 100% of your website, domain, and all content. We build your site using popular platforms that give you full control. We also provide comprehensive training so you can make updates yourself, or you can hire us for ongoing maintenance and updates.</p>
+                    </div>
+                </li>
+                
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>What information do you need from me to get started?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content">
+                        <p>We'll gather everything we need during our discovery call. This includes your business goals, target audience, brand preferences, content, and any specific functionality requirements. Don't worry if you don't have everything ready - we'll guide you through the entire process.</p>
+                    </div>
+                </li>
+                
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3>Can you help with content creation and copywriting?</h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content">
+                        <p>Absolutely! Our team includes professional copywriters who can create compelling content for your website. We can also help source high-quality images and create graphics. Content creation is included in Professional and Enterprise packages, and available as an add-on for Standard packages.</p>
+                    </div>
+                </li>
+            </ul>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Final CTA Section -->
     <section class="py-20 hero-gradient">
@@ -1273,18 +1263,7 @@ get_header(); ?>
             return true;
         }
 
-        function toggleFaq(button) {
-            const content = button.nextElementSibling;
-            const icon = button.querySelector('svg');
-            
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                content.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        }
+      
 
         // Form submission
         document.getElementById('onboarding-form').addEventListener('submit', function(e) {
@@ -1359,6 +1338,44 @@ get_header(); ?>
                 observer.observe(el);
             });
         });
+        // FAQ toggle functionality - matching homepage style
+document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(function(item) {
+        const toggle = item.querySelector('.faq-toggle');
+        const content = item.querySelector('.faq-content');
+        
+        if (toggle && content) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Toggle active class
+                const isActive = toggle.classList.contains('active');
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-toggle').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-expanded', 'false');
+                });
+                document.querySelectorAll('.faq-content').forEach(c => {
+                    c.classList.remove('active');
+                });
+                
+                // Toggle current FAQ
+                if (!isActive) {
+                    toggle.classList.add('active');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    content.classList.add('active');
+                } else {
+                    toggle.classList.remove('active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    content.classList.remove('active');
+                }
+            });
+        }
+    });
+});
     </script>
 
 <?php

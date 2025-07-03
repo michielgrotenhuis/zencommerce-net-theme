@@ -777,7 +777,6 @@ form label {
 .box-highlight p {
     color: var(--zc-text-white);
 }
-
 /* ==========================================================================
    FAQ SECTION - ZENCOMMERCE STYLE
    ========================================================================== */
@@ -795,109 +794,94 @@ form label {
 }
 
 .faq-item {
-    background: var(--zc-bg-primary) !important;
-    border: 1px solid var(--zc-border) !important;
-    border-radius: var(--zc-radius-lg) !important;
-    margin-bottom: 1rem !important;
-    overflow: hidden !important;
-    box-shadow: var(--zc-shadow-sm) !important;
-    transition: all 0.3s ease !important;
+    background: var(--zc-bg-primary);
+    border: 1px solid var(--zc-border);
+    border-radius: var(--zc-radius-lg);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    box-shadow: var(--zc-shadow-sm);
+    transition: all 0.3s ease;
 }
 
 .faq-item:hover {
-    box-shadow: var(--zc-shadow-md) !important;
+    box-shadow: var(--zc-shadow-md);
     transform: translateY(-1px);
 }
 
 .faq-toggle {
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-    border-radius: var(--zc-radius-lg) var(--zc-radius-lg) 0 0 !important;
-    outline: none !important;
-    width: 100% !important;
-    text-align: left !important;
-    background: transparent !important;
-    border: none !important;
-    font-size: inherit !important;
-    font-family: inherit !important;
-    padding: 1.5rem 2rem !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: var(--zc-radius-lg);
+    outline: none;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .faq-toggle:hover {
-    background-color: var(--zc-bg-secondary) !important;
+    background-color: var(--zc-bg-secondary);
 }
 
-.faq-toggle.faq-active {
-    background-color: var(--zc-bg-secondary) !important;
-    border-radius: var(--zc-radius-lg) var(--zc-radius-lg) 0 0 !important;
+.faq-toggle.active {
+    background-color: var(--zc-bg-secondary);
 }
 
 .faq-toggle h3 {
-    color: var(--zc-text-primary) !important;
-    margin: 0 !important;
-    padding-right: 1rem !important;
-    font-size: 1.125rem !important;
-    font-weight: 500 !important;
-    line-height: 1.4 !important;
+    color: var(--zc-text-primary);
+    margin: 0;
+    padding-right: 1rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.4;
 }
 
-.faq-toggle svg,
-.faq-toggle::after {
-    transition: transform 0.3s ease !important;
-    color: var(--zc-text-secondary) !important;
-    flex-shrink: 0 !important;
-    width: 1.5rem !important;
-    height: 1.5rem !important;
+.faq-toggle svg {
+    transition: transform 0.3s ease;
+    color: var(--zc-text-secondary);
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
 }
 
-.faq-toggle::after {
-    content: '▼';
-    font-size: 0.8em;
-    font-weight: 300;
-    color: var(--zc-text-tertiary);
-}
-
-.faq-toggle.faq-active::after,
-.faq-toggle.active::after {
+.faq-toggle.active svg {
     transform: rotate(180deg);
     color: var(--zc-primary);
 }
 
 .faq-content {
-    max-height: 0 !important;
-    overflow: hidden !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    border-radius: 0 0 var(--zc-radius-lg) var(--zc-radius-lg) !important;
-    background-color: var(--zc-bg-primary) !important;
-    border-top: none !important;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0 2rem;
+    background-color: var(--zc-bg-primary);
 }
 
-.faq-content.faq-open,
 .faq-content.active {
-    border-top: 1px solid var(--zc-border) !important;
-    padding-bottom: 1.5rem !important;
-    max-height: 300px !important;
+    border-top: 1px solid var(--zc-border);
+    padding-bottom: 1.5rem;
+    max-height: 300px;
 }
 
 .faq-content p {
-    color: var(--zc-text-secondary) !important;
-    margin: 0 !important;
-    line-height: 1.6 !important;
-    font-size: 1rem !important;
+    color: var(--zc-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+    font-size: 1rem;
+    padding-top: 1rem;
 }
 
 .faq-toggle:focus {
-    outline: 2px solid var(--zc-primary) !important;
-    outline-offset: 2px !important;
+    outline: 2px solid var(--zc-primary);
+    outline-offset: 2px;
 }
-
 /* ==========================================================================
    CURRENCY SELECTOR & FANCY DROPDOWN
    ========================================================================== */
@@ -2284,6 +2268,14 @@ body.mobile-menu-open {
 .trust-signals {
     @apply mt-4 text-center;
 }
+.free-plugins {
+    @apply inline-flex items-center text-xs text-gray-500 bg-gray-50 px-3 py-1 rounded-full;
+}
+
+.free-plugins::before {
+    content: '🔌';
+    @apply mr-1;
+}
 
 .money-back-guarantee {
     @apply inline-flex items-center text-xs text-gray-500 bg-gray-50 px-3 py-1 rounded-full;
@@ -3096,7 +3088,7 @@ body.mobile-menu-open {
 }
 
 .difm-secondary-button:hover {
-    color: #1e40af;
+    color: #1e40af !important;
     text-decoration: none;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
@@ -3459,5 +3451,367 @@ body.mobile-menu-open {
     
     .faq-content.active {
         max-height: none !important;
+    }
+}
+
+/* ==========================================================================
+   USP BENEFITS SECTION - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+/* USP Benefits Card Styling */
+.usp-benefits-card {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--zc-radius-xl, 16px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.usp-benefits-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(244, 180, 0, 0.05), transparent);
+    transition: left 0.6s ease;
+}
+
+.usp-benefits-card:hover::before {
+    left: 100%;
+}
+
+.usp-benefits-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    border-color: rgba(244, 180, 0, 0.2);
+}
+
+/* Dark mode support */
+.dark .usp-benefits-card {
+    background: rgba(31, 41, 55, 0.8);
+    border-color: rgba(75, 85, 99, 0.3);
+}
+
+.dark .usp-benefits-card:hover {
+    border-color: rgba(244, 180, 0, 0.3);
+}
+
+/* USP Benefits Icon Wrapper */
+.usp-benefits-icon-wrapper {
+    width: 3.5rem;
+    height: 3.5rem;
+    background: linear-gradient(135deg, var(--zc-primary, #f4b400) 0%, var(--zc-primary-dark, #e09f00) 100%);
+    border-radius: var(--zc-radius-lg, 12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.3);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.usp-benefits-card:hover .usp-benefits-icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 20px rgba(244, 180, 0, 0.4);
+}
+
+.usp-benefits-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: white;
+    stroke-width: 2.5;
+}
+
+/* USP Benefits Title */
+.usp-benefits-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--zc-text-primary, #1f2937);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.dark .usp-benefits-title {
+    color: var(--zc-text-white, #f9fafb);
+}
+
+/* USP Benefits List */
+.usp-benefits-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.usp-benefits-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: var(--zc-text-secondary, #6b7280);
+    line-height: 1.6;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.usp-benefits-list-item:hover {
+    color: var(--zc-text-primary, #1f2937);
+    transform: translateX(4px);
+}
+
+.dark .usp-benefits-list-item {
+    color: var(--zc-text-secondary, #d1d5db);
+}
+
+.dark .usp-benefits-list-item:hover {
+    color: var(--zc-text-white, #f9fafb);
+}
+
+.usp-benefits-check-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--zc-success, #10b981);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+/* Float Animation for Metrics Cards */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-float.delay-1000 {
+    animation-delay: 1s;
+}
+
+/* USP Benefits CTA Button */
+.usp-benefits-cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, var(--zc-primary, #f4b400) 0%, var(--zc-primary-dark, #e09f00) 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 1.125rem;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: var(--zc-radius-lg, 12px);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(244, 180, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.usp-benefits-cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--zc-primary-dark, #e09f00) 0%, #d4940a 100%);
+    transition: left 0.4s ease;
+    z-index: -1;
+}
+
+.usp-benefits-cta-button:hover::before {
+    left: 0;
+}
+
+.usp-benefits-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(244, 180, 0, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.usp-benefits-cta-button:hover .usp-benefits-cta-arrow {
+    transform: translateX(4px);
+}
+
+.usp-benefits-cta-button:focus {
+    outline: none;
+    ring: 3px solid rgba(244, 180, 0, 0.3);
+    ring-offset: 2px;
+}
+
+.usp-benefits-cta-arrow {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .usp-benefits-card {
+        padding: 1.5rem;
+    }
+    
+    .usp-benefits-icon-wrapper {
+        width: 3rem;
+        height: 3rem;
+    }
+    
+    .usp-benefits-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+    
+    .usp-benefits-title {
+        font-size: 1.375rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .usp-benefits-section {
+        padding: 3rem 0;
+    }
+    
+    .usp-benefits-card {
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .usp-benefits-title {
+        font-size: 1.25rem;
+    }
+    
+    .usp-benefits-list-item {
+        font-size: 0.875rem;
+    }
+    
+    /* Stack floating elements on mobile */
+    .animate-float {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        margin: 1rem auto !important;
+        animation: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .usp-benefits-card {
+        padding: 1rem;
+    }
+    
+    .usp-benefits-icon-wrapper {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    .usp-benefits-icon {
+        width: 1rem;
+        height: 1rem;
+    }
+    
+    .usp-benefits-title {
+        font-size: 1.125rem;
+    }
+    
+    .usp-benefits-check-icon {
+        width: 1rem;
+        height: 1rem;
+    }
+    
+    .usp-benefits-cta-button {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+        font-size: 1rem;
+        padding: 0.875rem 1.5rem;
+    }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY IMPROVEMENTS
+   ========================================================================== */
+
+.usp-benefits-card:focus-within {
+    outline: 2px solid var(--zc-primary, #f4b400);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   REDUCED MOTION SUPPORT
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .usp-benefits-card,
+    .usp-benefits-icon-wrapper,
+    .usp-benefits-list-item,
+    .usp-benefits-cta-button,
+    .animate-float {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .usp-benefits-card:hover,
+    .usp-benefits-card:hover .usp-benefits-icon-wrapper,
+    .usp-benefits-list-item:hover,
+    .usp-benefits-cta-button:hover {
+        transform: none !important;
+    }
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   ========================================================================== */
+
+@media print {
+    .usp-benefits-section {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .usp-benefits-card {
+        background: white !important;
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    .usp-benefits-icon-wrapper {
+        background: #f4b400 !important;
+        color: white !important;
+        box-shadow: none !important;
+    }
+    
+    .usp-benefits-cta-button {
+        background: white !important;
+        color: black !important;
+        border: 1px solid black !important;
+        box-shadow: none !important;
+    }
+    
+    .animate-float {
+        position: relative !important;
+        animation: none !important;
     }
 }

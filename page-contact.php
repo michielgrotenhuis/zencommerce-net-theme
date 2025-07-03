@@ -162,9 +162,9 @@ get_header(); ?>
 
 <?php if (get_theme_mod('contact_faq_enable', true)) : ?>
 <!-- FAQ Section -->
-<section class="py-20">
+<section class="faq-section py-20">
     <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
+        <div class="layout-container max-w-4xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                     <?php echo esc_html(get_theme_mod('contact_faq_title', __('Frequently Asked Questions', 'yoursite'))); ?>
@@ -174,9 +174,8 @@ get_header(); ?>
                 </p>
             </div>
             
-            <div class="space-y-6">
+            <ul class="faq-list">
                 <?php 
-                // Simply loop through all FAQ items and display enabled ones with content
                 $faq_count = 0;
                 
                 for ($i = 1; $i <= 5; $i++) {
@@ -187,17 +186,17 @@ get_header(); ?>
                         if (!empty($question) && !empty($answer)) {
                             $faq_count++;
                 ?>
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <button class="flex justify-between items-center w-full text-left faq-toggle">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white"><?php echo esc_html($question); ?></h3>
-                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <li class="faq-item">
+                    <button class="faq-toggle" type="button" aria-expanded="false">
+                        <h3><?php echo esc_html($question); ?></h3>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div class="faq-content hidden mt-4">
-                        <p class="text-gray-600 dark:text-gray-300"><?php echo esc_html($answer); ?></p>
+                    <div class="faq-content">
+                        <p><?php echo esc_html($answer); ?></p>
                     </div>
-                </div>
+                </li>
                 <?php 
                         }
                     }
@@ -210,7 +209,7 @@ get_header(); ?>
                     echo '</div>';
                 }
                 ?>
-            </div>
+            </ul>
         </div>
     </div>
 </section>
@@ -295,7 +294,6 @@ get_header(); ?>
     </div>
 </section>
 <?php endif; ?>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Contact form handling
@@ -333,24 +331,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // FAQ toggle functionality
-    const faqToggles = document.querySelectorAll('.faq-toggle');
+    // FAQ toggle functionality - matching homepage style
+    const faqItems = document.querySelectorAll('.faq-item');
     
-    faqToggles.forEach(toggle => {
-        toggle.addEventListener('click', function() {
-            const content = this.nextElementSibling;
-            const icon = this.querySelector('svg');
-            
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                icon.classList.add('rotate-180');
-            } else {
-                content.classList.add('hidden');
-                icon.classList.remove('rotate-180');
-            }
-        });
+    faqItems.forEach(function(item) {
+        const toggle = item.querySelector('.faq-toggle');
+        const content = item.querySelector('.faq-content');
+        
+        if (toggle && content) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Toggle active class
+                const isActive = toggle.classList.contains('active');
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-toggle').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-expanded', 'false');
+                });
+                document.querySelectorAll('.faq-content').forEach(c => {
+                    c.classList.remove('active');
+                });
+                
+                // Toggle current FAQ
+                if (!isActive) {
+                    toggle.classList.add('active');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    content.classList.add('active');
+                } else {
+                    toggle.classList.remove('active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    content.classList.remove('active');
+                }
+            });
+        }
     });
 });
 </script>
+
 
 <?php get_footer(); ?>
