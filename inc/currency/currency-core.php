@@ -355,7 +355,7 @@ function yoursite_initialize_currency_settings() {
         'fallback_rates' => array(),
         'display_currency_selector' => true,
         'remember_user_choice' => true,
-        'geolocation_detection' => false,
+        'geolocation_detection' => true,
         'default_rounding_mode' => 'nearest',
         'show_original_price' => false
     );
@@ -517,13 +517,13 @@ function yoursite_update_currency_rates($rates_data = null) {
  */
 function yoursite_get_user_currency() {
     // Check session/cookie first
-    if (isset($_COOKIE['yoursite_currency'])) {
-        $currency_code = sanitize_text_field($_COOKIE['yoursite_currency']);
-        $currency = yoursite_get_currency($currency_code);
-        if ($currency && $currency['status'] === 'active') {
-            return $currency;
-        }
+   if (isset($_COOKIE['yoursite_preferred_currency'])) {
+    $currency_code = sanitize_text_field($_COOKIE['yoursite_preferred_currency']);
+    $currency = yoursite_get_currency($currency_code);
+    if ($currency && $currency['status'] === 'active') {
+        return $currency;
     }
+}
     
     // Check if user is logged in and has preference
     if (is_user_logged_in()) {
@@ -632,34 +632,253 @@ function yoursite_format_currency($amount, $currency_code = null) {
     // Add prefix and suffix
     return $prefix . $formatted . $suffix;
 }
-
 /**
  * Simple geolocation currency detection - FIXED
  */
 function yoursite_detect_currency_by_location() {
     // Simple IP to country detection (you can integrate with a service)
-    $country_currency_map = array(
-        'US' => 'USD',
-        'CA' => 'CAD',
-        'GB' => 'GBP',
-        'AU' => 'AUD',
-        'DE' => 'EUR',
-        'FR' => 'EUR',
-        'IT' => 'EUR',
-        'ES' => 'EUR',
-        'NL' => 'EUR',
-        'JP' => 'JPY',
-        'CN' => 'CNY',
-        'IN' => 'INR',
-        'BR' => 'BRL',
-        'SE' => 'SEK',
-        'NO' => 'NOK',
-        'DK' => 'DKK'
-    );
-    
-    // For demo purposes, return based on browser language
+$country_currency_map = array(
+    'AF' => 'AFN',
+    'AL' => 'ALL',
+    'DZ' => 'DZD',
+    'AS' => 'USD',
+    'AD' => 'EUR',
+    'AO' => 'AOA',
+    'AI' => 'XCD',
+    'AQ' => 'USD',
+    'AG' => 'XCD',
+    'AR' => 'ARS',
+    'AM' => 'AMD',
+    'AW' => 'AWG',
+    'AU' => 'AUD',
+    'AT' => 'EUR',
+    'AZ' => 'AZN',
+    'BS' => 'BSD',
+    'BH' => 'BHD',
+    'BD' => 'BDT',
+    'BB' => 'BBD',
+    'BY' => 'BYN',
+    'BE' => 'EUR',
+    'BZ' => 'BZD',
+    'BJ' => 'XOF',
+    'BM' => 'BMD',
+    'BT' => 'BTN',
+    'BO' => 'BOB',
+    'BA' => 'BAM',
+    'BW' => 'BWP',
+    'BR' => 'BRL',
+    'IO' => 'USD',
+    'BN' => 'BND',
+    'BG' => 'BGN',
+    'BF' => 'XOF',
+    'BI' => 'BIF',
+    'CV' => 'CVE',
+    'KH' => 'KHR',
+    'CM' => 'XAF',
+    'CA' => 'CAD',
+    'KY' => 'KYD',
+    'CF' => 'XAF',
+    'TD' => 'XAF',
+    'CL' => 'CLP',
+    'CN' => 'CNY',
+    'CO' => 'COP',
+    'KM' => 'KMF',
+    'CG' => 'XAF',
+    'CD' => 'CDF',
+    'CR' => 'CRC',
+    'CI' => 'XOF',
+    'HR' => 'EUR',
+    'CU' => 'CUP',
+    'CY' => 'EUR',
+    'CZ' => 'CZK',
+    'DK' => 'DKK',
+    'DJ' => 'DJF',
+    'DM' => 'XCD',
+    'DO' => 'DOP',
+    'EC' => 'USD',
+    'EG' => 'EGP',
+    'SV' => 'USD',
+    'GQ' => 'XAF',
+    'ER' => 'ERN',
+    'EE' => 'EUR',
+    'SZ' => 'SZL',
+    'ET' => 'ETB',
+    'FJ' => 'FJD',
+    'FI' => 'EUR',
+    'FR' => 'EUR',
+    'GF' => 'EUR',
+    'PF' => 'XPF',
+    'GA' => 'XAF',
+    'GM' => 'GMD',
+    'GE' => 'GEL',
+    'DE' => 'EUR',
+    'GH' => 'GHS',
+    'GI' => 'GIP',
+    'GR' => 'EUR',
+    'GL' => 'DKK',
+    'GD' => 'XCD',
+    'GP' => 'EUR',
+    'GU' => 'USD',
+    'GT' => 'GTQ',
+    'GN' => 'GNF',
+    'GW' => 'XOF',
+    'GY' => 'GYD',
+    'HT' => 'HTG',
+    'HN' => 'HNL',
+    'HK' => 'HKD',
+    'HU' => 'HUF',
+    'IS' => 'ISK',
+    'IN' => 'INR',
+    'ID' => 'IDR',
+    'IR' => 'IRR',
+    'IQ' => 'IQD',
+    'IE' => 'EUR',
+    'IL' => 'ILS',
+    'IT' => 'EUR',
+    'JM' => 'JMD',
+    'JP' => 'JPY',
+    'JO' => 'JOD',
+    'KZ' => 'KZT',
+    'KE' => 'KES',
+    'KI' => 'AUD',
+    'KP' => 'KPW',
+    'KR' => 'KRW',
+    'KW' => 'KWD',
+    'KG' => 'KGS',
+    'LA' => 'LAK',
+    'LV' => 'EUR',
+    'LB' => 'LBP',
+    'LS' => 'LSL',
+    'LR' => 'LRD',
+    'LY' => 'LYD',
+    'LI' => 'CHF',
+    'LT' => 'EUR',
+    'LU' => 'EUR',
+    'MO' => 'MOP',
+    'MK' => 'MKD',
+    'MG' => 'MGA',
+    'MW' => 'MWK',
+    'MY' => 'MYR',
+    'MV' => 'MVR',
+    'ML' => 'XOF',
+    'MT' => 'EUR',
+    'MH' => 'USD',
+    'MQ' => 'EUR',
+    'MR' => 'MRU',
+    'MU' => 'MUR',
+    'YT' => 'EUR',
+    'MX' => 'MXN',
+    'FM' => 'USD',
+    'MD' => 'MDL',
+    'MC' => 'EUR',
+    'MN' => 'MNT',
+    'ME' => 'EUR',
+    'MS' => 'XCD',
+    'MA' => 'MAD',
+    'MZ' => 'MZN',
+    'MM' => 'MMK',
+    'NA' => 'NAD',
+    'NR' => 'AUD',
+    'NP' => 'NPR',
+    'NL' => 'EUR',
+    'NC' => 'XPF',
+    'NZ' => 'NZD',
+    'NI' => 'NIO',
+    'NE' => 'XOF',
+    'NG' => 'NGN',
+    'NU' => 'NZD',
+    'NF' => 'AUD',
+    'MP' => 'USD',
+    'NO' => 'NOK',
+    'OM' => 'OMR',
+    'PK' => 'PKR',
+    'PW' => 'USD',
+    'PA' => 'PAB',
+    'PG' => 'PGK',
+    'PY' => 'PYG',
+    'PE' => 'PEN',
+    'PH' => 'PHP',
+    'PL' => 'PLN',
+    'PT' => 'EUR',
+    'PR' => 'USD',
+    'QA' => 'QAR',
+    'RE' => 'EUR',
+    'RO' => 'RON',
+    'RU' => 'RUB',
+    'RW' => 'RWF',
+    'KN' => 'XCD',
+    'LC' => 'XCD',
+    'VC' => 'XCD',
+    'WS' => 'WST',
+    'SM' => 'EUR',
+    'ST' => 'STN',
+    'SA' => 'SAR',
+    'SN' => 'XOF',
+    'RS' => 'RSD',
+    'SC' => 'SCR',
+    'SL' => 'SLE',
+    'SG' => 'SGD',
+    'SX' => 'ANG',
+    'SK' => 'EUR',
+    'SI' => 'EUR',
+    'SB' => 'SBD',
+    'SO' => 'SOS',
+    'ZA' => 'ZAR',
+    'SS' => 'SSP',
+    'ES' => 'EUR',
+    'LK' => 'LKR',
+    'SD' => 'SDG',
+    'SR' => 'SRD',
+    'SE' => 'SEK',
+    'CH' => 'CHF',
+    'SY' => 'SYP',
+    'TW' => 'TWD',
+    'TJ' => 'TJS',
+    'TZ' => 'TZS',
+    'TH' => 'THB',
+    'TL' => 'USD',
+    'TG' => 'XOF',
+    'TO' => 'TOP',
+    'TT' => 'TTD',
+    'TN' => 'TND',
+    'TR' => 'TRY',
+    'TM' => 'TMT',
+    'TC' => 'USD',
+    'TV' => 'AUD',
+    'UG' => 'UGX',
+    'UA' => 'UAH',
+    'AE' => 'AED',
+    'GB' => 'GBP',
+    'US' => 'USD',
+    'UY' => 'UYU',
+    'UZ' => 'UZS',
+    'VU' => 'VUV',
+    'VA' => 'EUR',
+    'VE' => 'VES',
+    'VN' => 'VND',
+    'VG' => 'USD',
+    'VI' => 'USD',
+    'EH' => 'MAD',
+    'YE' => 'YER',
+    'ZM' => 'ZMW',
+    'ZW' => 'ZWL'
+);
+
+
+    // Get IP address
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'; // default fallback IP
+
+    // Call external geolocation API
+    $geo = @json_decode(file_get_contents("http://ip-api.com/json/{$ip}"));
+
+    if (!empty($geo->countryCode) && isset($country_currency_map[$geo->countryCode])) {
+        $currency_code = $country_currency_map[$geo->countryCode];
+        return yoursite_get_currency($currency_code);
+    }
+
+    // Fallback: use browser language
     $browser_language = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en', 0, 2);
-    
+
     $language_currency_map = array(
         'en' => 'USD',
         'de' => 'EUR',
@@ -672,8 +891,8 @@ function yoursite_detect_currency_by_location() {
         'no' => 'NOK',
         'da' => 'DKK'
     );
-    
+
     $detected_currency_code = $language_currency_map[$browser_language] ?? 'USD';
-    
+
     return yoursite_get_currency($detected_currency_code);
 }

@@ -286,15 +286,17 @@
                     </div>
                     <?php else : ?>
                     <!-- Fallback for Section 3 -->
-                    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-3xl p-12 shadow-2xl text-center">
-                        <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl mx-auto mb-6 flex items-center justify-center">
-                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v6a2 2 0 002 2h2m0 0h2m-2 0v4a2 2 0 002 2h2a2 2 0 002-2v-4m0 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m0 0V3a2 2 0 00-2-2H9a2 2 0 00-2 2v2H5"></path>
+
+                    <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-3xl p-12 shadow-2xl text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl mx-auto mb-6 flex items-center justify-center">
+                            <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2"><?php _e('Manage Like a Pro', 'yoursite'); ?></h3>
-                        <p class="text-gray-600 dark:text-gray-300"><?php _e('Professional management tools', 'yoursite'); ?></p>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2"><?php _e('Professional management tools', 'yoursite'); ?></h3>
+                        <p class="text-gray-600 dark:text-gray-300"><?php _e('Manage Like a Pro', 'yoursite'); ?></p>
                     </div>
+
                     <?php endif; ?>
 
                     <!-- Background decoration -->

@@ -642,63 +642,12 @@ function yoursite_create_default_posts() {
  * Create demo content
  */
 function yoursite_create_demo_content() {
-    yoursite_create_demo_features();
     yoursite_create_demo_testimonials();
     yoursite_create_demo_pricing();
     yoursite_create_demo_webinars();
 }
 
-/**
- * Create demo features
- */
-function yoursite_create_demo_features() {
-    $existing_features = get_posts(array('post_type' => 'features', 'numberposts' => 1));
-    
-    if (empty($existing_features)) {
-        $demo_features = array(
-            array(
-                'title' => __('Drag & Drop Store Builder', 'yoursite'),
-                'content' => __('Create your perfect online store with our intuitive drag-and-drop interface. No coding required - just drag, drop, and customize to match your brand.', 'yoursite'),
-                'excerpt' => __('Build your store visually with our easy-to-use drag-and-drop interface.', 'yoursite')
-            ),
-            array(
-                'title' => __('Mobile-First Design', 'yoursite'),
-                'content' => __('All our templates are mobile-responsive and optimized for every device. Your customers will have a seamless shopping experience whether they\'re on desktop, tablet, or mobile.', 'yoursite'),
-                'excerpt' => __('Responsive design that looks perfect on all devices.', 'yoursite')
-            ),
-            array(
-                'title' => __('Secure Payment Processing', 'yoursite'),
-                'content' => __('Accept payments safely with our PCI-compliant payment processing. Support for all major credit cards, PayPal, Apple Pay, and more payment methods.', 'yoursite'),
-                'excerpt' => __('Secure, PCI-compliant payment processing with multiple payment options.', 'yoursite')
-            ),
-            array(
-                'title' => __('Advanced Analytics', 'yoursite'),
-                'content' => __('Track your store\'s performance with detailed analytics and reporting. Monitor sales, customer behavior, traffic sources, and conversion rates all in one dashboard.', 'yoursite'),
-                'excerpt' => __('Comprehensive analytics to track your store\'s performance and growth.', 'yoursite')
-            ),
-            array(
-                'title' => __('Inventory Management', 'yoursite'),
-                'content' => __('Keep track of your products with our powerful inventory management system. Set up automatic low-stock alerts, manage variants, and sync across multiple sales channels.', 'yoursite'),
-                'excerpt' => __('Powerful inventory management with automatic alerts and multi-channel sync.', 'yoursite')
-            ),
-            array(
-                'title' => __('SEO Optimization', 'yoursite'),
-                'content' => __('Built-in SEO tools help your products get found on search engines. Optimize meta tags, generate sitemaps, and improve your search rankings automatically.', 'yoursite'),
-                'excerpt' => __('Built-in SEO tools to help customers find your products online.', 'yoursite')
-            )
-        );
-        
-        foreach ($demo_features as $feature_data) {
-            wp_insert_post(array(
-                'post_title' => $feature_data['title'],
-                'post_content' => $feature_data['content'],
-                'post_excerpt' => $feature_data['excerpt'],
-                'post_status' => 'publish',
-                'post_type' => 'features'
-            ));
-        }
-    }
-}
+
 
 /**
  * Create demo testimonials

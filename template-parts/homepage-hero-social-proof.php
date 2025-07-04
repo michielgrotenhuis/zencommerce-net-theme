@@ -1,26 +1,70 @@
 <?php
 /**
  * Template part for homepage - Hero & Social Proof sections
- * Part 1 of 3 - Fully Dynamic Version
+ * Part 1 of 3 - Fully Dynamic Version with Currency Backgrounds
  */
 
-// Get background settings for hero
-$hero_background_type = get_theme_mod('hero_background_type', 'gradient');
-$hero_bg_image = get_theme_mod('hero_background_image', '');
+// Get current user's currency
+$current_currency = yoursite_get_user_currency_safe();
 
-// Build hero classes
-$hero_classes = 'hero-gradient main-hero text-white py-20 lg:py-32 relative overflow-hidden';
+// Get currency background settings
+$backgrounds_config = get_option('yoursite_currency_backgrounds_config', array());
+$default_background = get_option('yoursite_currency_backgrounds_default', '');
+$backgrounds_enabled = get_option('yoursite_currency_backgrounds_enabled', true);
 
-if (in_array($hero_background_type, array('image', 'image_with_gradient')) && $hero_bg_image) {
+// Determine hero background
+$hero_background_image = '';
+$has_currency_background = false;
+
+if ($backgrounds_enabled && isset($backgrounds_config[$current_currency['code']])) {
+    $hero_background_image = $backgrounds_config[$current_currency['code']]['image_url'];
+    $has_currency_background = true;
+} elseif ($default_background) {
+    $hero_background_image = $default_background;
+    $has_currency_background = true;
+}
+
+// Fallback to theme customizer settings if no currency background
+if (!$has_currency_background) {
+    $hero_background_type = get_theme_mod('hero_background_type', 'gradient');
+    $hero_bg_image = get_theme_mod('hero_background_image', '');
+    
+    if (in_array($hero_background_type, array('image', 'image_with_gradient')) && $hero_bg_image) {
+        $hero_background_image = $hero_bg_image;
+    }
+}
+
+// Build hero classes with currency background support
+$hero_classes = 'hero-gradient main-hero text-white py-20 lg:py-32 relative overflow-hidden currency-hero';
+
+if ($hero_background_image) {
     $hero_classes .= ' has-background-image';
+}
+
+// Build inline styles for hero background
+$hero_style = '';
+if ($hero_background_image) {
+    $hero_style = sprintf(
+        'background-image: url(%s); background-size: cover; background-position: center; background-repeat: no-repeat;',
+        esc_url($hero_background_image)
+    );
 }
 ?>
 
-<!-- Hero Section - Conversion Optimized -->
+<!-- Hero Section - Conversion Optimized with Currency Dynamic Backgrounds -->
 <?php if (get_theme_mod('hero_enable', true)) : ?>
-<section class="<?php echo esc_attr($hero_classes); ?>">
+<section class="<?php echo esc_attr($hero_classes); ?>" 
+         data-currency-background="true"
+         data-current-currency="<?php echo esc_attr($current_currency['code']); ?>"
+         <?php if ($hero_style) : ?>style="<?php echo $hero_style; ?>"<?php endif; ?>>
+    
+    <!-- Dark Overlay for better text readability -->
+    <?php if ($hero_background_image) : ?>
+    <div class="absolute inset-0 bg-black/40 z-5"></div>
+    <?php endif; ?>
+    
     <!-- Animated Background Elements -->
-    <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden z-0">
         <div class="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full animate-pulse"></div>
         <div class="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-tr from-purple-400/10 to-pink-600/10 rounded-full animate-pulse delay-1000"></div>
     </div>
@@ -31,6 +75,14 @@ if (in_array($hero_background_type, array('image', 'image_with_gradient')) && $h
                 
                 <!-- Left Column - Hero Content -->
                 <div class="text-center lg:text-left fade-in-up">
+                    <!-- Currency Display Badge -->
+                    <?php if ($has_currency_background && $backgrounds_enabled) : ?>
+                    <div class="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium text-white/90 mb-4 border border-white/30">
+                        <span class="text-lg mr-2"><?php echo esc_html($current_currency['flag']); ?></span>
+                        <span><?php printf(__('Showing prices in %s', 'yoursite'), esc_html($current_currency['name'])); ?></span>
+                    </div>
+                    <?php endif; ?>
+                    
                     <!-- Trust Badge -->
                     <?php 
                     $trust_badge = get_theme_mod('hero_trust_badge', __('Trusted by 50,000+ merchants', 'yoursite'));
@@ -198,7 +250,29 @@ if (in_array($hero_background_type, array('image', 'image_with_gradient')) && $h
             </div>
         </div>
     </div>
+    
+    <!-- Loading Indicator for Currency Background Changes -->
+    <div class="currency-background-loader absolute inset-0 bg-black/20 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-4 shadow-lg">
+            <div class="flex items-center space-x-3">
+                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                <span class="text-gray-900 font-medium"><?php _e('Updating background...', 'yoursite'); ?></span>
+            </div>
+        </div>
+    </div>
 </section>
+<?php endif; ?>
+
+<!-- Debug Info (only in development) -->
+<?php if (WP_DEBUG && current_user_can('manage_options')) : ?>
+<div class="bg-yellow-50 border border-yellow-200 p-4 text-sm text-yellow-800">
+    <strong>Currency Backgrounds Debug:</strong><br>
+    Current Currency: <?php echo esc_html($current_currency['code']) . ' (' . esc_html($current_currency['name']) . ')'; ?><br>
+    Backgrounds Enabled: <?php echo $backgrounds_enabled ? 'Yes' : 'No'; ?><br>
+    Has Currency Background: <?php echo $has_currency_background ? 'Yes' : 'No'; ?><br>
+    Background Image: <?php echo $hero_background_image ? esc_html($hero_background_image) : 'None'; ?><br>
+    Available Currencies: <?php echo implode(', ', array_keys($backgrounds_config)); ?>
+</div>
 <?php endif; ?>
 
 <!-- Social Proof Banner -->
