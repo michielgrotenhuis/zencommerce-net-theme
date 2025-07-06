@@ -12,23 +12,18 @@ Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 7.4
 */
-
-/* ==========================================================================
-   CSS VARIABLES - ZENCOMMERCE DESIGN SYSTEM
-   ========================================================================== */
-
 :root {
-    /* Primary Brand Colors */
-    --zc-primary: #f4b400;           /* Zencommerce golden yellow */
+    /* Zencommerce Brand Colors */
+    --zc-primary: #f4b400;           /* Zencommerce golden yellow - CTA color */
     --zc-primary-dark: #e09f00;      /* Darker yellow for hover */
     --zc-primary-light: #ffd54f;     /* Lighter yellow */
     
-    --zc-secondary: #0f6fb8;         /* Zencommerce blue */
+    --zc-secondary: #126fb7;         /* Zencommerce blue - website/logo color */
     --zc-secondary-dark: #0d5aa0;    /* Darker blue */
     --zc-secondary-light: #5c95db;   /* Lighter blue */
     
-    /* Text Colors */
-    --zc-text-primary: #1c1c1c;      /* Dark text */
+    /* Text Colors - Zencommerce Style */
+    --zc-text-primary: #1c1c1c;      /* Dark text like Zencommerce */
     --zc-text-secondary: #5f5f5f;    /* Medium gray text */
     --zc-text-tertiary: #93afc4;     /* Light blue-gray */
     --zc-text-white: #ffffff;        /* White text */
@@ -37,53 +32,14 @@ Requires PHP: 7.4
     --zc-bg-primary: #ffffff;
     --zc-bg-secondary: #f9f9f9;      /* Light gray background */
     --zc-bg-tertiary: #f7f8f9;       /* Footer background */
-    --zc-bg-dark: #111827;           /* Dark mode background */
     
     /* Border and UI Colors */
-    --zc-border: #f1f1f1;            /* Light borders */
+    --zc-border: #f1f1f1;            /* Light borders like Zencommerce */
     --zc-border-dark: #e4e4e4;       /* Slightly darker borders */
     
-    /* Status Colors */
-    --zc-success: #7dc641;           /* Green for success */
-    --zc-warning: #f79237;           /* Orange for warnings */
-    --zc-error: #f26b50;             /* Red for errors */
-    
-    /* Shadows */
-    --zc-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --zc-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --zc-shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.1);
-    --zc-shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.25);
-    
-    /* Border Radius */
-    --zc-radius-sm: 3px;
-    --zc-radius-md: 6px;
-    --zc-radius-lg: 8px;
-    --zc-radius-xl: 12px;
-    
-    /* Spacing */
-    --zc-spacing-xs: 0.5rem;
-    --zc-spacing-sm: 1rem;
-    --zc-spacing-md: 1.5rem;
-    --zc-spacing-lg: 2rem;
-    --zc-spacing-xl: 3rem;
-    --zc-spacing-2xl: 4rem;
+    /* Zencommerce Gradient */
+    --zc-gradient: linear-gradient(135deg, var(--zc-secondary) 0%, var(--zc-primary) 100%);
 }
-
-/* Dark Mode Variables */
-body.dark-mode {
-    --zc-bg-primary: #111827;
-    --zc-bg-secondary: #1f2937;
-    --zc-bg-tertiary: #374151;
-    --zc-card-bg: #1f2937;
-    --zc-card-border: #374151;
-    --zc-text-primary: #f9fafb;
-    --zc-text-secondary: #e5e7eb;
-    --zc-text-tertiary: #d1d5db;
-    --zc-border: #374151;
-    --zc-border-dark: #4b5563;
-    --zc-input-border: #4b5563;
-}
-
 /* ==========================================================================
    RESET & NORMALIZE
    ========================================================================== */
@@ -606,6 +562,7 @@ a:focus {
    BUTTON SYSTEM - ZENCOMMERCE INSPIRED
    ========================================================================== */
 
+/* Zencommerce Style Buttons */
 .btn {
     border-radius: var(--zc-radius-sm);
     transition: all 0.15s ease;
@@ -619,12 +576,16 @@ a:focus {
     border: 1px solid transparent;
     text-align: center;
     text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .btn:hover {
     background-color: var(--zc-primary);
     color: var(--zc-text-white);
     text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.3);
 }
 
 .btn.btn-primary {
@@ -633,13 +594,10 @@ a:focus {
     color: var(--zc-text-white);
 }
 
-.btn.btn-primary:hover {
-    background-color: var(--zc-primary-dark);
-    border-color: var(--zc-primary-dark);
-    color: var(--zc-text-white);
-    text-decoration: none;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.3);
+.btn.btn-border {
+    border-color: var(--zc-primary);
+    background-color: transparent;
+    color: var(--zc-primary);
 }
 
 .btn.btn-border {
@@ -740,18 +698,13 @@ form label {
 
 .card,
 .feature-card {
-    background-color: var(--zc-bg-primary);
-    border: 1px solid var(--zc-border);
-    border-radius: var(--zc-radius-lg);
-    padding: 2em;
-    transition: all 0.3s ease;
-    box-shadow: var(--zc-shadow-sm);
+    transition: all 0.2s ease;
+    border-radius: 8px;
 }
 
-.card:hover,
 .feature-card:hover {
-    box-shadow: var(--zc-shadow-lg);
-    transform: translateY(-2px);
+    background-color: rgba(244, 180, 0, 0.05);
+    transform: translateY(-1px);
 }
 
 /* Box Components */
@@ -760,6 +713,7 @@ form label {
     padding: 2em;
     border-radius: var(--zc-radius-md);
 }
+
 
 .box-bg {
     background-color: var(--zc-bg-secondary);
@@ -1933,17 +1887,6 @@ body.dark-mode #main-footer {
     @apply opacity-100 visible;
 }
 
-.mobile-navigation,
-#mobile-navigation,
-#main-nav-mobile > ul {
-    @apply fixed top-0 right-0 h-full w-80 max-w-xs bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto;
-}
-
-.mobile-navigation.active,
-#mobile-navigation.active,
-#main-nav-mobile > ul.show {
-    @apply transform translate-x-0;
-}
 
 /* Prevent body scroll when mobile menu is open */
 body.mobile-menu-open {
@@ -2522,21 +2465,53 @@ body.mobile-menu-open {
    ========================================================================== */
 
 /* Main mobile navigation container - Initially hidden */
-#mobile-navigation,
-.mobile-navigation {
-    /* Remove the conflicting inset-0 and make it properly hidden */
-    @apply fixed top-0 left-0 w-full h-full z-40 pointer-events-none opacity-0 transition-opacity duration-300;
-    /* Don't use inset-0 as it conflicts with the panel positioning */
-    visibility: hidden;
+/* Fixed Mobile Navigation - Zencommerce Style */
+#mobile-navigation {
+    z-index: 9999;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
-/* When mobile navigation is active/visible */
-#mobile-navigation.active,
-#mobile-navigation.show,
-.mobile-navigation.active,
-.mobile-navigation.show {
-    @apply pointer-events-auto opacity-100;
-    visibility: visible;
+#mobile-navigation.opacity-100 {
+    pointer-events: auto;
+}
+
+#mobile-navigation.opacity-0 {
+    pointer-events: none;
+}
+
+.mobile-menu-panel {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid var(--zc-border);
+}
+
+.dark .mobile-menu-panel {
+    background: rgba(17, 24, 39, 0.98);
+    border-left-color: var(--zc-border-dark);
+}
+
+/* Hamburger Animation - Zencommerce Style */
+.hamburger .hamburger-line {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    background: white;
+    height: 2px;
+    width: 100%;
+    display: block;
+    border-radius: 1px;
+}
+
+.hamburger.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
 }
 
 /* ==========================================================================
@@ -2894,6 +2869,22 @@ body.mobile-menu-open {
     .mobile-navigation {
         transition: none !important;
     }
+}
+
+/* Zencommerce Style Mega Menu */
+.mega-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.mega-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 /* ==========================================================================
@@ -3813,5 +3804,41 @@ body.mobile-menu-open {
     .animate-float {
         position: relative !important;
         animation: none !important;
+    }
+}
+
+/* Mobile Menu Responsive Fixes */
+@media (max-width: 1024px) {
+    .mega-menu {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #mobile-navigation {
+        backdrop-filter: blur(10px);
+    }
+    
+    .mobile-menu-panel {
+        width: min(320px, 90vw);
+    }
+    
+    .hamburger {
+        width: 44px;
+        height: 44px;
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+    #mobile-navigation {
+        position: fixed !important;
+    }
+    
+    .mobile-menu-panel {
+        height: 100vh !important;
+        height: -webkit-fill-available !important;
     }
 }
