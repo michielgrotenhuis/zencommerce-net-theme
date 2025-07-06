@@ -3,22 +3,6 @@
    MODERN WORDPRESS HEADER - ZENCOMMERCE INSPIRED DESIGN
    ========================================================================== */
 
-/* Custom CSS Variables */
-:root {
-    --zc-primary: #0066ff;
-    --zc-primary-dark: #0052cc;
-    --zc-secondary: #1a1a1a;
-    --zc-accent: #ff6b35;
-    --zc-success: #00d084;
-    --zc-text-primary: #1a1a1a;
-    --zc-text-secondary: #6b7280;
-    --zc-text-muted: #9ca3af;
-    --zc-border: #e5e7eb;
-    --zc-bg-secondary: #f8fafc;
-    --zc-gradient: linear-gradient(135deg, #0066ff 0%, #00d084 100%);
-    --zc-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
 /* Dark mode variables */
 .dark {
     --zc-text-primary: #f9fafb;
@@ -42,27 +26,23 @@
 .bg-zc-accent { background-color: var(--zc-accent); }
 .text-zc-accent { color: var(--zc-accent); }
 
-/* Mega Menu Animations */
+/* Zencommerce Style Mega Menu */
 .mega-menu {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-20px) scale(0.95);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(-8px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     backdrop-filter: blur(20px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
 .mega-menu.show {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
 }
 
 /* Feature Card Hover Effects */
-.feature-card {
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    overflow: hidden;
-}
 
 .feature-card::before {
     content: '';
@@ -79,11 +59,65 @@
     left: 100%;
 }
 
-.feature-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: var(--zc-shadow);
+/* Mobile Menu Responsive Fixes */
+@media (max-width: 1024px) {
+    .mega-menu {
+        display: none !important;
+    }
 }
 
+@media (max-width: 768px) {
+    #mobile-navigation {
+        backdrop-filter: blur(10px);
+    }
+    
+    .mobile-menu-panel {
+        width: min(320px, 90vw);
+    }
+    
+    .hamburger {
+        width: 44px;
+        height: 44px;
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+    #mobile-navigation {
+        position: fixed !important;
+    }
+    
+    .mobile-menu-panel {
+        height: 100vh !important;
+        height: -webkit-fill-available !important;
+    }
+}
+
+
+/* Hamburger Animation - Zencommerce Style */
+.hamburger .hamburger-line {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    background: white;
+    height: 2px;
+    width: 100%;
+    display: block;
+    border-radius: 1px;
+}
+
+.hamburger.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
 /* Mobile Menu Slide Animation */
 .mobile-menu-panel {
     transform: translateX(100%);
