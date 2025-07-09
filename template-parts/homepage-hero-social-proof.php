@@ -263,18 +263,6 @@ if ($hero_background_image) {
 </section>
 <?php endif; ?>
 
-<!-- Debug Info (only in development) -->
-<?php if (WP_DEBUG && current_user_can('manage_options')) : ?>
-<div class="bg-yellow-50 border border-yellow-200 p-4 text-sm text-yellow-800">
-    <strong>Currency Backgrounds Debug:</strong><br>
-    Current Currency: <?php echo esc_html($current_currency['code']) . ' (' . esc_html($current_currency['name']) . ')'; ?><br>
-    Backgrounds Enabled: <?php echo $backgrounds_enabled ? 'Yes' : 'No'; ?><br>
-    Has Currency Background: <?php echo $has_currency_background ? 'Yes' : 'No'; ?><br>
-    Background Image: <?php echo $hero_background_image ? esc_html($hero_background_image) : 'None'; ?><br>
-    Available Currencies: <?php echo implode(', ', array_keys($backgrounds_config)); ?>
-</div>
-<?php endif; ?>
-
 <!-- Social Proof Banner -->
 <?php if (get_theme_mod('social_proof_enable', true)) : ?>
 <section class="bg-gray-50 dark:bg-gray-900 py-8 border-b border-gray-200 dark:border-gray-700">

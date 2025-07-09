@@ -729,8 +729,9 @@ function yoursite_render_currency_selector($args = array()) {
     
     .currency-selector-item:hover, .currency-dropdown-item:hover,
     .currency-selector-item:focus, .currency-dropdown-item:focus {
-        background: #f6f7f7;
+        /* background: #f6f7f7; */
         color: #007cba;
+        outline:0px;
     }
     
     .currency-selector-item.active, .currency-dropdown-item.active {

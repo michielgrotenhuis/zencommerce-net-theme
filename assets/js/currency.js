@@ -155,6 +155,8 @@
                 .then(() => {
                     this.showSuccessMessage(currencyCode);
                     this.triggerCurrencyChangeEvent(oldCurrency, currencyCode);
+
+                    location.reload();
                 })
                 .catch((error) => {
                     // Rollback on error

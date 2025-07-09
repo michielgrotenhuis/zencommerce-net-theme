@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 
 <!-- Testimonials - Social Proof -->
 <?php if (get_theme_mod('testimonials_enable', true)) : ?>
-<section class="py-20 bg-gray-50 dark:bg-gray-900">
+<section class="py-20 bg-gray-50 dark:bg-gray-900 testimonial_section">
     <div class="container mx-auto px-4">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
@@ -51,7 +51,8 @@ if (!defined('ABSPATH')) {
                     
                     <!-- Testimonial Content -->
                     <blockquote class="text-gray-700 dark:text-gray-300 mb-6 text-lg leading-relaxed">
-                        "<?php the_content(); ?>"
+                        
+                        <?php the_content(); ?>
                     </blockquote>
                     
                     <!-- Author -->
@@ -61,8 +62,8 @@ if (!defined('ABSPATH')) {
                                 <?php the_post_thumbnail('thumbnail', array('class' => 'w-14 h-14 rounded-full object-cover')); ?>
                             </div>
                         <?php else : ?>
-                            <div class="w-14 h-14 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center mr-4">
-                                <span class="text-white font-bold text-lg"><?php echo substr(get_the_title(), 0, 1); ?></span>
+                            <div class=" bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center mr-4">
+                                <span class="testimonial_circle text-white font-bold text-lg"><?php echo substr(get_the_title(), 0, 1); ?></span>
                             </div>
                         <?php endif; ?>
                         <div>
@@ -100,8 +101,8 @@ if (!defined('ABSPATH')) {
                         "<?php echo esc_html($content); ?>"
                     </blockquote>
                     <div class="flex items-center">
-                        <div class="w-14 h-14 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center mr-4">
-                            <span class="text-white font-bold text-lg"><?php echo !empty($name) ? substr($name, 0, 1) : 'T'; ?></span>
+                        <div class="bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center mr-4">
+                            <span class="testimonial_circle text-white font-bold text-lg"><?php echo !empty($name) ? substr($name, 0, 1) : 'T'; ?></span>
                         </div>
                         <div>
                             <div class="font-bold text-gray-900 dark:text-white"><?php echo esc_html($name); ?></div>
@@ -311,108 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
-<style>
-/* FAQ Section Additional Styles */
-.faq-section .faq-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
 
-.faq-item {
-    transition: all 0.3s ease;
-}
-
-.faq-item:hover {
-    transform: translateY(-1px);
-}
-
-.faq-toggle:focus {
-    outline: none;
-}
-
-.faq-toggle h3 {
-    margin: 0;
-    font-size: 1.125rem;
-    line-height: 1.4;
-}
-
-.faq-content {
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                border-top-width 0.3s ease;
-}
-
-.faq-content-inner {
-    padding-top: 0.5rem;
-}
-
-.faq-toggle-icon {
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.faq-cta-button:focus {
-    outline: none;
-    ring: 3px solid rgba(59, 130, 246, 0.5);
-    ring-offset: 2px;
-}
-
-/* Dark mode adjustments */
-.dark .faq-item.faq-active {
-    border-color: rgb(59 130 246);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.2);
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-    .faq-toggle {
-        padding: 1rem 1.25rem !important;
-    }
-    
-    .faq-toggle h3 {
-        font-size: 1rem;
-        padding-right: 0.75rem;
-    }
-    
-    .faq-content-inner {
-        padding: 0.5rem 1.25rem 1.25rem 1.25rem;
-    }
-    
-    .faq-toggle-icon {
-        width: 1.25rem;
-        height: 1.25rem;
-    }
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-    .faq-item,
-    .faq-content,
-    .faq-toggle-icon,
-    .faq-cta-button {
-        transition: none !important;
-    }
-    
-    .faq-item:hover {
-        transform: none !important;
-    }
-}
-
-/* Print styles */
-@media print {
-    .faq-content {
-        max-height: none !important;
-        overflow: visible !important;
-    }
-    
-    .faq-toggle-icon {
-        display: none;
-    }
-    
-    .faq-cta-button {
-        display: none;
-    }
-}
-</style>
 <?php endif; ?>
 
 <!-- Video Modal -->

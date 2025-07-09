@@ -311,7 +311,7 @@
             if (!empty($usp_benefits_cta_text)) :
             ?>
             <div class="text-center">
-                <a href="<?php echo esc_url($usp_benefits_cta_url); ?>" class="usp-benefits-cta-button">
+                <a href="<?php echo esc_url($usp_benefits_cta_url); ?>" class="text-white usp-benefits-cta-button ">
                     <span><?php echo esc_html($usp_benefits_cta_text); ?></span>
                     <svg class="usp-benefits-cta-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>

@@ -920,6 +920,2642 @@ function yoursite_render_pricing_comparison_table() {
     });
     </script>
     
+
+<style>
+
+/* ==========================================================================
+   ENHANCED COMPARISON TABLE - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.pricing-comparison-wrapper {
+    margin: 60px 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+    background: var(--zc-bg-primary);
+    border-radius: var(--zc-radius-xl);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--zc-border);
+    overflow: hidden;
+    position: relative;
+}
+
+/* ==========================================================================
+   COMPARISON HEADER - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-header {
+    background: linear-gradient(135deg, var(--zc-bg-secondary) 0%, rgba(249, 249, 249, 0.8) 100%);
+    border-bottom: 2px solid var(--zc-border);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.comparison-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(18,111,183,0.03)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.comparison-header > * {
+    position: relative;
+    z-index: 2;
+}
+
+.comparison-header h3 {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--zc-text-primary);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+.comparison-header p {
+    font-size: 1.125rem;
+    color: var(--zc-text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+/* Currency and Billing Toggle Container */
+.comparison-header .flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* ==========================================================================
+   CURRENCY SELECTOR - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-currency-selector {
+    background: linear-gradient(135deg, rgba(18, 111, 183, 0.1) 0%, rgba(244, 180, 0, 0.1) 100%);
+    border: 1px solid rgba(18, 111, 183, 0.3);
+    color: var(--zc-text-primary);
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--zc-radius-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    min-width: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-currency-selector::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.comparison-currency-selector:hover::before {
+    left: 100%;
+}
+
+.comparison-currency-selector:hover {
+    background: linear-gradient(135deg, rgba(18, 111, 183, 0.2) 0%, rgba(244, 180, 0, 0.2) 100%);
+    border-color: var(--zc-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.15);
+}
+
+/* ==========================================================================
+   BILLING TOGGLE - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-header .flex .flex {
+    background: var(--zc-bg-primary);
+    border: 1px solid var(--zc-border);
+    border-radius: 50px;
+    padding: 0.5rem;
+    box-shadow: var(--zc-shadow-sm);
+    position: relative;
+}
+
+.comparison-monthly-label,
+.comparison-yearly-label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--zc-text-secondary);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.comparison-yearly-label {
+    color: var(--zc-primary);
+    font-weight: 600;
+}
+
+/* Toggle Switch - Zencommerce Style */
+#comparison-billing-toggle + label {
+    background: var(--zc-border-dark);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#comparison-billing-toggle + label span {
+    background: var(--zc-bg-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#comparison-billing-toggle:checked + label {
+    background: var(--zc-primary);
+    border-color: var(--zc-primary-dark);
+}
+
+#comparison-billing-toggle:checked + label span {
+    box-shadow: 0 2px 8px rgba(244, 180, 0, 0.3);
+}
+
+#comparison-billing-toggle:focus + label {
+    box-shadow: 0 0 0 3px rgba(244, 180, 0, 0.1);
+}
+
+/* Save Badge */
+.comparison-header .bg-emerald-500 {
+    background: linear-gradient(135deg, var(--zc-success), #22c55e);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+    animation: subtle-pulse 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-header .bg-emerald-500::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer-save 3s ease-in-out infinite;
+}
+
+@keyframes subtle-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+@keyframes shimmer-save {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* ==========================================================================
+   COMPARISON TABLE CONTAINER
+   ========================================================================== */
+
+.comparison-table-container {
+    position: relative;
+    background: var(--zc-bg-primary);
+    border-radius: 0 0 var(--zc-radius-xl) var(--zc-radius-xl);
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 800px;
+    background: var(--zc-bg-primary);
+    font-size: 0.9375rem;
+}
+
+/* ==========================================================================
+   TABLE HEADERS - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--zc-bg-primary);
+    border-bottom: 2px solid var(--zc-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-table th {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border-right: 1px solid var(--zc-border);
+    vertical-align: top;
+    background: var(--zc-bg-primary);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.comparison-table th:first-child {
+    text-align: left;
+    background: var(--zc-bg-secondary);
+    border-right: 2px solid var(--zc-border-dark);
+    width: 280px;
+    padding: 2rem 1.5rem;
+}
+
+.comparison-table th:last-child {
+    border-right: none;
+}
+
+/* Featured Plan Header */
+.comparison-table th.bg-blue-50 {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+    border-left: 3px solid var(--zc-primary);
+    border-right: 3px solid var(--zc-primary);
+    position: relative;
+    transform: scale(1.02);
+    z-index: 5;
+}
+
+.comparison-table th.bg-blue-50::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(244, 180, 0, 0.02) 0%, rgba(18, 111, 183, 0.02) 100%);
+    pointer-events: none;
+}
+
+/* Most Popular Badge */
+.comparison-table th .absolute.top-0 {
+    background: var(--zc-gradient);
+    color: white;
+    padding: 0.5rem 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 8px rgba(244, 180, 0, 0.3);
+    border-radius: var(--zc-radius-lg) var(--zc-radius-lg) 0 0;
+    margin: -2rem -1.5rem 0 -1.5rem;
+}
+
+/* Plan Titles */
+.comparison-table th h4 {
+    font-size: 1.375rem;
+    font-weight: 300;
+    color: var(--zc-text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+/* ==========================================================================
+   PRICE DISPLAY - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.price-display {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.monthly-pricing,
+.annual-pricing {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pricing-comparison-wrapper.comparison-yearly-active .monthly-pricing {
+    opacity: 0;
+    transform: translateY(-10px);
+    height: 0;
+    overflow: hidden;
+}
+
+.pricing-comparison-wrapper.comparison-yearly-active .annual-pricing {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.pricing-comparison-wrapper.comparison-monthly-active .annual-pricing {
+    opacity: 0;
+    transform: translateY(10px);
+    height: 0;
+    overflow: hidden;
+}
+
+.pricing-comparison-wrapper.comparison-monthly-active .monthly-pricing {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Price period and notes */
+.comparison-table .text-gray-600 {
+    color: var(--zc-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 300;
+}
+
+.comparison-table .text-xs.text-green-600 {
+    color: var(--zc-success);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+/* Savings Badge */
+.comparison-table .inline-flex.items-center.px-2 {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    color: var(--zc-success);
+    padding: 0.375rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 4px rgba(34, 197, 94, 0.1);
+}
+
+/* ==========================================================================
+   CTA BUTTONS - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-cta-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--zc-radius-sm);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    transition: left 0.3s ease;
+    z-index: 1;
+}
+
+.comparison-cta-button span,
+.comparison-cta-button::after {
+    position: relative;
+    z-index: 2;
+}
+
+/* Primary CTA (Featured Plan) */
+.comparison-cta-button.btn-primary {
+    background: var(--zc-primary);
+    color: white;
+    border-color: var(--zc-primary);
+    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.3);
+}
+
+.comparison-cta-button.btn-primary::before {
+    background: var(--zc-primary-dark);
+}
+
+.comparison-cta-button.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(244, 180, 0, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.comparison-cta-button.btn-primary:hover::before {
+    left: 0;
+}
+
+/* Secondary CTA */
+.comparison-cta-button.btn-secondary {
+    background: transparent;
+    color: var(--zc-primary);
+    border-color: var(--zc-primary);
+}
+
+.comparison-cta-button.btn-secondary::before {
+    background: var(--zc-primary);
+}
+
+.comparison-cta-button.btn-secondary:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.3);
+    text-decoration: none;
+}
+
+.comparison-cta-button.btn-secondary:hover::before {
+    left: 0;
+}
+
+/* ==========================================================================
+   FEATURE CATEGORIES - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+/* Category Headers */
+.comparison-table tbody tr.bg-gray-50 td {
+    background: linear-gradient(135deg, var(--zc-bg-secondary) 0%, rgba(249, 249, 249, 0.8) 100%);
+    padding: 1.5rem;
+    border-bottom: 2px solid var(--zc-border-dark);
+    border-top: 1px solid var(--zc-border);
+    position: relative;
+}
+
+.comparison-table tbody tr.bg-gray-50 td::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--zc-gradient);
+}
+
+.comparison-table tbody tr.bg-gray-50 h5 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--zc-text-primary);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+}
+
+.comparison-table tbody tr.bg-gray-50 p {
+    font-size: 0.875rem;
+    color: var(--zc-text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.comparison-table tbody tr.bg-gray-50 .flex span:first-child {
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+    filter: drop-shadow(0 2px 4px rgba(244, 180, 0, 0.2));
+}
+
+/* ==========================================================================
+   FEATURE ROWS - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.comparison-table tbody tr:hover {
+    background: rgba(244, 180, 0, 0.02);
+}
+
+.comparison-table tbody tr:hover td:first-child {
+    background: rgba(244, 180, 0, 0.05);
+    border-right-color: var(--zc-primary);
+}
+
+.comparison-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--zc-border);
+    border-right: 1px solid var(--zc-border);
+    vertical-align: middle;
+    transition: all 0.2s ease;
+}
+
+.comparison-table td:first-child {
+    background: var(--zc-bg-secondary);
+    border-right: 2px solid var(--zc-border-dark);
+    text-align: left;
+    font-weight: 500;
+    color: var(--zc-text-primary);
+    position: relative;
+}
+
+.comparison-table td:last-child {
+    border-right: none;
+}
+
+/* Featured Plan Cells */
+.comparison-table td.bg-blue-50\/30 {
+    background: rgba(59, 130, 246, 0.02);
+    border-left: 1px solid rgba(244, 180, 0, 0.1);
+    border-right: 1px solid rgba(244, 180, 0, 0.1);
+    position: relative;
+}
+
+/* ==========================================================================
+   FEATURE VALUES - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+/* Check marks */
+.comparison-table .text-green-500 {
+    color: var(--zc-success);
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(34, 197, 94, 0.2);
+}
+
+/* Cross marks and dashes */
+.comparison-table .text-gray-400 {
+    color: var(--zc-text-tertiary);
+    font-size: 1.25rem;
+}
+
+/* Special feature values */
+.comparison-table .font-semibold.text-orange-600 {
+    color: #ea580c;
+    background: rgba(234, 88, 12, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--zc-radius-sm);
+    font-size: 0.8125rem;
+}
+
+.comparison-table .font-semibold.text-blue-600 {
+    color: var(--zc-secondary);
+    font-weight: 600;
+}
+
+.comparison-table .font-semibold.text-purple-600 {
+    color: #9333ea;
+    background: rgba(147, 51, 234, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--zc-radius-sm);
+    font-size: 0.8125rem;
+}
+
+.comparison-table .font-semibold.text-indigo-600 {
+    color: #4f46e5;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   FEATURE TOOLTIPS - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.feature-label-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.feature-label {
+    cursor: help;
+    position: relative;
+}
+
+.feature-label svg {
+    opacity: 0.6;
+    transition: all 0.2s ease;
+}
+
+.feature-label:hover svg {
+    opacity: 1;
+    color: var(--zc-primary);
+    transform: scale(1.1);
+}
+
+.feature-tooltip {
+    position: fixed;
+    z-index: 9999;
+    background: var(--zc-text-primary);
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: var(--zc-radius-md);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    max-width: 280px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.feature-tooltip.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.feature-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid var(--zc-text-primary);
+}
+
+/* ==========================================================================
+   COMPARISON FOOTER - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-footer {
+    background: linear-gradient(135deg, var(--zc-bg-tertiary) 0%, rgba(247, 248, 249, 0.8) 100%);
+    border-top: 2px solid var(--zc-border);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.comparison-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="1" fill="rgba(18,111,183,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+    pointer-events: none;
+}
+
+.comparison-footer > * {
+    position: relative;
+    z-index: 2;
+}
+
+.comparison-footer h4 {
+    font-size: 1.375rem;
+    font-weight: 300;
+    color: var(--zc-text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.comparison-footer p {
+    font-size: 1rem;
+    color: var(--zc-text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.comparison-footer .btn-secondary {
+    background: transparent;
+    color: var(--zc-primary);
+    border: 2px solid var(--zc-primary);
+    padding: 0.875rem 2rem;
+    border-radius: var(--zc-radius-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-footer .btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--zc-primary);
+    transition: left 0.3s ease;
+    z-index: 1;
+}
+
+.comparison-footer .btn-secondary:hover::before {
+    left: 0;
+}
+
+.comparison-footer .btn-secondary:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(244, 180, 0, 0.3);
+    text-decoration: none;
+}
+
+.comparison-footer .btn-secondary span {
+    position: relative;
+    z-index: 2;
+}
+
+/* ==========================================================================
+   LOADING STATES - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-updating {
+    position: relative;
+    pointer-events: none;
+}
+
+.comparison-updating::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+    border-radius: var(--zc-radius-xl);
+}
+
+.comparison-updating::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--zc-border);
+    border-top-color: var(--zc-primary);
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+    z-index: 1001;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ==========================================================================
+   CURRENCY CHANGE NOTIFICATION - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.currency-change-notification {
+    background: linear-gradient(135deg, var(--zc-success) 0%, #22c55e 100%);
+    color: white;
+    border-radius: var(--zc-radius-lg);
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.currency-change-notification svg {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+/* ==========================================================================
+   SCROLL INDICATOR - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.scroll-indicator {
+    background: linear-gradient(90deg, rgba(244, 180, 0, 0.1), rgba(18, 111, 183, 0.1));
+    color: var(--zc-primary);
+    text-align: center;
+    padding: 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--zc-border);
+    position: sticky;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    animation: gentle-pulse 2s ease-in-out infinite;
+}
+
+@keyframes gentle-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN - MOBILE OPTIMIZATIONS
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .pricing-comparison-wrapper {
+        margin: 40px 0;
+        padding: 0 0.5rem;
+    }
+    
+    .comparison-header {
+        padding: 2rem 1.5rem;
+    }
+    
+    .comparison-header h3 {
+        font-size: 1.75rem;
+    }
+    
+    .comparison-header .flex {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .comparison-table {
+        min-width: 700px;
+        font-size: 0.875rem;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .comparison-table th:first-child {
+        width: 180px;
+        padding: 0.75rem;
+    }
+    
+    
+    .comparison-cta-button {
+        padding: 0.625rem 1rem;
+        font-size: 0.8125rem;
+    }
+    
+    .feature-tooltip {
+        max-width: 240px;
+        font-size: 0.75rem;
+    }
+    
+    .comparison-footer {
+        padding: 2rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .pricing-comparison-wrapper {
+        margin: 20px 0;
+        padding: 0;
+    }
+    
+    .comparison-header {
+        padding: 1.25rem 0.75rem;
+    }
+    
+    .comparison-header h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .comparison-header p {
+        font-size: 0.9375rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .comparison-table {
+        min-width: 500px;
+        font-size: 0.75rem;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 0.625rem 0.375rem;
+    }
+    
+    .comparison-table th:first-child {
+        width: 140px;
+        padding: 0.625rem 0.5rem;
+    }
+    
+    .comparison-table th h4 {
+        font-size: 1.125rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    
+    .comparison-cta-button {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    
+    .comparison-footer {
+        padding: 1.5rem 0.75rem;
+    }
+    
+    .comparison-footer h4 {
+        font-size: 1.125rem;
+    }
+    
+    /* Simplify billing toggle on very small screens */
+    .comparison-header .flex .flex {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+    
+    .comparison-monthly-label,
+    .comparison-yearly-label {
+        font-size: 0.875rem;
+    }
+}
+
+/* ==========================================================================
+   DARK MODE SUPPORT - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+    .pricing-comparison-wrapper {
+        background: var(--zc-card-bg, #1f2937);
+        border-color: var(--zc-card-border, #374151);
+    }
+    
+    .comparison-header {
+        background: linear-gradient(135deg, var(--zc-bg-secondary, #374151) 0%, rgba(55, 65, 81, 0.8) 100%);
+        border-bottom-color: var(--zc-card-border, #374151);
+    }
+    
+    .comparison-header h3 {
+        color: var(--zc-text-primary, #f9fafb);
+    }
+    
+    .comparison-header p {
+        color: var(--zc-text-secondary, #d1d5db);
+    }
+    
+    .comparison-table,
+    .comparison-table th,
+    .comparison-table td {
+        background: var(--zc-card-bg, #1f2937);
+        border-color: var(--zc-card-border, #374151);
+    }
+    
+    .comparison-table th:first-child,
+    .comparison-table td:first-child {
+        background: var(--zc-bg-secondary, #374151);
+    }
+    
+    .comparison-table th h4 {
+        color: var(--zc-text-primary, #f9fafb);
+    }
+    
+    .comparison-footer {
+        background: linear-gradient(135deg, var(--zc-bg-secondary, #374151) 0%, rgba(55, 65, 81, 0.8) 100%);
+        border-top-color: var(--zc-card-border, #374151);
+    }
+    
+    .comparison-footer h4 {
+        color: var(--zc-text-primary, #f9fafb);
+    }
+    
+    .comparison-footer p {
+        color: var(--zc-text-secondary, #d1d5db);
+    }
+    
+    .feature-tooltip {
+        background: var(--zc-card-bg, #1f2937);
+        border: 1px solid var(--zc-card-border, #374151);
+    }
+    
+    .feature-tooltip::before {
+        border-bottom-color: var(--zc-card-bg, #1f2937);
+    }
+}
+
+/* ==========================================================================
+   HIGH CONTRAST MODE SUPPORT
+   ========================================================================== */
+
+@media (prefers-contrast: high) {
+    .pricing-comparison-wrapper {
+        border-width: 2px;
+        border-color: #000;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        border-width: 2px;
+    }
+    
+    .comparison-cta-button {
+        border-width: 3px;
+    }
+    
+    .feature-tooltip {
+        border-width: 2px;
+        border-color: #000;
+    }
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   ========================================================================== */
+
+@media print {
+    .pricing-comparison-wrapper {
+        background: white !important;
+        border: 2px solid #000 !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin: 20px 0 !important;
+    }
+    
+    .comparison-header {
+        background: white !important;
+        color: #000 !important;
+        border-bottom: 2px solid #000 !important;
+    }
+    
+    .comparison-header h3,
+    .comparison-header p {
+        color: #000 !important;
+    }
+    
+    .comparison-table,
+    .comparison-table th,
+    .comparison-table td {
+        background: white !important;
+        color: #000 !important;
+        border-color: #000 !important;
+    }
+    
+    .comparison-cta-button {
+        background: white !important;
+        color: #000 !important;
+        border: 2px solid #000 !important;
+        box-shadow: none !important;
+    }
+    
+    .comparison-footer {
+        background: white !important;
+        color: #000 !important;
+        border-top: 2px solid #000 !important;
+    }
+    
+    .feature-tooltip {
+        display: none !important;
+    }
+    
+    /* Hide interactive elements */
+    .scroll-indicator,
+    .currency-change-notification,
+    #comparison-billing-toggle + label {
+        display: none !important;
+    }
+    
+    /* Show all pricing tiers */
+    .monthly-pricing,
+    .annual-pricing {
+        display: block !important;
+        opacity: 1 !important;
+        height: auto !important;
+    }
+    
+    .annual-pricing {
+        margin-top: 10px;
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+    }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY IMPROVEMENTS
+   ========================================================================== */
+
+.comparison-cta-button:focus,
+#comparison-billing-toggle:focus + label,
+.feature-label:focus {
+    outline: 3px solid var(--zc-primary);
+    outline-offset: 2px;
+}
+
+.pricing-comparison-wrapper:focus-within {
+    outline: 2px solid var(--zc-primary);
+    outline-offset: 4px;
+}
+
+/* Screen reader only content */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus trap for keyboard navigation */
+.comparison-table:focus {
+    outline: 2px solid var(--zc-primary);
+    outline-offset: 2px;
+}
+
+/* High contrast focus indicators */
+@media (prefers-contrast: high) {
+    .comparison-cta-button:focus,
+    #comparison-billing-toggle:focus + label,
+    .feature-label:focus {
+        outline: 4px solid #000;
+        outline-offset: 2px;
+    }
+}
+
+/* ==========================================================================
+   REDUCED MOTION SUPPORT
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .pricing-comparison-wrapper,
+    .comparison-table th,
+    .comparison-table td,
+    .comparison-cta-button,
+    .feature-tooltip,
+    .currency-change-notification,
+    .scroll-indicator,
+    .monthly-pricing,
+    .annual-pricing {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .comparison-header::before,
+    .comparison-footer::before,
+    .comparison-cta-button::before,
+    .comparison-footer .btn-secondary::before {
+        animation: none !important;
+    }
+    
+    .comparison-table tbody tr:hover,
+    .comparison-cta-button:hover,
+    .feature-label:hover svg {
+        transform: none !important;
+    }
+    
+    .feature-tooltip.show {
+        transform: none !important;
+    }
+}
+
+/* ==========================================================================
+   PERFORMANCE OPTIMIZATIONS
+   ========================================================================== */
+
+.pricing-comparison-wrapper {
+    contain: layout style;
+}
+
+.comparison-table {
+    will-change: scroll-position;
+}
+
+.comparison-cta-button,
+.feature-tooltip {
+    will-change: transform;
+}
+
+/* GPU acceleration for smooth animations */
+.comparison-cta-button::before,
+.comparison-footer .btn-secondary::before {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* ==========================================================================
+   BROWSER-SPECIFIC FIXES
+   ========================================================================== */
+
+/* Safari sticky positioning fix */
+@supports (-webkit-appearance: none) {
+    .comparison-sticky-header {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+}
+
+/* Firefox scrollbar styling */
+@-moz-document url-prefix() {
+    .comparison-table-container {
+        scrollbar-width: thin;
+        scrollbar-color: var(--zc-primary) var(--zc-bg-secondary);
+    }
+}
+
+/* WebKit scrollbar styling */
+.comparison-table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.comparison-table-container::-webkit-scrollbar-track {
+    background: var(--zc-bg-secondary);
+    border-radius: 4px;
+}
+
+.comparison-table-container::-webkit-scrollbar-thumb {
+    background: var(--zc-primary);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.comparison-table-container::-webkit-scrollbar-thumb:hover {
+    background: var(--zc-primary-dark);
+}
+
+/* Edge legacy support */
+@supports (-ms-high-contrast: none) {
+    .comparison-table {
+        border-collapse: collapse;
+    }
+    
+    .pricing-comparison-wrapper {
+        border-radius: 0;
+    }
+}
+    .comparison-table td {
+        padding: 1rem 0.75rem;
+    }
+    
+    .comparison-table th:first-child {
+        width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-comparison-wrapper {
+        margin: 30px 0;
+        border-radius: var(--zc-radius-lg);
+    }
+    
+    .comparison-header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .comparison-header h3 {
+        font-size: 1.5rem;
+    }
+    
+    .comparison-header p {
+        font-size: 1rem;
+    }
+    
+    .comparison-table {
+        min-width: 600px;
+        font-size: 0.8125rem;
+    }
+/* ==========================================================================
+   ENHANCED COMPARISON TABLE - ZENCOMMERCE STYLE WITH BETTER VISUAL APPEAL
+   ========================================================================== */
+
+.pricing-comparison-wrapper {
+    margin: 60px 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+    background: var(--zc-bg-primary);
+    border-radius: var(--zc-radius-xl);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 25px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--zc-border);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Enhanced background pattern */
+.pricing-comparison-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(244, 180, 0, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(18, 111, 183, 0.03) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(249, 249, 249, 0.5) 0%, rgba(255, 255, 255, 0.8) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.pricing-comparison-wrapper > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* ==========================================================================
+   COMPARISON HEADER - ENHANCED ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-header {
+    background: linear-gradient(135deg, var(--zc-bg-secondary) 0%, rgba(249, 249, 249, 0.9) 50%, white 100%);
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(90deg, var(--zc-primary), var(--zc-secondary)) 1;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(45deg, transparent 30%, rgba(244, 180, 0, 0.02) 50%, transparent 70%),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1.5" fill="rgba(18,111,183,0.04)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+    opacity: 0.8;
+    pointer-events: none;
+    animation: subtle-float 6s ease-in-out infinite;
+}
+
+@keyframes subtle-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-2px) rotate(0.5deg); }
+    66% { transform: translateY(2px) rotate(-0.5deg); }
+}
+
+.comparison-header > * {
+    position: relative;
+    z-index: 2;
+}
+
+.comparison-header h3 {
+    font-size: 2.25rem;
+    font-weight: 300;
+    color: var(--zc-text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.comparison-header h3::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: var(--zc-gradient);
+    margin: 1rem auto 0;
+    border-radius: 2px;
+}
+
+.comparison-header p {
+    font-size: 1.1875rem;
+    color: var(--zc-text-secondary);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Currency and Billing Toggle Container */
+.comparison-header .flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* ==========================================================================
+   CURRENCY SELECTOR - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-currency-selector {
+    background: linear-gradient(135deg, rgba(18, 111, 183, 0.1) 0%, rgba(244, 180, 0, 0.1) 100%);
+    border: 1px solid rgba(18, 111, 183, 0.3);
+    color: var(--zc-text-primary);
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--zc-radius-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    min-width: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-currency-selector::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.comparison-currency-selector:hover::before {
+    left: 100%;
+}
+
+.comparison-currency-selector:hover {
+    background: linear-gradient(135deg, rgba(18, 111, 183, 0.2) 0%, rgba(244, 180, 0, 0.2) 100%);
+    border-color: var(--zc-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.15);
+}
+
+/* ==========================================================================
+   BILLING TOGGLE - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-header .flex .flex {
+    background: var(--zc-bg-primary);
+    border: 1px solid var(--zc-border);
+    border-radius: 50px;
+    padding: 0.5rem;
+    box-shadow: var(--zc-shadow-sm);
+    position: relative;
+}
+
+.comparison-monthly-label,
+.comparison-yearly-label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--zc-text-secondary);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.comparison-yearly-label {
+    color: var(--zc-primary);
+    font-weight: 600;
+}
+
+/* Toggle Switch - Zencommerce Style */
+#comparison-billing-toggle + label {
+    background: var(--zc-border-dark);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#comparison-billing-toggle + label span {
+    background: var(--zc-bg-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#comparison-billing-toggle:checked + label {
+    background: var(--zc-primary);
+    border-color: var(--zc-primary-dark);
+}
+
+#comparison-billing-toggle:checked + label span {
+    box-shadow: 0 2px 8px rgba(244, 180, 0, 0.3);
+}
+
+#comparison-billing-toggle:focus + label {
+    box-shadow: 0 0 0 3px rgba(244, 180, 0, 0.1);
+}
+
+/* Save Badge */
+.comparison-header .bg-emerald-500 {
+    background: linear-gradient(135deg, var(--zc-success), #22c55e);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+    animation: subtle-pulse 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-header .bg-emerald-500::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer-save 3s ease-in-out infinite;
+}
+
+@keyframes subtle-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+@keyframes shimmer-save {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* ==========================================================================
+   COMPARISON TABLE CONTAINER
+   ========================================================================== */
+
+.comparison-table-container {
+    position: relative;
+    background: var(--zc-bg-primary);
+    border-radius: 0 0 var(--zc-radius-xl) var(--zc-radius-xl);
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 800px;
+    background: var(--zc-bg-primary);
+    font-size: 0.9375rem;
+}
+
+/* ==========================================================================
+   TABLE HEADERS - ZENCOMMERCE STYLE WITH FIXED STICKY BEHAVIOR
+   ========================================================================== */
+
+.comparison-sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: var(--zc-bg-primary);
+    border-bottom: 2px solid var(--zc-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* Ensure sticky works properly */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    /* Prevent style changes on scroll */
+    will-change: auto;
+}
+
+/* Force sticky positioning to work correctly */
+.comparison-sticky-header th {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: var(--zc-bg-primary);
+}
+
+.comparison-table th {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border-right: 1px solid var(--zc-border);
+    vertical-align: top;
+    background: var(--zc-bg-primary);
+    position: relative;
+    /* Remove transition that causes scroll issues */
+    transition: none;
+}
+
+.comparison-table th:first-child {
+    text-align: left;
+    background: var(--zc-bg-secondary);
+    border-right: 2px solid var(--zc-border-dark);
+    width: 280px;
+    padding: 2rem 1.5rem;
+}
+
+.comparison-table th:last-child {
+    border-right: none;
+}
+
+/* Featured Plan Header */
+.comparison-table th.bg-blue-50 {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+    border-left: 3px solid var(--zc-primary);
+    border-right: 3px solid var(--zc-primary);
+    position: relative;
+    transform: scale(1.02);
+    z-index: 5;
+}
+
+.comparison-table th.bg-blue-50::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(244, 180, 0, 0.02) 0%, rgba(18, 111, 183, 0.02) 100%);
+    pointer-events: none;
+}
+
+/* Most Popular Badge */
+.comparison-table th .absolute.top-0 {
+    background: var(--zc-gradient);
+    color: white;
+    padding: 0.5rem 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 8px rgba(244, 180, 0, 0.3);
+    border-radius: var(--zc-radius-lg) var(--zc-radius-lg) 0 0;
+    margin: -2rem -1.5rem 0 -1.5rem;
+}
+
+/* Plan Titles */
+.comparison-table th h4 {
+    font-size: 1.375rem;
+    font-weight: 300;
+    color: var(--zc-text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+/* ==========================================================================
+   PRICE DISPLAY - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.price-display {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.monthly-pricing,
+.annual-pricing {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pricing-comparison-wrapper.comparison-yearly-active .monthly-pricing {
+    opacity: 0;
+    transform: translateY(-10px);
+    height: 0;
+    overflow: hidden;
+}
+
+.pricing-comparison-wrapper.comparison-yearly-active .annual-pricing {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.pricing-comparison-wrapper.comparison-monthly-active .annual-pricing {
+    opacity: 0;
+    transform: translateY(10px);
+    height: 0;
+    overflow: hidden;
+}
+
+.pricing-comparison-wrapper.comparison-monthly-active .monthly-pricing {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Price period and notes */
+.comparison-table .text-gray-600 {
+    color: var(--zc-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 300;
+}
+
+.comparison-table .text-xs.text-green-600 {
+    color: var(--zc-success);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+/* Savings Badge */
+.comparison-table .inline-flex.items-center.px-2 {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    color: var(--zc-success);
+    padding: 0.375rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 4px rgba(34, 197, 94, 0.1);
+}
+
+/* ==========================================================================
+   CTA BUTTONS - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-cta-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--zc-radius-sm);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    transition: left 0.3s ease;
+    z-index: 1;
+}
+
+.comparison-cta-button span,
+.comparison-cta-button::after {
+    position: relative;
+    z-index: 2;
+}
+
+/* Primary CTA (Featured Plan) */
+.comparison-cta-button.btn-primary {
+    background: var(--zc-primary);
+    color: white;
+    border-color: var(--zc-primary);
+    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.3);
+}
+
+.comparison-cta-button.btn-primary::before {
+    background: var(--zc-primary-dark);
+}
+
+.comparison-cta-button.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(244, 180, 0, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.comparison-cta-button.btn-primary:hover::before {
+    left: 0;
+}
+
+/* Secondary CTA */
+.comparison-cta-button.btn-secondary {
+    background: transparent;
+    color: var(--zc-primary);
+    border-color: var(--zc-primary);
+}
+
+.comparison-cta-button.btn-secondary::before {
+    background: var(--zc-primary);
+}
+
+.comparison-cta-button.btn-secondary:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 180, 0, 0.3);
+    text-decoration: none;
+}
+
+.comparison-cta-button.btn-secondary:hover::before {
+    left: 0;
+}
+
+/* ==========================================================================
+   FEATURE CATEGORIES - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+/* Category Headers */
+.comparison-table tbody tr.bg-gray-50 td {
+    background: linear-gradient(135deg, var(--zc-bg-secondary) 0%, rgba(249, 249, 249, 0.8) 100%);
+    padding: 1.5rem;
+    border-bottom: 2px solid var(--zc-border-dark);
+    border-top: 1px solid var(--zc-border);
+    position: relative;
+}
+
+.comparison-table tbody tr.bg-gray-50 td::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--zc-gradient);
+}
+
+.comparison-table tbody tr.bg-gray-50 h5 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--zc-text-primary);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+}
+
+.comparison-table tbody tr.bg-gray-50 p {
+    font-size: 0.875rem;
+    color: var(--zc-text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.comparison-table tbody tr.bg-gray-50 .flex span:first-child {
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+    filter: drop-shadow(0 2px 4px rgba(244, 180, 0, 0.2));
+}
+
+/* ==========================================================================
+   FEATURE ROWS - ZENCOMMERCE STYLE WITH IMPROVED SCROLL BEHAVIOR
+   ========================================================================== */
+
+.comparison-table tbody tr {
+    /* Remove problematic transitions that change on scroll */
+    transition: background-color 0.2s ease;
+}
+
+.comparison-table tbody tr:hover {
+    background: rgba(244, 180, 0, 0.02);
+}
+
+/* Prevent style changes during scrolling */
+.comparison-table tbody tr:hover td:first-child {
+    background: rgba(244, 180, 0, 0.05);
+    border-right-color: var(--zc-primary);
+    /* Remove transform that causes issues */
+}
+
+.comparison-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--zc-border);
+    border-right: 1px solid var(--zc-border);
+    vertical-align: middle;
+    /* Simplified transition to prevent scroll issues */
+    transition: background-color 0.2s ease;
+}
+
+.comparison-table td:first-child {
+    background: var(--zc-bg-secondary);
+    border-right: 2px solid var(--zc-border-dark);
+    text-align: left;
+    font-weight: 500;
+    color: var(--zc-text-primary);
+    position: relative;
+    /* Ensure consistent background */
+    background-color: var(--zc-bg-secondary) !important;
+}
+
+.comparison-table td:last-child {
+    border-right: none;
+}
+
+/* Featured Plan Cells - Fixed styling */
+.comparison-table td.bg-blue-50\/30 {
+    background: rgba(59, 130, 246, 0.02) !important;
+    border-left: 1px solid rgba(244, 180, 0, 0.1);
+    border-right: 1px solid rgba(244, 180, 0, 0.1);
+    position: relative;
+}
+
+/* ==========================================================================
+   FEATURE VALUES - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+/* Check marks */
+.comparison-table .text-green-500 {
+    color: var(--zc-success);
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(34, 197, 94, 0.2);
+}
+
+/* Cross marks and dashes */
+.comparison-table .text-gray-400 {
+    color: var(--zc-text-tertiary);
+    font-size: 1.25rem;
+}
+
+/* Special feature values */
+.comparison-table .font-semibold.text-orange-600 {
+    color: #ea580c;
+    background: rgba(234, 88, 12, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--zc-radius-sm);
+    font-size: 0.8125rem;
+}
+
+.comparison-table .font-semibold.text-blue-600 {
+    color: var(--zc-secondary);
+    font-weight: 600;
+}
+
+.comparison-table .font-semibold.text-purple-600 {
+    color: #9333ea;
+    background: rgba(147, 51, 234, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--zc-radius-sm);
+    font-size: 0.8125rem;
+}
+
+.comparison-table .font-semibold.text-indigo-600 {
+    color: #4f46e5;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   FEATURE TOOLTIPS - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.feature-label-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.feature-label {
+    cursor: help;
+    position: relative;
+}
+
+.feature-label svg {
+    opacity: 0.6;
+    transition: all 0.2s ease;
+}
+
+.feature-label:hover svg {
+    opacity: 1;
+    color: var(--zc-primary);
+    transform: scale(1.1);
+}
+
+.feature-tooltip {
+    position: fixed;
+    z-index: 9999;
+    background: var(--zc-text-primary);
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: var(--zc-radius-md);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    max-width: 280px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.feature-tooltip.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.feature-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid var(--zc-text-primary);
+}
+
+/* ==========================================================================
+   COMPARISON FOOTER - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-footer {
+    background: linear-gradient(135deg, var(--zc-bg-tertiary) 0%, rgba(247, 248, 249, 0.8) 100%);
+    border-top: 2px solid var(--zc-border);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.comparison-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="1" fill="rgba(18,111,183,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+    pointer-events: none;
+}
+
+.comparison-footer > * {
+    position: relative;
+    z-index: 2;
+}
+
+.comparison-footer h4 {
+    font-size: 1.375rem;
+    font-weight: 300;
+    color: var(--zc-text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.comparison-footer p {
+    font-size: 1rem;
+    color: var(--zc-text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.comparison-footer .btn-secondary {
+    background: transparent;
+    color: var(--zc-primary);
+    border: 2px solid var(--zc-primary);
+    padding: 0.875rem 2rem;
+    border-radius: var(--zc-radius-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-footer .btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--zc-primary);
+    transition: left 0.3s ease;
+    z-index: 1;
+}
+
+.comparison-footer .btn-secondary:hover::before {
+    left: 0;
+}
+
+.comparison-footer .btn-secondary:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(244, 180, 0, 0.3);
+    text-decoration: none;
+}
+
+.comparison-footer .btn-secondary span {
+    position: relative;
+    z-index: 2;
+}
+
+/* ==========================================================================
+   LOADING STATES - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.comparison-updating {
+    position: relative;
+    pointer-events: none;
+}
+
+.comparison-updating::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+    border-radius: var(--zc-radius-xl);
+}
+
+.comparison-updating::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--zc-border);
+    border-top-color: var(--zc-primary);
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+    z-index: 1001;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ==========================================================================
+   CURRENCY CHANGE NOTIFICATION - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.currency-change-notification {
+    background: linear-gradient(135deg, var(--zc-success) 0%, #22c55e 100%);
+    color: white;
+    border-radius: var(--zc-radius-lg);
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.currency-change-notification svg {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+/* ==========================================================================
+   SCROLL INDICATOR - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+.scroll-indicator {
+    background: linear-gradient(90deg, rgba(244, 180, 0, 0.1), rgba(18, 111, 183, 0.1));
+    color: var(--zc-primary);
+    text-align: center;
+    padding: 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--zc-border);
+    position: sticky;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    animation: gentle-pulse 2s ease-in-out infinite;
+}
+
+@keyframes gentle-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN - MOBILE OPTIMIZATIONS
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .pricing-comparison-wrapper {
+        margin: 40px 0;
+        padding: 0 0.5rem;
+    }
+    
+    .comparison-header {
+        padding: 2rem 1.5rem;
+    }
+    
+    .comparison-header h3 {
+        font-size: 1.75rem;
+    }
+    
+    .comparison-header .flex {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .comparison-table {
+        min-width: 700px;
+        font-size: 0.875rem;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .comparison-table th:first-child {
+        width: 180px;
+        padding: 0.75rem;
+    }
+    
+    .comparison-cta-button {
+        padding: 0.625rem 1rem;
+        font-size: 0.8125rem;
+    }
+    
+    .feature-tooltip {
+        max-width: 240px;
+        font-size: 0.75rem;
+    }
+    
+    .comparison-footer {
+        padding: 2rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .pricing-comparison-wrapper {
+        margin: 20px 0;
+        padding: 0;
+    }
+    
+    .comparison-header {
+        padding: 1.25rem 0.75rem;
+    }
+    
+    .comparison-header h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .comparison-header p {
+        font-size: 0.9375rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .comparison-table {
+        min-width: 500px;
+        font-size: 0.75rem;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 0.625rem 0.375rem;
+    }
+    
+    .comparison-table th:first-child {
+        width: 140px;
+        padding: 0.625rem 0.5rem;
+    }
+    
+    .comparison-table th h4 {
+        font-size: 1.125rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .comparison-cta-button {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    
+    .comparison-footer {
+        padding: 1.5rem 0.75rem;
+    }
+    
+    .comparison-footer h4 {
+        font-size: 1.125rem;
+    }
+    
+    /* Simplify billing toggle on very small screens */
+    .comparison-header .flex .flex {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+    
+    .comparison-monthly-label,
+    .comparison-yearly-label {
+        font-size: 0.875rem;
+    }
+}
+
+/* ==========================================================================
+   DARK MODE SUPPORT - ZENCOMMERCE STYLE
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+    .pricing-comparison-wrapper {
+        background: var(--zc-card-bg, #1f2937);
+        border-color: var(--zc-card-border, #374151);
+    }
+    
+    .comparison-header {
+        background: linear-gradient(135deg, var(--zc-bg-secondary, #374151) 0%, rgba(55, 65, 81, 0.8) 100%);
+        border-bottom-color: var(--zc-card-border, #374151);
+    }
+    
+    .comparison-header h3 {
+        color: var(--zc-text-primary, #f9fafb);
+    }
+    
+    .comparison-header p {
+        color: var(--zc-text-secondary, #d1d5db);
+    }
+    
+    .comparison-table,
+    .comparison-table th,
+    .comparison-table td {
+        background: var(--zc-card-bg, #1f2937);
+        border-color: var(--zc-card-border, #374151);
+    }
+    
+    .comparison-table th:first-child,
+    .comparison-table td:first-child {
+        background: var(--zc-bg-secondary, #374151);
+    }
+    
+    .comparison-table th h4 {
+        color: var(--zc-text-primary, #f9fafb);
+    }
+    
+    .comparison-footer {
+        background: linear-gradient(135deg, var(--zc-bg-secondary, #374151) 0%, rgba(55, 65, 81, 0.8) 100%);
+        border-top-color: var(--zc-card-border, #374151);
+    }
+    
+    .comparison-footer h4 {
+        color: var(--zc-text-primary, #f9fafb);
+    }
+    
+    .comparison-footer p {
+        color: var(--zc-text-secondary, #d1d5db);
+    }
+    
+    .feature-tooltip {
+        background: var(--zc-card-bg, #1f2937);
+        border: 1px solid var(--zc-card-border, #374151);
+    }
+    
+    .feature-tooltip::before {
+        border-bottom-color: var(--zc-card-bg, #1f2937);
+    }
+}
+
+/* ==========================================================================
+   HIGH CONTRAST MODE SUPPORT
+   ========================================================================== */
+
+@media (prefers-contrast: high) {
+    .pricing-comparison-wrapper {
+        border-width: 2px;
+        border-color: #000;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        border-width: 2px;
+    }
+    
+    .comparison-cta-button {
+        border-width: 3px;
+    }
+    
+    .feature-tooltip {
+        border-width: 2px;
+        border-color: #000;
+    }
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   ========================================================================== */
+
+@media print {
+    .pricing-comparison-wrapper {
+        background: white !important;
+        border: 2px solid #000 !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin: 20px 0 !important;
+    }
+    
+    .comparison-header {
+        background: white !important;
+        color: #000 !important;
+        border-bottom: 2px solid #000 !important;
+    }
+    
+    .comparison-header h3,
+    .comparison-header p {
+        color: #000 !important;
+    }
+    
+    .comparison-table,
+    .comparison-table th,
+    .comparison-table td {
+        background: white !important;
+        color: #000 !important;
+        border-color: #000 !important;
+    }
+    
+    .comparison-cta-button {
+        background: white !important;
+        color: #000 !important;
+        border: 2px solid #000 !important;
+        box-shadow: none !important;
+    }
+    
+    .comparison-footer {
+        background: white !important;
+        color: #000 !important;
+        border-top: 2px solid #000 !important;
+    }
+    
+    .feature-tooltip {
+        display: none !important;
+    }
+    
+    /* Hide interactive elements */
+    .scroll-indicator,
+    .currency-change-notification,
+    #comparison-billing-toggle + label {
+        display: none !important;
+    }
+    
+    /* Show all pricing tiers */
+    .monthly-pricing,
+    .annual-pricing {
+        display: block !important;
+        opacity: 1 !important;
+        height: auto !important;
+    }
+    
+    .annual-pricing {
+        margin-top: 10px;
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+    }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY IMPROVEMENTS
+   ========================================================================== */
+
+.comparison-cta-button:focus,
+#comparison-billing-toggle:focus + label,
+.feature-label:focus {
+    outline: 3px solid var(--zc-primary);
+    outline-offset: 2px;
+}
+
+.pricing-comparison-wrapper:focus-within {
+    outline: 2px solid var(--zc-primary);
+    outline-offset: 4px;
+}
+
+/* Screen reader only content */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus trap for keyboard navigation */
+.comparison-table:focus {
+    outline: 2px solid var(--zc-primary);
+    outline-offset: 2px;
+}
+
+/* High contrast focus indicators */
+@media (prefers-contrast: high) {
+    .comparison-cta-button:focus,
+    #comparison-billing-toggle:focus + label,
+    .feature-label:focus {
+        outline: 4px solid #000;
+        outline-offset: 2px;
+    }
+}
+
+/* ==========================================================================
+   REDUCED MOTION SUPPORT
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .pricing-comparison-wrapper,
+    .comparison-table th,
+    .comparison-table td,
+    .comparison-cta-button,
+    .feature-tooltip,
+    .currency-change-notification,
+    .scroll-indicator,
+    .monthly-pricing,
+    .annual-pricing {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .comparison-header::before,
+    .comparison-footer::before,
+    .comparison-cta-button::before,
+    .comparison-footer .btn-secondary::before {
+        animation: none !important;
+    }
+    
+    .comparison-table tbody tr:hover,
+    .comparison-cta-button:hover,
+    .feature-label:hover svg {
+        transform: none !important;
+    }
+    
+    .feature-tooltip.show {
+        transform: none !important;
+    }
+}
+
+/* ==========================================================================
+   PERFORMANCE OPTIMIZATIONS
+   ========================================================================== */
+
+.pricing-comparison-wrapper {
+    contain: layout style;
+}
+
+.comparison-table {
+    will-change: scroll-position;
+}
+
+.comparison-cta-button,
+.feature-tooltip {
+    will-change: transform;
+}
+
+/* GPU acceleration for smooth animations */
+.comparison-cta-button::before,
+.comparison-footer .btn-secondary::before {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* ==========================================================================
+   BROWSER-SPECIFIC FIXES
+   ========================================================================== */
+
+/* Safari sticky positioning fix */
+@supports (-webkit-appearance: none) {
+    .comparison-sticky-header {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+}
+
+/* Firefox scrollbar styling */
+@-moz-document url-prefix() {
+    .comparison-table-container {
+        scrollbar-width: thin;
+        scrollbar-color: var(--zc-primary) var(--zc-bg-secondary);
+    }
+}
+
+/* WebKit scrollbar styling */
+.comparison-table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.comparison-table-container::-webkit-scrollbar-track {
+    background: var(--zc-bg-secondary);
+    border-radius: 4px;
+}
+
+.comparison-table-container::-webkit-scrollbar-thumb {
+    background: var(--zc-primary);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.comparison-table-container::-webkit-scrollbar-thumb:hover {
+    background: var(--zc-primary-dark);
+}
+
+/* Edge legacy support */
+@supports (-ms-high-contrast: none) {
+    .comparison-table {
+        border-collapse: collapse;
+    }
+    
+    .pricing-comparison-wrapper {
+        border-radius: 0;
+    }
+}
+    .comparison-table td {
+        padding: 1rem 0.75rem;
+    }
+    
+    .comparison-table th:first-child {
+        width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-comparison-wrapper {
+        margin: 30px 0;
+        border-radius: var(--zc-radius-lg);
+    }
+    
+    .comparison-header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .comparison-header h3 {
+        font-size: 1.5rem;
+    }
+    
+    .comparison-header p {
+        font-size: 1rem;
+    }
+    
+    .comparison-table {
+        min-width: 600px;
+        font-size: 0.8125rem;
+    }
+    
+    .comparison-table th,
+    </style>
+
     <?php
     return ob_get_clean();
 }
