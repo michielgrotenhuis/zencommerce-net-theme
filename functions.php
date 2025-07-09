@@ -2225,21 +2225,7 @@ function simple_currency_backgrounds_page() {
         </div>
     </div>
     
-    <style>
-    .card {
-        background: #fff;
-        border: 1px solid #ccd0d4;
-        border-radius: 4px;
-        padding: 20px;
-        margin: 20px 0;
-    }
-    
-    .card h2 {
-        margin-top: 0;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
-    }
-    </style>
+
     <?php
 }
 

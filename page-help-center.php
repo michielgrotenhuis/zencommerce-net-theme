@@ -21,10 +21,10 @@ get_header();
             
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-                <a href="https://iwebs.in/guides/" class="btn-primary text-lg px-8 py-4 bg-white text-blue-600 hover:bg-gray-100 rounded-lg font-semibold">
+                <a href="/guides/" class="btn-primary text-lg px-8 py-4 bg-white text-blue-600 hover:bg-gray-100 rounded-lg font-semibold">
                     Browse All Guides
                 </a>
-                <a href="https://iwebs.in/contact/" class="btn-secondary text-lg px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-blue-600 rounded-lg font-semibold">
+                <a href="/contact/" class="btn-secondary text-lg px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-blue-600 rounded-lg font-semibold">
                     Get Personal Help
                 </a>
             </div>
@@ -81,7 +81,7 @@ get_header();
                     </div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">Email Support</h3>
                     <p class="text-gray-600 mb-4">We'll respond within 24 hours</p>
-                    <a href="https://iwebs.in/contact/" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors inline-block">
+                    <a href="/contact/" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors inline-block">
                         Send Email
                     </a>
                 </div>
@@ -109,7 +109,7 @@ get_header();
                     </div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">Schedule Demo</h3>
                     <p class="text-gray-600 mb-4">Get personalized help with setup</p>
-                    <a href="https://iwebs.in/contact/" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors inline-block">
+                    <a href="/contact/" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors inline-block">
                         Book Demo
                     </a>
                 </div>
@@ -168,7 +168,7 @@ get_header();
                                 Video tutorials
                             </li>
                         </ul>
-                        <a href="https://iwebs.in/guides/" class="btn-primary w-full text-center py-3 rounded-lg font-semibold">
+                        <a href="/guides/" class="btn-primary w-full text-center py-3 rounded-lg font-semibold">
                             Browse Guides →
                         </a>
                     </div>
@@ -213,7 +213,7 @@ get_header();
                                 Free to attend
                             </li>
                         </ul>
-                        <a href="https://iwebs.in/webinars/" class="btn-primary w-full text-center py-3 rounded-lg font-semibold">
+                        <a href="/webinars/" class="btn-primary w-full text-center py-3 rounded-lg font-semibold">
                             View Schedule →
                         </a>
                     </div>
@@ -258,7 +258,7 @@ get_header();
                                 Webhook documentation
                             </li>
                         </ul>
-                        <a href="https://iwebs.in/api/" class="btn-primary w-full text-center py-3 rounded-lg font-semibold">
+                        <a href="/api/" class="btn-primary w-full text-center py-3 rounded-lg font-semibold">
                             View Docs →
                         </a>
                     </div>
@@ -303,7 +303,7 @@ get_header();
                                 Setup instructions
                             </li>
                         </ul>
-                        <a href="https://iwebs.in/integrations/" class="btn-primary w-full text-center py-3 rounded-lg font-semibold">
+                        <a href="/integrations/" class="btn-primary w-full text-center py-3 rounded-lg font-semibold">
                             Browse Apps →
                         </a>
                     </div>
@@ -348,7 +348,7 @@ get_header();
                                 Custom solutions
                             </li>
                         </ul>
-                        <a href="https://iwebs.in/contact/" class="btn-primary w-full text-center py-3 rounded-lg font-semibold">
+                        <a href="/contact/" class="btn-primary w-full text-center py-3 rounded-lg font-semibold">
                             Contact Us →
                         </a>
                     </div>
@@ -418,10 +418,10 @@ get_header();
                 <div class="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors">
                     <h3 class="text-lg font-semibold text-gray-900 mb-3">🚀 Getting Started</h3>
                     <ul class="space-y-2">
-                        <li><a href="https://iwebs.in/guides/getting-started/" class="text-blue-600 hover:text-blue-800">Getting Started Guide</a></li>
-                        <li><a href="https://iwebs.in/guides/setup-ecommerce-store/" class="text-blue-600 hover:text-blue-800">How to Setup an eCommerce Store</a></li>
-                        <li><a href="https://iwebs.in/guides/creating-products/" class="text-blue-600 hover:text-blue-800">Creating Your First Products</a></li>
-                        <li><a href="https://iwebs.in/guides/branding/" class="text-blue-600 hover:text-blue-800">Setting Up Your Branding</a></li>
+                        <li><a href="/guides/getting-started/" class="text-blue-600 hover:text-blue-800">Getting Started Guide</a></li>
+                        <li><a href="/guides/setup-ecommerce-store/" class="text-blue-600 hover:text-blue-800">How to Setup an eCommerce Store</a></li>
+                        <li><a href="/guides/creating-products/" class="text-blue-600 hover:text-blue-800">Creating Your First Products</a></li>
+                        <li><a href="/guides/branding/" class="text-blue-600 hover:text-blue-800">Setting Up Your Branding</a></li>
                     </ul>
                 </div>
 
@@ -429,10 +429,10 @@ get_header();
                 <div class="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors">
                     <h3 class="text-lg font-semibold text-gray-900 mb-3">💳 Payments</h3>
                     <ul class="space-y-2">
-                        <li><a href="https://iwebs.in/guides/payments/" class="text-blue-600 hover:text-blue-800">Payment Setup Guide</a></li>
-                        <li><a href="https://iwebs.in/guides/stripe/" class="text-blue-600 hover:text-blue-800">Stripe Integration</a></li>
-                        <li><a href="https://iwebs.in/guides/paypal/" class="text-blue-600 hover:text-blue-800">PayPal Setup</a></li>
-                        <li><a href="https://iwebs.in/guides/payment-methods/" class="text-blue-600 hover:text-blue-800">Managing Payment Methods</a></li>
+                        <li><a href="/guides/payments/" class="text-blue-600 hover:text-blue-800">Payment Setup Guide</a></li>
+                        <li><a href="/guides/stripe/" class="text-blue-600 hover:text-blue-800">Stripe Integration</a></li>
+                        <li><a href="/guides/paypal/" class="text-blue-600 hover:text-blue-800">PayPal Setup</a></li>
+                        <li><a href="/guides/payment-methods/" class="text-blue-600 hover:text-blue-800">Managing Payment Methods</a></li>
                     </ul>
                 </div>
 
@@ -440,10 +440,10 @@ get_header();
                 <div class="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors">
                     <h3 class="text-lg font-semibold text-gray-900 mb-3">🏪 Store Management</h3>
                     <ul class="space-y-2">
-                        <li><a href="https://iwebs.in/guides/store-management/" class="text-blue-600 hover:text-blue-800">Store Management Overview</a></li>
-                        <li><a href="https://iwebs.in/guides/inventory-management/" class="text-blue-600 hover:text-blue-800">Managing Your Inventory</a></li>
-                        <li><a href="https://iwebs.in/guides/products/" class="text-blue-600 hover:text-blue-800">Product Management</a></li>
-                        <li><a href="https://iwebs.in/guides/product-collections/" class="text-blue-600 hover:text-blue-800">Creating Product Collections</a></li>
+                        <li><a href="/guides/store-management/" class="text-blue-600 hover:text-blue-800">Store Management Overview</a></li>
+                        <li><a href="/guides/inventory-management/" class="text-blue-600 hover:text-blue-800">Managing Your Inventory</a></li>
+                        <li><a href="/guides/products/" class="text-blue-600 hover:text-blue-800">Product Management</a></li>
+                        <li><a href="/guides/product-collections/" class="text-blue-600 hover:text-blue-800">Creating Product Collections</a></li>
                     </ul>
                 </div>
 
@@ -451,10 +451,10 @@ get_header();
                 <div class="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors">
                     <h3 class="text-lg font-semibold text-gray-900 mb-3">📦 Shipping & Fulfillment</h3>
                     <ul class="space-y-2">
-                        <li><a href="https://iwebs.in/guides/shipping-methods/" class="text-blue-600 hover:text-blue-800">Setting Up Shipping Methods</a></li>
-                        <li><a href="https://iwebs.in/guides/creating-shipping-rules/" class="text-blue-600 hover:text-blue-800">Creating Shipping Rules</a></li>
-                        <li><a href="https://iwebs.in/guides/myparcel/" class="text-blue-600 hover:text-blue-800">MyParcel Integration</a></li>
-                        <li><a href="https://iwebs.in/guides/local-pickup/" class="text-blue-600 hover:text-blue-800">Setting Up Local Pickup</a></li>
+                        <li><a href="/guides/shipping-methods/" class="text-blue-600 hover:text-blue-800">Setting Up Shipping Methods</a></li>
+                        <li><a href="/guides/creating-shipping-rules/" class="text-blue-600 hover:text-blue-800">Creating Shipping Rules</a></li>
+                        <li><a href="/guides/myparcel/" class="text-blue-600 hover:text-blue-800">MyParcel Integration</a></li>
+                        <li><a href="/guides/local-pickup/" class="text-blue-600 hover:text-blue-800">Setting Up Local Pickup</a></li>
                     </ul>
                 </div>
 
@@ -462,10 +462,10 @@ get_header();
                 <div class="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors">
                     <h3 class="text-lg font-semibold text-gray-900 mb-3">📈 Marketing & Analytics</h3>
                     <ul class="space-y-2">
-                        <li><a href="https://iwebs.in/guides/google-analytics-integration/" class="text-blue-600 hover:text-blue-800">Google Analytics Setup</a></li>
-                        <li><a href="https://iwebs.in/guides/meta-pixel-integration/" class="text-blue-600 hover:text-blue-800">Meta Pixel Integration</a></li>
-                        <li><a href="https://iwebs.in/guides/google-tag-manager-integration/" class="text-blue-600 hover:text-blue-800">Google Tag Manager</a></li>
-                        <li><a href="https://iwebs.in/guides/tiktok-pixel-integration/" class="text-blue-600 hover:text-blue-800">TikTok Pixel Setup</a></li>
+                        <li><a href="/guides/google-analytics-integration/" class="text-blue-600 hover:text-blue-800">Google Analytics Setup</a></li>
+                        <li><a href="/guides/meta-pixel-integration/" class="text-blue-600 hover:text-blue-800">Meta Pixel Integration</a></li>
+                        <li><a href="/guides/google-tag-manager-integration/" class="text-blue-600 hover:text-blue-800">Google Tag Manager</a></li>
+                        <li><a href="/guides/tiktok-pixel-integration/" class="text-blue-600 hover:text-blue-800">TikTok Pixel Setup</a></li>
                     </ul>
                 </div>
 
@@ -473,10 +473,10 @@ get_header();
                 <div class="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors">
                     <h3 class="text-lg font-semibold text-gray-900 mb-3">👤 Account & Billing</h3>
                     <ul class="space-y-2">
-                        <li><a href="https://iwebs.in/guides/account-management/" class="text-blue-600 hover:text-blue-800">Account Management</a></li>
-                        <li><a href="https://iwebs.in/guides/billing-subscription/" class="text-blue-600 hover:text-blue-800">Billing & Subscriptions</a></li>
-                        <li><a href="https://iwebs.in/guides/password-reset-change/" class="text-blue-600 hover:text-blue-800">Password Reset & Change</a></li>
-                        <li><a href="https://iwebs.in/guides/canceling-a-subscription-plan/" class="text-blue-600 hover:text-blue-800">Canceling Your Plan</a></li>
+                        <li><a href="/guides/account-management/" class="text-blue-600 hover:text-blue-800">Account Management</a></li>
+                        <li><a href="/guides/billing-subscription/" class="text-blue-600 hover:text-blue-800">Billing & Subscriptions</a></li>
+                        <li><a href="/guides/password-reset-change/" class="text-blue-600 hover:text-blue-800">Password Reset & Change</a></li>
+                        <li><a href="/guides/canceling-a-subscription-plan/" class="text-blue-600 hover:text-blue-800">Canceling Your Plan</a></li>
                     </ul>
                 </div>
             </div>

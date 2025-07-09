@@ -23,8 +23,7 @@
     <?php get_template_part('template-parts/header/announcement-bar'); ?>
     
     <!-- Main Header -->
-    <header id="masthead" class="site-header header-glass sticky top-0 z-50 transition-all duration-300">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<header id="masthead" class="site-header header-glass relative z-50 transition-all duration-300">        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between py-4 lg:py-6">
                 
                 <?php get_template_part('template-parts/header/logo'); ?>

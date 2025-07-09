@@ -65,6 +65,7 @@ get_header(); ?>
                     <div class="relative group">
                         <div class="aspect-w-16 aspect-h-12 h-48" style="background: linear-gradient(to bottom right, <?php echo esc_attr($icon_color); ?>20, <?php echo esc_attr($icon_color); ?>40);">
                             <div class="flex items-center justify-center">
+                                
                                 <div class="text-center">
                                     <div class="w-20 h-20 rounded-lg mx-auto mb-4 flex items-center justify-center" style="background-color: <?php echo esc_attr($icon_color); ?>40;">
                                         <svg class="w-10 h-10" style="color: <?php echo esc_attr($icon_color); ?>;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
