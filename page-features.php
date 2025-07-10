@@ -44,7 +44,7 @@ get_header();
 }
 
 .pain-point-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--zc-radius-xl);
@@ -166,7 +166,7 @@ get_header();
     align-items: center;
     gap: 0.5rem;
     background: linear-gradient(135deg, var(--zc-primary) 0%, var(--zc-primary-dark) 100%);
-    color: white;
+    color: white !important;
     font-weight: 600;
     padding: 0.75rem 1.5rem;
     border-radius: var(--zc-radius-md);

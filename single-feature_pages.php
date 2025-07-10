@@ -196,7 +196,6 @@ switch ($hero_bg_type) {
 .comparison-cell.feature-name {
     font-weight: 600;
     background: #f1f5f9;
-    justify-content: flex-start;
 }
 
 .comparison-cell.our-feature {
@@ -368,7 +367,7 @@ switch ($hero_bg_type) {
 
 .cta-secondary {
     background: transparent;
-    color: white;
+    color: white !important;
     padding: 1rem 2rem;
     border: 2px solid white;
     border-radius: 8px;
@@ -380,7 +379,7 @@ switch ($hero_bg_type) {
 
 .cta-secondary:hover {
     background: white;
-    color: var(--zc-secondary);
+    color: var(--zc-secondary) !important;
     text-decoration: none;
 }
 
@@ -492,12 +491,12 @@ switch ($hero_bg_type) {
                 <span>Powerful Feature</span>
             </div>
             
-            <h1 class="text-4xl lg:text-6xl font-bold mb-6">
+            <h1 class="text-white text-4xl lg:text-6xl font-bold mb-6">
                 <?php the_title(); ?>
             </h1>
             
             <?php if ($hero_subtitle) : ?>
-                <p class="text-xl lg:text-2xl mb-8 opacity-90 max-w-4xl mx-auto">
+                <p class="text-white text-xl lg:text-2xl mb-8 opacity-90 max-w-4xl mx-auto">
                     <?php echo esc_html($hero_subtitle); ?>
                 </p>
             <?php endif; ?>
@@ -506,7 +505,7 @@ switch ($hero_bg_type) {
                 <a href="<?php echo esc_url($hero_cta_url); ?>" class="cta-primary">
                     <?php echo esc_html($hero_cta_text); ?>
                 </a>
-                <a href="#learn-more" class="cta-secondary">
+                <a href="#learn-more" class="cta-secondary text-white hover:text-black">
                     See How It Works
                 </a>
             </div>
@@ -776,7 +775,7 @@ switch ($hero_bg_type) {
                 </div>
                 
                 <div class="comparison-row">
-                    <div class="comparison-cell feature-name">Features</div>
+                    <div class="comparison-cell feature-name text-left">Features</div>
                     <div class="comparison-cell feature-name">Our Platform</div>
                     <div class="comparison-cell feature-name">Competitors</div>
                 </div>
@@ -1005,7 +1004,7 @@ switch ($hero_bg_type) {
                             </svg>
                         </button>
                         <div class="faq-answer faq-answer-<?php echo $index; ?> max-h-0 overflow-hidden transition-all duration-300">
-                            <div class="px-6 pb-4 text-gray-700">
+                            <div class="px-6 pb-4 pt-4 text-gray-700">
                                 <?php echo nl2br(esc_html($faq['answer'])); ?>
                             </div>
                         </div>

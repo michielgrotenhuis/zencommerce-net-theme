@@ -166,7 +166,7 @@ get_header();
     align-items: center;
     gap: 0.5rem;
     background: linear-gradient(135deg, var(--zc-primary) 0%, var(--zc-primary-dark) 100%);
-    color: white;
+    color: white !important;
     font-weight: 600;
     padding: 0.75rem 1.5rem;
     border-radius: var(--zc-radius-md);
@@ -181,6 +181,11 @@ get_header();
     box-shadow: 0 8px 20px rgba(244, 180, 0, 0.4);
     color: white;
     text-decoration: none;
+}
+
+.features-roi .btn-primary{
+    display:flex !important;
+    justify-content: center;
 }
 
 .stats-card {
@@ -242,6 +247,7 @@ get_header();
     background: rgba(255, 255, 255, 0.95);
     color: var(--zc-primary);
     border: 2px solid rgba(255, 255, 255, 0.2);
+    display:flex !important;
 }
 
 .hero-cta-buttons .btn-primary:hover {
