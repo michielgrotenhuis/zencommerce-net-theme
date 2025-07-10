@@ -19,7 +19,7 @@ if (get_theme_mod('features_hero_enable', true)) : ?>
             
             <h1 class="hero-title text-4xl lg:text-6xl font-bold mb-6">
                 Stop Losing Sales to
-                <span class="text-red-300">Technical Headaches</span>
+                <span class="text-blue-600">Technical Headaches</span>
             </h1>
             
             <p class="hero-subtitle text-xl mb-8 max-w-3xl mx-auto">
