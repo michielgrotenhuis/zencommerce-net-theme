@@ -79,11 +79,16 @@ function yoursite_render_pricing_comparison_table() {
                 </div>
             </div>
         </div>
+
+
+       
+
+
         
         <!-- Comparison Table -->
-        <div class="comparison-table-container overflow-x-auto relative">
+        <div class="comparison-table-container">
             <table class="comparison-table w-full min-w-[800px]">
-                
+ 
                 <!-- Plan Headers (Sticky) -->
                 <thead class="comparison-sticky-header bg-white dark:bg-gray-800 z-30 border-b border-gray-200 dark:border-gray-700">
                     <tr>
@@ -838,7 +843,7 @@ function yoursite_render_pricing_comparison_table() {
                 Object.assign(this.stickyHeader.style, {
                     position: 'fixed',
                     top: '0px',
-                    left: `${containerRect.left}px`,
+                    //left: `${containerRect.left}px`,
                     width: `${containerRect.width}px`,
                     zIndex: '999',
                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
@@ -1170,6 +1175,7 @@ function yoursite_render_pricing_comparison_table() {
     background: var(--zc-bg-primary);
     position: relative;
     transition: all 0.3s ease;
+
 }
 
 .comparison-table th:first-child {
@@ -1442,6 +1448,7 @@ function yoursite_render_pricing_comparison_table() {
     border-right: 1px solid var(--zc-border);
     vertical-align: middle;
     transition: all 0.2s ease;
+    width:25%;
 }
 
 .comparison-table td:first-child {
@@ -1451,6 +1458,7 @@ function yoursite_render_pricing_comparison_table() {
     font-weight: 500;
     color: var(--zc-text-primary);
     position: relative;
+    width:240px;
 }
 
 .comparison-table td:last-child {
@@ -2180,7 +2188,7 @@ function yoursite_render_pricing_comparison_table() {
     }
     
     .comparison-table th:first-child {
-        width: 200px;
+       /*  width: 200px; */
     }
 }
 
@@ -2513,6 +2521,7 @@ function yoursite_render_pricing_comparison_table() {
     position: relative;
     /* Remove transition that causes scroll issues */
     transition: none;
+    width: 25%;
 }
 
 .comparison-table th:first-child {
