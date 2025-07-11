@@ -157,12 +157,13 @@ if ($hero_background_image) {
 
                         <!-- Secondary CTA -->
                         <?php 
+                        $video_url = get_theme_mod('hero_video_url');
                         $secondary_text = get_theme_mod('cta_secondary_text', __('Watch Demo', 'yoursite'));
                         $secondary_url = get_theme_mod('cta_secondary_url', '#demo');
                         if (!empty($secondary_text)) :
                         ?>
                         <a href="<?php echo esc_url($secondary_url); ?>" 
-                           class="group inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white/40 hover:border-white/80 text-white font-semibold text-lg rounded-xl hover:bg-white/10 transition-all duration-200 w-full lg:w-auto">
+                           class="video-thumbnail group inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white/40 hover:border-white/80 text-white font-semibold text-lg rounded-xl hover:bg-white/10 transition-all duration-200 w-full lg:w-auto" data-video-url="<?php echo esc_url($video_url); ?>">
                             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M19 10a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
