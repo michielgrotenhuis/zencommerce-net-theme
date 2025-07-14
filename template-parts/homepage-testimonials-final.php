@@ -68,7 +68,7 @@ if (!defined('ABSPATH')) {
                         <?php endif; ?>
                         <div>
                             <div class="font-bold text-gray-900 dark:text-white"><?php the_title(); ?></div>
-                            <div class="text-gray-600 dark:text-gray-400 text-sm"><?php the_excerpt(); ?></div>
+                            <div class="hidden text-gray-600 dark:text-gray-400 text-sm"><?php the_excerpt(); ?></div>
                         </div>
                     </div>
                 </div>
@@ -267,48 +267,24 @@ if (!defined('ABSPATH')) {
 
 <!-- FAQ JavaScript - Inline for immediate functionality -->
 <script>
-function initializeFAQ() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(function(item) {
-        const toggle = item.querySelector('.faq-toggle');
-        const content = item.querySelector('.faq-content');
-        
-        if (toggle && content) {
-            toggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Toggle active class
-                const isActive = toggle.classList.contains('active');
-                
-                // Close all other FAQs
-                document.querySelectorAll('.faq-toggle').forEach(t => {
-                    t.classList.remove('active');
-                    t.setAttribute('aria-expanded', 'false');
-                });
-                document.querySelectorAll('.faq-content').forEach(c => {
-                    c.classList.remove('active');
-                });
-                
-                // Toggle current FAQ
-                if (!isActive) {
-                    toggle.classList.add('active');
-                    toggle.setAttribute('aria-expanded', 'true');
-                    content.classList.add('active');
-                } else {
-                    toggle.classList.remove('active');
-                    toggle.setAttribute('aria-expanded', 'false');
-                    content.classList.remove('active');
-                }
-            });
+
+document.querySelectorAll('.faq-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        const contentId = toggle.getAttribute('aria-controls');
+        const content = document.getElementById(contentId);
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+
+        toggle.setAttribute('aria-expanded', !expanded);
+        toggle.querySelector('.faq-icon')?.classList.toggle('rotate-180');
+
+        if (!expanded) {
+            content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+            content.style.maxHeight = '0';
         }
     });
-}
-
-// Initialize on DOM load
-document.addEventListener('DOMContentLoaded', function() {
-    initializeFAQ();
 });
+
 
 </script>
 
@@ -397,82 +373,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, index * 50);
             });
         }
-    }
-    
-    // ===== FAQ FUNCTIONALITY =====
-    const faqToggles = document.querySelectorAll('.faq-toggle');
-    
-    if (faqToggles.length > 0) {
-        faqToggles.forEach((toggle, index) => {
-            const content = toggle.nextElementSibling;
-            
-            // Set initial state
-            if (content && content.classList.contains('faq-content')) {
-                content.style.maxHeight = '0px';
-                content.style.paddingBottom = '0px';
-                content.style.overflow = 'hidden';
-                content.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            }
-            
-            toggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const content = this.nextElementSibling;
-                const icon = this.querySelector('svg');
-                const isCurrentlyOpen = content.classList.contains('faq-open');
-                
-                // Close all other FAQs first
-                faqToggles.forEach((otherToggle, otherIndex) => {
-                    if (otherIndex !== index) {
-                        const otherContent = otherToggle.nextElementSibling;
-                        const otherIcon = otherToggle.querySelector('svg');
-                        
-                        // Close other FAQ
-                        otherToggle.classList.remove('faq-active');
-                        otherToggle.setAttribute('aria-expanded', 'false');
-                        if (otherContent) {
-                            otherContent.classList.remove('faq-open');
-                            otherContent.style.maxHeight = '0px';
-                            otherContent.style.paddingBottom = '0px';
-                        }
-                        
-                        if (otherIcon) {
-                            otherIcon.style.transform = 'rotate(0deg)';
-                        }
-                    }
-                });
-                
-                // Toggle current FAQ
-                if (isCurrentlyOpen) {
-                    // Close current FAQ
-                    this.classList.remove('faq-active');
-                    this.setAttribute('aria-expanded', 'false');
-                    content.classList.remove('faq-open');
-                    content.style.maxHeight = '0px';
-                    content.style.paddingBottom = '0px';
-                    
-                    if (icon) {
-                        icon.style.transform = 'rotate(0deg)';
-                    }
-                } else {
-                    // Open current FAQ
-                    this.classList.add('faq-active');
-                    this.setAttribute('aria-expanded', 'true');
-                    content.classList.add('faq-open');
-                    
-                    // Calculate and set the height
-                    const contentHeight = content.scrollHeight + 24; // Add padding
-                    content.style.maxHeight = contentHeight + 'px';
-                    content.style.paddingBottom = '1.5rem';
-                    
-                    if (icon) {
-                        icon.style.transform = 'rotate(180deg)';
-                    }
-                }
-            });
-        });
-        
-        console.log(`✅ FAQ initialized with ${faqToggles.length} items`);
     }
     
     // ===== VIDEO MODAL FUNCTIONALITY =====

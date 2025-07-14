@@ -219,8 +219,8 @@ function get_nav_icon($icon_type) {
 .nav-item-highlight {
     background: linear-gradient(135deg, #FFE4B5 0%, #FFD700 100%);
     color: #B45309 !important;
-    border-radius: 16px;
-    padding: 6px 10px;
+    border-radius: 5px;
+    padding: 10px 15px;
     box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
     animation: gentle-pulse 2s ease-in-out infinite;
 }
@@ -248,10 +248,10 @@ function get_nav_icon($icon_type) {
 .nav-item-primary {
     background: linear-gradient(135deg, <?php echo esc_attr($primary_color); ?> 0%, #1D4ED8 100%);
     color: white !important;
-    border-radius: 20px;
+    border-radius: 5px;
     padding: 8px 12px;
     box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
 }
 
 .nav-item-primary:hover {
@@ -284,7 +284,7 @@ function get_nav_icon($icon_type) {
 .nav-item-cta {
     background: linear-gradient(135deg, #10B981 0%, #059669 100%);
     color: white !important;
-    border-radius: 16px;
+    border-radius: 5px;
     padding: 6px 10px;
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
@@ -363,7 +363,7 @@ function get_nav_icon($icon_type) {
     
     .nav-item {
         min-width: 45px;
-        padding: 2px 6px;
+        padding: 2px 12px;
     }
     
     .nav-icon {

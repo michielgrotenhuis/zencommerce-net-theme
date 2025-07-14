@@ -1,22 +1,18 @@
 <?php
 /**
- * Domain Landing Page - Hero Section
+ * Domain Landing Page - Hero Section (Updated)
  * 
  * @package YourSite
  * @since 1.0.0
  */
 
-// Extract data from args
-// Get domain extension dynamically
-$domain_page_data = get_domain_page_data();
 // Extract data from args (passed from the main template)
 $domain_ext = $args['domain_ext'] ?? 'store';
-$domain_features = $args['domain_features'] ?? array();
-
-
 $domain_price = $args['domain_price'] ?? '12.99';
 $domain_renewal_price = $args['domain_renewal_price'] ?? '14.99';
 $current_currency = $args['current_currency'] ?? array('code' => 'USD', 'symbol' => '$', 'name' => 'US Dollar');
+$hero_h1 = $args['hero_h1'] ?? '';
+$hero_subtitle = $args['hero_subtitle'] ?? '';
 ?>
 
 <!-- Hero Section -->
@@ -48,29 +44,30 @@ $current_currency = $args['current_currency'] ?? array('code' => 'USD', 'symbol'
                     
                     <!-- Main Heading -->
                     <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                        <?php 
-                        $custom_title = get_post_meta(get_the_ID(), '_domain_hero_title', true);
-                        if (!empty($custom_title)) {
-                            echo esc_html($custom_title);
-                        } else {
-                            echo 'Find your perfect ';
-                            echo '<span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400">';
-                            echo '.'.esc_html($domain_ext).' domain';
-                            echo '</span>';
-                        }
-                        ?>
+                        <?php if (!empty($hero_h1)): ?>
+                            <?php 
+                            // Check if the title contains the TLD, if not add styling
+                            if (strpos($hero_h1, '.' . $domain_ext) !== false) {
+                                echo str_replace('.' . $domain_ext, '<span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400">.' . esc_html($domain_ext) . '</span>', esc_html($hero_h1));
+                            } else {
+                                echo esc_html($hero_h1);
+                            }
+                            ?>
+                        <?php else: ?>
+                            <?php echo 'Find your perfect '; ?>
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400">
+                                <?php echo '.'.esc_html($domain_ext).' domain'; ?>
+                            </span>
+                        <?php endif; ?>
                     </h1>
                     
                     <!-- Subheading -->
                     <p class="text-xl lg:text-2xl mb-8 leading-relaxed opacity-90">
-                        <?php 
-                        $hero_subtitle = get_post_meta(get_the_ID(), '_domain_hero_subtitle', true);
-                        if (empty($hero_subtitle)) {
-                            printf(__('Showcase your online shop with a branded .%s domain name. Perfect for e-commerce stores, retail brands, and online businesses.', 'yoursite'), esc_html($domain_ext));
-                        } else {
-                            echo esc_html($hero_subtitle);
-                        }
-                        ?>
+                        <?php if (!empty($hero_subtitle)): ?>
+                            <?php echo esc_html($hero_subtitle); ?>
+                        <?php else: ?>
+                            <?php printf(__('Showcase your online shop with a branded .%s domain name. Perfect for e-commerce stores, retail brands, and online businesses.', 'yoursite'), esc_html($domain_ext)); ?>
+                        <?php endif; ?>
                     </p>
                     
                     <!-- Domain Search Form -->

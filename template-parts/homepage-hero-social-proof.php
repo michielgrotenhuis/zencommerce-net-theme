@@ -333,7 +333,7 @@ if ($hero_background_image) {
                         </svg>
                         <?php _e('Before: Traditional Platforms', 'yoursite'); ?>
                     </h3>
-                    <ul class="space-y-3 text-left">
+                    <ul class="space-y-3 text-left ec_complex">
                         <?php 
                         for ($i = 1; $i <= 3; $i++) {
                             $before_item = get_theme_mod("problem_before_{$i}", '');
@@ -360,7 +360,7 @@ if ($hero_background_image) {
                         </svg>
                         <?php _e('After: Our Platform', 'yoursite'); ?>
                     </h3>
-                    <ul class="space-y-3 text-left">
+                    <ul class="space-y-3 text-left ec_complex">
                         <?php 
                         for ($i = 1; $i <= 3; $i++) {
                             $after_item = get_theme_mod("problem_after_{$i}", '');

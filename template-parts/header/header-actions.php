@@ -13,7 +13,7 @@
     </button>
     
     <!-- Login -->
-    <a href="<?php echo esc_url(get_theme_mod('header_login_url', '/login')); ?>" 
+    <a href="<?php echo esc_url(get_theme_mod('header_login_url', 'https://my.zencommerce.net/login')); ?>" 
        class="text-zc-secondary dark:text-gray-300 font-medium hover:text-zc-primary dark:hover:text-white transition-colors focus-visible px-3 py-2 rounded-lg">
         <?php echo esc_html(get_theme_mod('header_login_text', 'Login')); ?>
     </a>

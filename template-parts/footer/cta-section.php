@@ -11,7 +11,7 @@ $current_currency = $args['current_currency'] ?? array('code' => 'USD', 'symbol'
 ?>
 
 <!-- Pre-Footer CTA Section -->
-<section class="final-cta-section relative py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 text-white overflow-hidden">
+<section class="final-cta-section mb-0 relative py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 text-white overflow-hidden">
     <!-- Animated Background -->
     <div class="absolute inset-0">
         <div class="absolute inset-0 bg-gradient-to-r from-blue-600/90 to-purple-600/90"></div>

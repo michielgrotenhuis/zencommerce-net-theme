@@ -1,15 +1,16 @@
 <?php
 /**
- * Domain Landing Page - Why Choose Section
+ * Domain Landing Page - Why Choose Section (Updated)
  * 
  * @package YourSite
  * @since 1.0.0
  */
 
-// Get domain extension dynamically
-// Get current page slug and convert to domain extension
-$current_slug = get_post_field('post_name', get_the_ID());
-$domain_ext = $args['domain_ext'] ?? str_replace('-', '.', $current_slug) ?? 'store';?>
+// Extract data from args
+$domain_ext = $args['domain_ext'] ?? 'store';
+$domain_overview = $args['domain_overview'] ?? '';
+$domain_stats = $args['domain_stats'] ?? '';
+?>
 
 <!-- Why Choose Section -->
 <section class="py-20 bg-gray-50 dark:bg-gray-900">
@@ -52,15 +53,12 @@ $domain_ext = $args['domain_ext'] ?? str_replace('-', '.', $current_slug) ?? 'st
                     <?php printf(__('.%s overview', 'yoursite'), esc_html($domain_ext)); ?>
                 </h3>
                 <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    <?php 
-                    $domain_overview = get_post_meta(get_the_ID(), '_domain_overview', true);
-                    if (empty($domain_overview)) {
-                        printf(__('Showcase your online shop with a branded .%s domain name. With the surge in popularity of online shopping, the .%s domain extension is here to stay. As a generic top-level domain, anyone in the world can register a .%s domain.', 'yoursite'), 
-                               esc_html($domain_ext), esc_html($domain_ext), esc_html($domain_ext));
-                    } else {
-                        echo esc_html($domain_overview);
-                    }
-                    ?>
+                    <?php if (!empty($domain_overview)): ?>
+                        <?php echo esc_html($domain_overview); ?>
+                    <?php else: ?>
+                        <?php printf(__('Showcase your online shop with a branded .%s domain name. With the surge in popularity of online shopping, the .%s domain extension is here to stay. As a generic top-level domain, anyone in the world can register a .%s domain.', 'yoursite'), 
+                                   esc_html($domain_ext), esc_html($domain_ext), esc_html($domain_ext)); ?>
+                    <?php endif; ?>
                 </p>
             </div>
 
@@ -70,15 +68,12 @@ $domain_ext = $args['domain_ext'] ?? str_replace('-', '.', $current_slug) ?? 'st
                     <?php printf(__('.%s facts, stats & history', 'yoursite'), esc_html($domain_ext)); ?>
                 </h3>
                 <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    <?php 
-                    $domain_facts = get_post_meta(get_the_ID(), '_domain_facts', true);
-                    if (empty($domain_facts)) {
-                        printf(__('Join millions of businesses by registering a .%s domain. Many big brands have taken up .%s domains, making it a trendy domain choice. Google treats all new domain extensions the same, meaning you don\'t have to worry about SEO when it comes to .%s domains.', 'yoursite'), 
-                               esc_html($domain_ext), esc_html($domain_ext), esc_html($domain_ext));
-                    } else {
-                        echo esc_html($domain_facts);
-                    }
-                    ?>
+                    <?php if (!empty($domain_stats)): ?>
+                        <?php echo esc_html($domain_stats); ?>
+                    <?php else: ?>
+                        <?php printf(__('Join millions of businesses by registering a .%s domain. Many big brands have taken up .%s domains, making it a trendy domain choice. Google treats all new domain extensions the same, meaning you don\'t have to worry about SEO when it comes to .%s domains.', 'yoursite'), 
+                                   esc_html($domain_ext), esc_html($domain_ext), esc_html($domain_ext)); ?>
+                    <?php endif; ?>
                 </p>
             </div>
         </div>
