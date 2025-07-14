@@ -511,6 +511,15 @@ a:focus {
     margin-bottom: 1.5em;
 }
 
+.price-section .price-amount {
+    font-weight: 700;
+    color: var(--zc-text-primary, #1f2937);
+    margin: 0 0.25rem;
+    font-size: 3.4em;
+    color: var(--zc-text-primary);
+    line-height: 1;
+}
+
 .price-amount {
     font-weight: 700;
     color: var(--zc-text-primary, #1f2937);
@@ -2986,6 +2995,11 @@ body.mobile-menu-open {
     height: 20px;
     transition: transform 0.3s ease;
     flex-shrink: 0;
+}
+
+
+ul.ec_complex li span{
+    font-size: 16px;
 }
 
 /* ==========================================================================

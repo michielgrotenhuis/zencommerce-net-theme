@@ -10,6 +10,24 @@ get_header(); ?>
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
+        .hero-gradient .text-green-600{
+            color:rgb(22 163 74 / var(--tw-text-opacity, 1)) !important;
+        }
+        .hero-gradient .text-blue-600{
+            color:rgba(37,99,235,var(--tw-text-opacity))!important;
+        }
+        .hero-gradient .text-gray-600{
+            color: rgb(75 85 99 / var(--tw-text-opacity, 1)) !important;
+        }
+
+        .hero-gradient .text-purple-600{
+            color: rgb(147 51 234 / var(--tw-text-opacity, 1)) !important;
+        }
+
+        .hero-gradient .text-orange-600{
+            color: rgb(234 88 12 / var(--tw-text-opacity, 1)) !important;
+        }
+
         .trust-badge {
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.1);
@@ -288,7 +306,7 @@ get_header(); ?>
     <!-- Hero Section -->
     <section class="hero-gradient py-24 relative overflow-hidden">
         <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-10">
+        <div class="hidden sm:block absolute inset-0 opacity-10">
             <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-48 -translate-y-48"></div>
             <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-48 translate-y-48"></div>
         </div>
@@ -781,17 +799,17 @@ get_header(); ?>
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Mobile Responsive</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        <svg class="w-5 h-5 text-green-500 mx-auto checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-green-500 checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                         </svg>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        <svg class="w-5 h-5 text-green-500 mx-auto checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-green-500 checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                         </svg>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        <svg class="w-5 h-5 text-green-500 mx-auto checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-green-500 checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                         </svg>
                                     </td>
@@ -805,7 +823,7 @@ get_header(); ?>
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">E-commerce Functionality</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        <svg class="w-5 h-5 text-red-500 mx-auto x-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-red-500  x-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                         </svg>
                                     </td>
@@ -815,17 +833,17 @@ get_header(); ?>
                                 <tr class="bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Payment Integration</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        <svg class="w-5 h-5 text-red-500 mx-auto x-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-red-500 x-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                         </svg>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        <svg class="w-5 h-5 text-green-500 mx-auto checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-green-500 checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                         </svg>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        <svg class="w-5 h-5 text-green-500 mx-auto checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-green-500 checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                         </svg>
                                     </td>
@@ -834,7 +852,7 @@ get_header(); ?>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Analytics Setup</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-700">Basic</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        <svg class="w-5 h-5 text-green-500 mx-auto checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-green-500 checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                         </svg>
                                     </td>
@@ -843,7 +861,7 @@ get_header(); ?>
                                 <tr class="bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Custom Integrations</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        <svg class="w-5 h-5 text-red-500 mx-auto x-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-red-500 x-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                         </svg>
                                     </td>
@@ -871,7 +889,7 @@ get_header(); ?>
                                 <tr class="bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Project Manager</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        <svg class="w-5 h-5 text-red-500 mx-auto x-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-red-500 x-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                         </svg>
                                     </td>
