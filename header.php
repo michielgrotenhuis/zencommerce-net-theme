@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://zencommerce.net/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+
     <?php wp_head(); ?>
     
     <?php get_template_part('template-parts/header/header-styles'); ?>

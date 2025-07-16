@@ -16,6 +16,9 @@ $hero_gradient_secondary = get_post_meta($post_id, '_feature_hero_gradient_secon
 $hero_cta_text = get_post_meta($post_id, '_feature_hero_cta_text', true) ?: 'Start Free Trial';
 $hero_cta_url = get_post_meta($post_id, '_feature_hero_cta_url', true) ?: home_url('/signup');
 
+
+$solution_points = get_post_meta($post_id, '_feature_solution_points', true) ?: array();
+$problem_points = get_post_meta($post_id, '_feature_problem_points', true) ?: array();
 $capabilities = get_post_meta($post_id, '_feature_capabilities', true) ?: array();
 $setup_steps = get_post_meta($post_id, '_feature_setup_steps', true);
 $api_info = get_post_meta($post_id, '_feature_api_info', true);
@@ -548,66 +551,85 @@ switch ($hero_bg_type) {
             </div>
             
             <div class="grid lg:grid-cols-2 gap-8 items-start">
-                <div class="problem-card">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900">Without Our Solution</h3>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p class="text-gray-700">Hours wasted on manual processes</p>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p class="text-gray-700">Increased risk of human error</p>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p class="text-gray-700">Lost sales due to slow processes</p>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p class="text-gray-700">Frustrated customers and team</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="solution-card">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900">With Our Solution</h3>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p class="text-gray-700">Fully automated processes</p>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p class="text-gray-700">99.9% accuracy guarantee</p>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p class="text-gray-700">3x faster execution</p>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <p class="text-gray-700">Delighted customers & team</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="problem-card">
+    <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+            </svg>
         </div>
+        <h3 class="text-xl font-bold text-gray-900">Without Our Solution</h3>
     </div>
+    <div class="space-y-3">
+        <?php if (!empty($problem_points)): ?>
+            <?php foreach ($problem_points as $point): ?>
+                <div class="flex items-start gap-3">
+                    <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <p class="text-gray-700"><?php echo esc_html($point); ?></p>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <!-- Fallback default content -->
+            <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p class="text-gray-700">Hours wasted on manual processes</p>
+            </div>
+            <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p class="text-gray-700">Increased risk of human error</p>
+            </div>
+            <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p class="text-gray-700">Lost sales due to slow processes</p>
+            </div>
+            <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p class="text-gray-700">Frustrated customers and team</p>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<div class="solution-card">
+    <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900">With Our Solution</h3>
+    </div>
+    <div class="space-y-3">
+        <?php if (!empty($solution_points)): ?>
+            <?php foreach ($solution_points as $point): ?>
+                <div class="flex items-start gap-3">
+                    <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <p class="text-gray-700"><?php echo esc_html($point); ?></p>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <!-- Fallback bullets if no solution points are found -->
+            <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p class="text-gray-700">99.9% accuracy guarantee</p>
+            </div>
+            <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p class="text-gray-700">3x faster execution</p>
+            </div>
+            <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p class="text-gray-700">Delighted customers & team</p>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+
+
+                      
+
+  
 </section>
 
 <!-- ROI Calculator Section -->
@@ -661,11 +683,11 @@ switch ($hero_bg_type) {
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-gray-700">Platform cost:</span>
-                                <span class="font-semibold text-green-600">$197/month</span>
+                                <span class="font-semibold text-green-600">$11/month</span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-gray-700">Monthly savings:</span>
-                                <span class="font-semibold text-green-600">$4,400</span>
+                                <span class="font-semibold text-green-600">$4,586</span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-gray-700">New opportunities:</span>
@@ -808,7 +830,7 @@ switch ($hero_bg_type) {
                     <div class="comparison-cell feature-name">Monthly Cost</div>
                     <div class="comparison-cell our-feature">
                         <span class="check-icon">✓</span>
-                        <span class="ml-2">$197/month</span>
+                        <span class="ml-2">$11/month</span>
                     </div>
                     <div class="comparison-cell competitor-feature">
                         <span class="x-icon">✗</span>

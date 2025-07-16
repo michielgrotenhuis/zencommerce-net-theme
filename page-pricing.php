@@ -36,7 +36,7 @@ $faq_enable = get_theme_mod('pricing_faq_enable', true);
 $faq_title = get_theme_mod('pricing_faq_title', 'Frequently Asked Questions');
 $faq_subtitle = get_theme_mod('pricing_faq_subtitle', 'Quick answers to common pricing questions');
 
-$cta_enable = get_theme_mod('pricing_cta_enable', true);
+$cta_enable = get_theme_mod('pricing_cta_enable', false);
 $cta_title = get_theme_mod('pricing_cta_title', 'Ready to grow your business?');
 $cta_subtitle = get_theme_mod('pricing_cta_subtitle', 'Join thousands of successful merchants using our platform');
 $cta_primary_text = get_theme_mod('pricing_cta_primary_text', 'Start Your Free Trial');

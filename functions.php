@@ -440,24 +440,6 @@ if (!function_exists('yoursite_theme_setup')) {
     add_action('after_setup_theme', 'yoursite_theme_setup_fallback', 20);
 }
 
-/**
- * Enqueue scripts and styles
- */
-function yoursite_scripts_minimal() {
-    wp_enqueue_style('theme-style', get_stylesheet_uri(), array(), YOURSITE_THEME_VERSION);
-
-    wp_enqueue_script('jquery');
-
-    wp_enqueue_script(
-        'yoursite-custom-js',
-        get_template_directory_uri() . '/assets/js/custom.js',
-        array('jquery'), // ensures jquery loads first
-        YOURSITE_THEME_VERSION,
-        true // load in footer
-    );
-}
-add_action('wp_enqueue_scripts', 'yoursite_scripts_minimal');
-
 
 // =============================================================================
 // COMPONENT LOADING
@@ -2271,6 +2253,8 @@ add_shortcode('upmind_prices', 'upmind_price_shortcode');
 
 
 add_action('init', 'zencommerce_safe_init', 999);
+
+
 
 // =============================================================================
 // END OF FUNCTIONS.PHP
