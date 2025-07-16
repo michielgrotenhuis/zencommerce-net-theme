@@ -1,0 +1,234 @@
+<?php
+/**
+ * Domain Archive Template
+ * 
+ * Template for displaying all domains in archive format
+ * 
+ * @package ZencommerceSaaS
+ * @since 1.0.0
+ */
+
+// Prevent direct access
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+/**
+ * Helper Functions for Domain Archive
+ */
+
+// Format domain price with currency
+function format_domain_price($price, $currency = 'USD') {
+    if (empty($price) || !is_numeric($price)) {
+        return '';
+    }
+    
+    $symbol = '$';
+    switch (strtoupper($currency)) {
+        case 'EUR':
+            $symbol = '€';
+            break;
+        case 'GBP':
+            $symbol = '£';
+            break;
+        case 'USD':
+        default:
+            $symbol = '$';
+            break;
+    }
+    
+    return $symbol . number_format((float)$price, 2);
+}
+
+// Get domain categories array
+function get_domain_categories() {
+    return [
+        'popular' => __('Popular', 'zencommerce'),
+        'international' => __('International', 'zencommerce'),
+        'academic' => __('Academic & Education', 'zencommerce'),
+        'finance' => __('Finance', 'zencommerce'),
+        'professional' => __('Professional', 'zencommerce'),
+        'business' => __('Business', 'zencommerce'),
+        'media' => __('Audio & Video', 'zencommerce'),
+        'arts' => __('Arts & Culture', 'zencommerce'),
+        'marketing' => __('Marketing', 'zencommerce'),
+        'products' => __('Products', 'zencommerce'),
+        'services' => __('Services', 'zencommerce'),
+        'short' => __('Short', 'zencommerce'),
+        'new' => __('New', 'zencommerce'),
+        'adult' => __('Adult', 'zencommerce'),
+        'technology' => __('Technology', 'zencommerce'),
+        'realestate' => __('Real Estate', 'zencommerce'),
+        'politics' => __('Politics', 'zencommerce'),
+        'budget' => __('$3 or less', 'zencommerce'),
+        'organizations' => __('Organizations', 'zencommerce'),
+        'shopping' => __('Shopping & Sales', 'zencommerce'),
+        'music' => __('Media & Music', 'zencommerce'),
+        'fun' => __('Fun', 'zencommerce'),
+        'sports' => __('Sports & Hobbies', 'zencommerce'),
+        'transport' => __('Transport', 'zencommerce'),
+        'personal' => __('Personal', 'zencommerce'),
+        'social' => __('Social & Lifestyle', 'zencommerce'),
+        'food' => __('Food & Drink', 'zencommerce'),
+        'beauty' => __('Beauty', 'zencommerce'),
+        'cities' => __('Cities', 'zencommerce'),
+        'travel' => __('Travel', 'zencommerce'),
+        'health' => __('Health & Fitness', 'zencommerce'),
+        'colors' => __('Colors', 'zencommerce'),
+        'trades' => __('Trades & Construction', 'zencommerce'),
+        'international_lang' => __('Non-English', 'zencommerce'),
+        'religion' => __('Religion', 'zencommerce')
+    ];
+}
+
+// Enqueue domain archive assets
+function enqueue_domain_archive_assets() {
+    // Only enqueue on domain archive pages or if template is being used
+    if (is_page_template('archive-domains.php') || is_archive() || is_home()) {
+        $theme_url = get_template_directory_uri();
+        $theme_version = wp_get_theme()->get('Version');
+        
+        // Enqueue CSS (note: CSS is in js/css/ folder based on your structure)
+        wp_enqueue_style(
+            'domain-archive-style',
+            $theme_url . '/assets/js/css/domain-archive.css',
+            [],
+            $theme_version
+        );
+        
+        // Enqueue JavaScript
+        wp_enqueue_script(
+            'domain-archive-script',
+            $theme_url . '/assets/js/domain-archive.js',
+            ['jquery'],
+            $theme_version,
+            true
+        );
+        
+        // Localize script for AJAX
+        wp_localize_script('domain-archive-script', 'domainArchiveAjax', [
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('domain_archive_nonce'),
+            'strings' => [
+                'searching' => __('Searching...', 'zencommerce'),
+                'no_results' => __('No domains found', 'zencommerce'),
+                'error' => __('An error occurred', 'zencommerce'),
+                'success' => __('Success!', 'zencommerce'),
+                'loading' => __('Loading...', 'zencommerce')
+            ]
+        ]);
+    }
+}
+add_action('wp_enqueue_scripts', 'enqueue_domain_archive_assets');
+
+// AJAX handler for domain search
+function handle_domain_search_ajax() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'domain_archive_nonce')) {
+        wp_die('Security check failed');
+    }
+    
+    $domain_name = sanitize_text_field($_POST['domain_name']);
+    if (empty($domain_name)) {
+        wp_send_json_error('Domain name is required');
+    }
+    
+    // Sample domain results (replace with actual API integration)
+    $sample_results = [
+        [
+            'tld' => '.com',
+            'price' => 5.99,
+            'available' => true,
+            'popular' => true,
+            'renewal_price' => 14.99
+        ],
+        [
+            'tld' => '.org',
+            'price' => 6.99,
+            'available' => true,
+            'popular' => false,
+            'renewal_price' => 12.99
+        ],
+        [
+            'tld' => '.net',
+            'price' => 11.99,
+            'available' => false,
+            'popular' => false,
+            'renewal_price' => 14.99
+        ],
+        [
+            'tld' => '.io',
+            'price' => 29.99,
+            'available' => true,
+            'popular' => true,
+            'renewal_price' => 54.99
+        ],
+        [
+            'tld' => '.co',
+            'price' => 8.99,
+            'available' => true,
+            'popular' => false,
+            'renewal_price' => 19.99
+        ],
+        [
+            'tld' => '.app',
+            'price' => 5.99,
+            'available' => true,
+            'popular' => true,
+            'renewal_price' => 16.99
+        ]
+    ];
+    
+    // Filter available domains
+    $available_domains = array_filter($sample_results, function($domain) {
+        return $domain['available'];
+    });
+    
+    wp_send_json_success([
+        'domain_name' => $domain_name,
+        'results' => $available_domains,
+        'count' => count($available_domains)
+    ]);
+}
+add_action('wp_ajax_domain_search', 'handle_domain_search_ajax');
+add_action('wp_ajax_nopriv_domain_search', 'handle_domain_search_ajax');
+
+get_header(); ?>
+
+<div class="domain-archive-wrapper">
+    <?php 
+    // Load all template parts for domain archive
+    get_template_part('template-parts/archive-domains/hero-section');
+    get_template_part('template-parts/archive-domains/search-section');
+    get_template_part('template-parts/archive-domains/categories-section');
+    get_template_part('template-parts/archive-domains/pricing-table');
+    get_template_part('template-parts/archive-domains/features-section');
+    get_template_part('template-parts/archive-domains/testimonials');
+    get_template_part('template-parts/archive-domains/why-choose');
+    get_template_part('template-parts/archive-domains/faq-section');
+    ?>
+</div>
+
+<!-- Schema Markup for SEO -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "<?php _e('Domain Extensions Directory - Zencommerce', 'zencommerce'); ?>",
+    "description": "<?php _e('Browse and compare domain extensions for your website registration needs with Zencommerce. Find the perfect domain for your business or personal website.', 'zencommerce'); ?>",
+    "url": "<?php echo esc_url(get_permalink()); ?>",
+    "provider": {
+        "@type": "Organization",
+        "name": "Zencommerce",
+        "url": "<?php echo esc_url(home_url()); ?>",
+        "logo": "<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo.png'); ?>"
+    },
+    "mainEntity": {
+        "@type": "ItemList",
+        "name": "Domain Extensions",
+        "description": "Complete list of available domain extensions"
+    }
+}
+</script>
+
+<?php get_footer(); ?>
