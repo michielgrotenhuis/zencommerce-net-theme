@@ -61,7 +61,7 @@
                                     <div class="font-semibold text-gray-900">All-in-one platform</div>
                                     <div class="text-sm text-gray-600">Everything included, no hidden fees</div>
                                 </div>
-                                <div class="text-xl font-bold text-green-600">$197</div>
+                                <div class="text-xl font-bold text-green-600">$11</div>
                             </div>
                             <div class="flex justify-between items-center p-4 bg-white rounded-lg border border-green-200">
                                 <div>
@@ -80,7 +80,7 @@
                             <div class="border-t-2 border-green-300 pt-4">
                                 <div class="flex justify-between items-center">
                                     <div class="text-lg font-bold text-gray-900">Net Monthly Gain</div>
-                                    <div class="text-2xl font-bold text-green-600">+$5,770</div>
+                                    <div class="text-2xl font-bold text-green-600">+$5,956</div>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                 
                 <div class="mt-8 text-center">
                     <div class="bg-gradient-to-r from-green-500 to-blue-600 text-white p-6 rounded-lg">
-                        <div class="text-3xl font-bold mb-2">You Save $69,240 Per Year</div>
+                        <div class="text-3xl font-bold mb-2">You Save $71,472 Per Year</div>
                         <div class="text-lg opacity-90">Plus earn an additional $22,680 from increased sales</div>
                     </div>
                     <a href="#" class="btn-primary text-lg px-8 py-4 mt-6 inline-flex items-center gap-2">

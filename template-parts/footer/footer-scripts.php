@@ -273,24 +273,24 @@ document.addEventListener('DOMContentLoaded', function() {
         'RSD': 100.0, 'MKD': 52.0, 'ALL': 104.0, 'BAM': 1.66, 'ISK': 127.0
     };
 
-    // Currency symbols mapping
-    const currencySymbols = {
-        'USD': ', 'EUR': '€', 'GBP': '£', 'CAD': 'C, 'AUD': 'A,
-        'JPY': '¥', 'CHF': 'CHF', 'SEK': 'kr', 'NOK': 'kr', 'DKK': 'kr',
-        'PLN': 'zł', 'CZK': 'Kč', 'HUF': 'Ft', 'BGN': 'лв', 'RON': 'lei',
-        'HRK': 'kn', 'RUB': '₽', 'CNY': '¥', 'INR': '₹', 'KRW': '₩',
-        'SGD': 'S, 'HKD': 'HK, 'MXN': 'MX, 'BRL': 'R, 'ARS': 'ARS,
-        'CLP': 'CLP, 'COP': 'COL, 'PEN': 'S/', 'UYU': '$U', 'ZAR': 'R',
-        'EGP': 'E£', 'NGN': '₦', 'KES': 'KSh', 'GHS': 'GH₵', 'TND': 'د.ت',
-        'MAD': 'د.م.', 'THB': '฿', 'PHP': '₱', 'VND': '₫', 'IDR': 'Rp',
-        'MYR': 'RM', 'ILS': '₪', 'AED': 'د.إ', 'SAR': '﷼', 'QAR': 'ر.ق',
-        'KWD': 'د.ك', 'BHD': '.د.ب', 'OMR': 'ر.ع.', 'JOD': 'د.ا', 'LBP': 'ل.ل',
-        'TRY': '₺', 'IRR': '﷼', 'PKR': '₨', 'BDT': '৳', 'LKR': '₨',
-        'NPR': '₨', 'BTN': 'Nu.', 'MVR': 'Rf', 'AFN': '؋', 'UZS': 'лв',
-        'KZT': '₸', 'KGS': 'лв', 'TJS': 'смн', 'TMT': 'T', 'AZN': '₼',
-        'GEL': '₾', 'AMD': '֏', 'BYN': 'Br', 'MDL': 'lei', 'UAH': '₴',
-        'RSD': 'дин.', 'MKD': 'ден', 'ALL': 'L', 'BAM': 'КМ', 'ISK': 'kr'
-    };
+   const currencySymbols = {
+    'USD': '$', 'EUR': '€', 'GBP': '£', 'CAD': 'C$', 'AUD': 'A$',
+    'JPY': '¥', 'CHF': 'CHF', 'SEK': 'kr', 'NOK': 'kr', 'DKK': 'kr',
+    'PLN': 'zł', 'CZK': 'Kč', 'HUF': 'Ft', 'BGN': 'лв', 'RON': 'lei',
+    'HRK': 'kn', 'RUB': '₽', 'CNY': '¥', 'INR': '₹', 'KRW': '₩',
+    'SGD': 'S$', 'HKD': 'HK$', 'MXN': 'MX$', 'BRL': 'R$', 'ARS': 'ARS$',
+    'CLP': 'CLP$', 'COP': 'COL$', 'PEN': 'S/', 'UYU': '$U', 'ZAR': 'R',
+    'EGP': 'E£', 'NGN': '₦', 'KES': 'KSh', 'GHS': 'GH₵', 'TND': 'د.ت',
+    'MAD': 'د.م.', 'THB': '฿', 'PHP': '₱', 'VND': '₫', 'IDR': 'Rp',
+    'MYR': 'RM', 'ILS': '₪', 'AED': 'د.إ', 'SAR': '﷼', 'QAR': 'ر.ق',
+    'KWD': 'د.ك', 'BHD': '.د.ب', 'OMR': 'ر.ع.', 'JOD': 'د.ا', 'LBP': 'ل.ل',
+    'TRY': '₺', 'IRR': '﷼', 'PKR': '₨', 'BDT': '৳', 'LKR': '₨',
+    'NPR': '₨', 'BTN': 'Nu.', 'MVR': 'Rf', 'AFN': '؋', 'UZS': 'лв',
+    'KZT': '₸', 'KGS': 'лв', 'TJS': 'смн', 'TMT': 'T', 'AZN': '₼',
+    'GEL': '₾', 'AMD': '֏', 'BYN': 'Br', 'MDL': 'lei', 'UAH': '₴',
+    'RSD': 'дин.', 'MKD': 'ден', 'ALL': 'L', 'BAM': 'КМ', 'ISK': 'kr'
+};
+
 
     // Initialize selectors
     initializeLanguageSelector();

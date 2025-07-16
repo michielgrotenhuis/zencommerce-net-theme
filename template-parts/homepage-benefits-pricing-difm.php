@@ -40,7 +40,7 @@ if (function_exists('yoursite_get_user_currency')) {
                     'title' => 'Drag & Drop Builder',
                     'description' => 'Create stunning stores without coding. Our intuitive builder makes it easy to design your perfect storefront.',
                     'icon' => 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z',
-                    'link' => '/features/drag-drop-builder'
+                    'link' => '/features/store-building'
                 ),
                 2 => array(
                     'title' => 'Secure Payments',
@@ -52,25 +52,25 @@ if (function_exists('yoursite_get_user_currency')) {
                     'title' => 'Advanced Analytics',
                     'description' => 'Track your performance with detailed reports and insights to grow your business smarter.',
                     'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
-                    'link' => '/features/analytics'
+                    'link' => '/features/marketing-seo'
                 ),
                 4 => array(
                     'title' => 'Mobile Optimized',
                     'description' => 'Your store looks perfect on every device. Responsive design that converts visitors into customers.',
                     'icon' => 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
-                    'link' => '/features/mobile-responsive'
+                    'link' => '/features/shipping'
                 ),
                 5 => array(
                     'title' => 'SEO Optimized',
                     'description' => 'Built-in SEO tools help your store rank higher in search results and attract more customers.',
                     'icon' => 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
-                    'link' => '/features/seo'
+                    'link' => '/features/analytics'
                 ),
                 6 => array(
                     'title' => '24/7 Support',
                     'description' => 'Get help when you need it. Our expert support team is available around the clock.',
                     'icon' => 'M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z',
-                    'link' => '/support'
+                    'link' => '/features/graphics-and-appearance'
                 )
             );
             
