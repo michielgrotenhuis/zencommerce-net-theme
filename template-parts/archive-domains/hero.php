@@ -42,7 +42,7 @@ $page_description = $args['page_description'] ?? '';
                 </div>
                 
                 <!-- Main Heading -->
-                <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+                <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight text-white">
                     <?php if (!empty($page_title) && $current_category): ?>
                         <?php echo esc_html($page_title); ?>
                     <?php elseif (!empty($search_query)): ?>
@@ -59,7 +59,7 @@ $page_description = $args['page_description'] ?? '';
                 </h1>
                 
                 <!-- Subheading -->
-                <p class="text-xl lg:text-2xl mb-12 leading-relaxed opacity-90 max-w-4xl mx-auto">
+                <p class="text-xl lg:text-2xl mb-12 leading-relaxed opacity-90 max-w-4xl mx-auto text-white">
                     <?php if (!empty($page_description)): ?>
                         <?php echo esc_html($page_description); ?>
                     <?php else: ?>

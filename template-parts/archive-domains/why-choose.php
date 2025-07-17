@@ -349,16 +349,16 @@ $current_currency = $args['current_currency'] ?? array('code' => 'USD', 'symbol'
                 </div>
                 
                 <div class="relative">
-                    <h3 class="text-4xl font-bold mb-6">
+                    <h3 class="text-4xl font-bold mb-6 text-white">
                         <?php _e('Ready to Join 5 Million+ Happy Customers?', 'yoursite'); ?>
                     </h3>
-                    <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+                    <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto text-white">
                         <?php _e('Start your online journey today with the most trusted domain registrar. Get instant setup, free privacy protection, and award-winning support.', 'yoursite'); ?>
                     </p>
                     
                     <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
                         <a href="#domain-search" 
-                           class="flex-1 px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold text-lg rounded-xl hover:from-yellow-500 hover:to-orange-600 transition-all duration-200 transform hover:scale-105 shadow-lg scroll-to-search">
+                           class="flex-1 px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold text-lg rounded-xl hover:from-yellow-500 hover:to-orange-600 transition-all duration-200 transform hover:scale-105 shadow-lg scroll-to-search text-white">
                             <?php _e('Find Your Domain', 'yoursite'); ?>
                         </a>
                         <a href="<?php echo esc_url(home_url('/contact')); ?>" 

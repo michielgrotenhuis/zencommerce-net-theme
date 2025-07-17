@@ -52,7 +52,6 @@ if ($hero_background_image) {
 ?>
 
 <!-- Hero Section - Conversion Optimized with Currency Dynamic Backgrounds -->
-<?php if (function_exists('rank_math_the_breadcrumbs')) rank_math_the_breadcrumbs(); ?>
 <?php if (get_theme_mod('hero_enable', true)) : ?>
 <section class="<?php echo esc_attr($hero_classes); ?>" 
          data-currency-background="true"
